@@ -1,0 +1,317 @@
+coefficient;usages;condition;formule;source
+Mbsurf_moy;1;smoylgt <= 100;(49 - (0.49 * smoylgt)) / bbiomaxmoyen;Calcul_bbio!G52
+Mbsurf_moy;1;(not (smoylgt <= 100)) and (not (smoylgt > 150));(18 - (0.18 * smoylgt)) / bbiomaxmoyen;Calcul_bbio!H52
+Mbsurf_moy;1;smoylgt > 150;-9 / bbiomaxmoyen;Calcul_bbio!I52
+Mbsurf_moy;2;smoylgt <= 80;(-6 + (0.1 * smoylgt)) / bbiomaxmoyen;Calcul_bbio!J52
+Mbsurf_moy;2;(not (smoylgt <= 80)) and (not (smoylgt > 120));(-2 + (0.05 * smoylgt)) / bbiomaxmoyen;Calcul_bbio!K52
+Mbsurf_moy;2;smoylgt > 120;4 / bbiomaxmoyen;Calcul_bbio!L52
+Mbsurf_moy;*;defaut;0;Calcul_bbio!M52
+Mbsurf_tot;1;True;0;Calcul_bbio!G59
+Mbsurf_tot;2;sref <= 1300;(19.5 - (0.015 * sref)) / bbiomaxmoyen;Calcul_bbio!H59
+Mbsurf_tot;2;sref > 1300;0;Calcul_bbio!I59
+Mbsurf_tot;3;(sref <= 500) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2022 à 2024');(24 - (0.06 * sref)) / bbiomaxmoyen;Calcul_bbio!J59
+Mbsurf_tot;3;(True if ((sref <= 4000) and (sref > 500)) else False) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2022 à 2024');(-5.55 - (0.0009 * sref)) / bbiomaxmoyen;Calcul_bbio!K59
+Mbsurf_tot;3;(True if ((sref <= 10000) and (sref > 4000)) else False) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2022 à 2024');(-5.55 - (0.0009 * sref)) / bbiomaxmoyen;Calcul_bbio!L59
+Mbsurf_tot;3;(sref > 10000) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2022 à 2024');-14.55 / bbiomaxmoyen;Calcul_bbio!M59
+Mbsurf_tot;3;(sref <= 500) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2025 à 2027');(24 - (0.06 * sref)) / bbiomaxmoyen;Calcul_bbio!N59
+Mbsurf_tot;3;(True if ((sref <= 4000) and (sref > 500)) else False) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2025 à 2027');(-4.9 - (0.0022 * sref)) / bbiomaxmoyen;Calcul_bbio!O59
+Mbsurf_tot;3;(True if ((sref <= 10000) and (sref > 4000)) else False) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2025 à 2027');(-9.7 - (0.001 * sref)) / bbiomaxmoyen;Calcul_bbio!P59
+Mbsurf_tot;3;(sref > 10000) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2025 à 2027');-19.7 / bbiomaxmoyen;Calcul_bbio!Q59
+Mbsurf_tot;3;(sref <= 500) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2028 et plus');(24 - (0.06 * sref)) / bbiomaxmoyen;Calcul_bbio!R59
+Mbsurf_tot;3;(True if ((sref <= 4000) and (sref > 500)) else False) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2028 et plus');(-3.8 - (0.0044 * sref)) / bbiomaxmoyen;Calcul_bbio!S59
+Mbsurf_tot;3;(True if ((sref <= 10000) and (sref > 4000)) else False) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2028 et plus');-21.4 / bbiomaxmoyen;Calcul_bbio!T59
+Mbsurf_tot;3;(sref > 10000) and (('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc) == '2028 et plus');-21.4 / bbiomaxmoyen;Calcul_bbio!U59
+Mbsurf_tot;4;sref <= 500;(35 - (0.05 * sref)) / bbiomaxmoyen;Calcul_bbio!V59
+Mbsurf_tot;4;True if ((sref <= 1000) and (sref > 500)) else False;(20 - (0.02 * sref)) / bbiomaxmoyen;Calcul_bbio!W59
+Mbsurf_tot;4;sref > 1000;0;Calcul_bbio!X59
+Mbsurf_tot;5;sref <= 500;(45 - (0.045 * sref)) / bbiomaxmoyen;Calcul_bbio!Y59
+Mbsurf_tot;5;True if ((sref <= 1000) and (sref > 500)) else False;(45 - (0.045 * sref)) / bbiomaxmoyen;Calcul_bbio!Z59
+Mbsurf_tot;5;sref > 1000;0;Calcul_bbio!AA59
+Mbsurf_tot;17;sref <= 500;(47.5 - (0.095 * sref)) / bbiomaxmoyen;Calcul_bbio!AB59
+Mbsurf_tot;17;sref > 500;0;Calcul_bbio!AC59
+Mbsurf_tot;21;sref <= 2000;(22 - (0.008 * sref)) / bbiomaxmoyen;Calcul_bbio!AD59
+Mbsurf_tot;21;sref > 2000;0;Calcul_bbio!AE59
+Mbsurf_tot;23;sref <= 5000;(50 - (0.01 * sref)) / bbiomaxmoyen;Calcul_bbio!AF59
+Mbsurf_tot;23;sref > 5000;0;Calcul_bbio!AG59
+Mbsurf_tot;24;sref <= 5000;(65 - (0.013 * sref)) / bbiomaxmoyen;Calcul_bbio!AH59
+Mbsurf_tot;24;sref > 5000;0;Calcul_bbio!AI59
+Mbsurf_tot;*;defaut;0;Calcul_bbio!AJ59
+MbHSP;1;hspmoy <= 2.5;0;Calcul_bbio!E100
+MbHSP;1;(hspmoy > 2.5) and (sref <= 150);(min(hspmoy, 2.9) / 2.5) - 1;Calcul_bbio!F100
+MbHSP;1;(hspmoy > 2.5) and (sref > 150);((min(hspmoy, 2.9) / 2.5) - 1) / 2;Calcul_bbio!G100
+MbHSP;2;hspmoy <= 2.5;0;Calcul_bbio!H100
+MbHSP;2;hspmoy > 2.5;((min(hspmoy, 2.9) / 2.5) - 1) / 1.5;Calcul_bbio!I100
+MbHSP;*;defaut;0;Calcul_bbio!J100
+Mcsurf_moy;1;smoylgt <= 100;(49.5 - (0.55 * smoylgt)) / cepnrmaxmoyen;Calcul_energie!G85
+Mcsurf_moy;1;(not (smoylgt <= 100)) and (not (smoylgt > 150));(14.5 - (0.2 * smoylgt)) / cepnrmaxmoyen;Calcul_energie!H85
+Mcsurf_moy;1;smoylgt > 150;-15.5 / cepnrmaxmoyen;Calcul_energie!I85
+Mcsurf_moy;2;smoylgt <= 40;(45 - (1 * smoylgt)) / cepnrmaxmoyen;Calcul_energie!J85
+Mcsurf_moy;2;True if ((smoylgt > 40) and (smoylgt <= 80)) else False;(15 - (0.25 * smoylgt)) / cepnrmaxmoyen;Calcul_energie!K85
+Mcsurf_moy;2;True if ((smoylgt > 80) and (smoylgt <= 120)) else False;(3 - (0.1 * smoylgt)) / cepnrmaxmoyen;Calcul_energie!L85
+Mcsurf_moy;2;smoylgt > 120;-9 / cepnrmaxmoyen;Calcul_energie!M85
+Mcsurf_moy;3;True;0;Calcul_energie!N85
+Mcsurf_moy;4,5;True;0;Calcul_energie!O85
+Mcsurf_moy;6;True;0;Calcul_energie!P85
+Mcsurf_moy;7;True;0;Calcul_energie!Q85
+Mcsurf_moy;8,9,10,11;True;0;Calcul_energie!R85
+Mcsurf_moy;12;True;0;Calcul_energie!S85
+Mcsurf_moy;13,14,15,16;True;0;Calcul_energie!T85
+Mcsurf_moy;17;True;0;Calcul_energie!U85
+Mcsurf_moy;18;True;0;Calcul_energie!V85
+Mcsurf_moy;19;True;0;Calcul_energie!W85
+Mcsurf_moy;20,21;True;0;Calcul_energie!X85
+Mcsurf_moy;22;True;0;Calcul_energie!Y85
+Mcsurf_moy;23,24;True;0;Calcul_energie!Z85
+Mcsurf_moy;25;True;0;Calcul_energie!AA85
+Mcsurf_moy;26,27;True;0;Calcul_energie!AB85
+Mcsurf_moy;28;True;0;Calcul_energie!AC85
+Mcsurf_tot;1;True;0;Calcul_energie!G97
+Mcsurf_tot;2;sref <= 1300;(13 - (0.01 * sref)) / cepnrmaxmoyen;Calcul_energie!H97
+Mcsurf_tot;2;sref > 1300;0;Calcul_energie!I97
+Mcsurf_tot;3;sref <= 500;(18 - (0.032 * sref)) / cepnrmaxmoyen;Calcul_energie!J97
+Mcsurf_tot;3;(sref <= 1500) and (sref > 500);(6 - (0.008 * sref)) / cepnrmaxmoyen;Calcul_energie!K97
+Mcsurf_tot;3;sref > 1500;-6 / cepnrmaxmoyen;Calcul_energie!L97
+Mcsurf_tot;4,5;sref <= 500;(12.5 - (0.025 * sref)) / cepnrmaxmoyen;Calcul_energie!M97
+Mcsurf_tot;4,5;sref > 500;0;Calcul_energie!N97
+Mcsurf_tot;6;True;0;Calcul_energie!O97
+Mcsurf_tot;7;True;0;Calcul_energie!P97
+Mcsurf_tot;8;True;0;Calcul_energie!Q97
+Mcsurf_tot;9;sref <= 1000;(81 - (0.081 * sref)) / cepnrmaxmoyen;Calcul_energie!R97
+Mcsurf_tot;9;sref > 1000;0;Calcul_energie!S97
+Mcsurf_tot;10;True;0;Calcul_energie!T97
+Mcsurf_tot;11;True;0;Calcul_energie!U97
+Mcsurf_tot;12;True;0;Calcul_energie!V97
+Mcsurf_tot;13,14,15,16;True;0;Calcul_energie!W97
+Mcsurf_tot;17;sref <= 500;(113 - (0.226 * sref)) / cepnrmaxmoyen;Calcul_energie!X97
+Mcsurf_tot;17;sref > 500;0;Calcul_energie!Y97
+Mcsurf_tot;18;True;0;Calcul_energie!Z97
+Mcsurf_tot;19;True;0;Calcul_energie!AA97
+Mcsurf_tot;20;True;0;Calcul_energie!AB97
+Mcsurf_tot;21;sref <= 2000;0;Calcul_energie!AC97
+Mcsurf_tot;21;(sref > 2000) and (sref <= 5000);(49 - (0.026 * sref)) / cepnrmaxmoyen;Calcul_energie!AD97
+Mcsurf_tot;21;sref > 5000;-78 / cepnrmaxmoyen;Calcul_energie!AE97
+Mcsurf_tot;22;True;0;Calcul_energie!AF97
+Mcsurf_tot;23;sref <= 5000;(15 - (0.003 * sref)) / cepnrmaxmoyen;Calcul_energie!AG97
+Mcsurf_tot;23;sref > 5000;0;Calcul_energie!AH97
+Mcsurf_tot;24;(sref <= 5000) and (rcu == 'oui') and (rcu_classe == 'oui') and ((depotpc_annee >= 2025) and (depotpc_annee < 2028));(365 - (0.073 * sref)) / cepnrmaxmoyen;Calcul_energie!AI97
+Mcsurf_tot;24;(sref <= 5000) and (rcu == 'oui') and (rcu_classe == 'oui') and (depotpc_annee >= 2028);(265 - (0.053 * sref)) / cepnrmaxmoyen;Calcul_energie!AJ97
+Mcsurf_tot;24;(sref <= 5000) and (rcu == 'oui') and (rcu_classe == 'non');(265 - (0.053 * sref)) / cepnrmaxmoyen;Calcul_energie!AK97
+Mcsurf_tot;24;(sref <= 5000) and (rcu == 'non');(265 - (0.053 * sref)) / cepnrmaxmoyen;Calcul_energie!AL97
+Mcsurf_tot;24;sref > 5000;0;Calcul_energie!AM97
+Mcsurf_tot;25;True;0;Calcul_energie!AN97
+Mcsurf_tot;26,27;True;0;Calcul_energie!AO97
+Mcsurf_tot;28;True;0;Calcul_energie!AP97
+McHSP;1;hspmoy <= 2.5;0;Calcul_energie!E117
+McHSP;1;(hspmoy > 2.5) and (sref <= 150);((min(hspmoy, 2.9) / 2.5) - 1) / 2;Calcul_energie!F117
+McHSP;1;(hspmoy > 2.5) and (sref > 150);((min(hspmoy, 2.9) / 2.5) - 1) / 4;Calcul_energie!G117
+McHSP;2;hspmoy <= 2.5;0;Calcul_energie!H117
+McHSP;2;hspmoy > 2.5;((min(hspmoy, 2.9) / 2.5) - 1) / 4;Calcul_energie!I117
+McHSP;*;defaut;0;Calcul_energie!J117
+Misurf_moy;1;smoylgt <= 120;0.36 - ((3.6 * smoylgt) / 1000);Calcul_matiere!G43
+Misurf_moy;1;smoylgt > 120;-0.072;Calcul_matiere!H43
+Misurf_moy;2;smoylgt <= 40;(100 - (2.5 * smoylgt)) / icconstructionmaxmoyen;Calcul_matiere!I43
+Misurf_moy;2;smoylgt > 40;0;Calcul_matiere!J43
+Misurf_moy;3;True;0;Calcul_matiere!K43
+Misurf_moy;4,5;True;0;Calcul_matiere!L43
+Misurf_moy;6;True;0;Calcul_matiere!M43
+Misurf_moy;7;True;0;Calcul_matiere!N43
+Misurf_moy;8,9,10,11;True;0;Calcul_matiere!O43
+Misurf_moy;12;True;0;Calcul_matiere!P43
+Misurf_moy;13,14,15,16;True;0;Calcul_matiere!Q43
+Misurf_moy;17;True;0;Calcul_matiere!R43
+Misurf_moy;18;True;0;Calcul_matiere!S43
+Misurf_moy;19;True;0;Calcul_matiere!T43
+Misurf_moy;20,21;True;0;Calcul_matiere!U43
+Misurf_moy;22;True;0;Calcul_matiere!V43
+Misurf_moy;23,24;True;0;Calcul_matiere!W43
+Misurf_moy;25;True;0;Calcul_matiere!X43
+Misurf_moy;26,27;True;0;Calcul_matiere!Y43
+Misurf_moy;28;True;0;Calcul_matiere!Z43
+Misurf_tot;1;True;0;Calcul_matiere!G50
+Misurf_tot;2;sref <= 1300;0 if ((est_igh == 'oui') and decret2026) else (-0.104 + ((0.8 * sref) / 10000));Calcul_matiere!H50
+Misurf_tot;2;True if ((sref > 1300) and (sref < 4000)) else False;0 if ((est_igh == 'oui') and decret2026) else (0.0455 - ((0.35 * sref) / 10000));Calcul_matiere!I50
+Misurf_tot;2;sref >= 4000;0 if ((est_igh == 'oui') and decret2026) else -0.0945;Calcul_matiere!J50
+Misurf_tot;3;sref <= 2500;-0.05 if ((est_igh == 'oui') and decret2026) else (0.034 - ((0.86 * sref) / 10000));Calcul_matiere!K50
+Misurf_tot;3;sref > 2500;-0.05 if ((est_igh == 'oui') and decret2026) else -0.181;Calcul_matiere!L50
+Misurf_tot;4,5;sref <= 10000;-0.05 if ((est_igh == 'oui') and decret2026) else (0.084 - ((0.21 * sref) / 10000));Calcul_matiere!M50
+Misurf_tot;4,5;sref > 10000;-0.05 if ((est_igh == 'oui') and decret2026) else -0.126;Calcul_matiere!N50
+Misurf_tot;6;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!O50
+Misurf_tot;7;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!P50
+Misurf_tot;8,9,10,11;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!Q50
+Misurf_tot;12;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!R50
+Misurf_tot;13,14,15,16;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!S50
+Misurf_tot;17;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!T50
+Misurf_tot;18;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!U50
+Misurf_tot;19;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!V50
+Misurf_tot;20,21;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!W50
+Misurf_tot;22;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!X50
+Misurf_tot;23,24;sref <= 5000;0.05 if ((est_igh == 'oui') and decret2026) else (0.035 - (7e-05 * sref));Calcul_matiere!Y50
+Misurf_tot;23,24;sref > 5000;0.05 if ((est_igh == 'oui') and decret2026) else -0.315;Calcul_matiere!Z50
+Misurf_tot;25;sref <= 2000;0.05 if ((est_igh == 'oui') and decret2026) else (0.3 - (0.00015 * sref));Calcul_matiere!AA50
+Misurf_tot;25;sref > 2000;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!AB50
+Misurf_tot;26,27;True;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!AC50
+Misurf_tot;28;sref <= 2000;0.05 if ((est_igh == 'oui') and decret2026) else (0.3 - (0.00015 * sref));Calcul_matiere!AD50
+Misurf_tot;28;sref > 2000;0.05 if ((est_igh == 'oui') and decret2026) else 0;Calcul_matiere!AE50
+Mided;1;'2022 à 2024' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 370) else (0.3 * (icded - 370));Calcul_matiere!E70
+Mided;1;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!F70
+Mided;1;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 370) else (-0.3 * (icded - 370));Calcul_matiere!G70
+Mided;2;'2022 à 2024' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 250) else (0.3 * (icded - 250));Calcul_matiere!H70
+Mided;2;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!I70
+Mided;2;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 250) else (-0.3 * (icded - 250));Calcul_matiere!J70
+Mided;3;'2022 à 2024' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 275) else (0.3 * (icded - 275));Calcul_matiere!K70
+Mided;3;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!L70
+Mided;3;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 275) else (-0.3 * (icded - 275));Calcul_matiere!M70
+Mided;4,5;'2022 à 2024' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 300) else (0.3 * (icded - 300));Calcul_matiere!N70
+Mided;4,5;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!O70
+Mided;4,5;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 300) else (-0.3 * (icded - 300));Calcul_matiere!P70
+Mided;6;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!Q70
+Mided;6;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 440) else (-0.3 * (icded - 440));Calcul_matiere!R70
+Mided;7;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!S70
+Mided;7;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 320) else (-0.3 * (icded - 320));Calcul_matiere!T70
+Mided;8,9,10,11;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!U70
+Mided;8,9,10,11;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 300) else (-0.3 * (icded - 300));Calcul_matiere!V70
+Mided;12;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!W70
+Mided;12;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 530) else (-0.3 * (icded - 530));Calcul_matiere!X70
+Mided;13,14,15,16;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!Y70
+Mided;13,14,15,16;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 480) else (-0.3 * (icded - 480));Calcul_matiere!Z70
+Mided;17;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AA70
+Mided;17;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 580) else (-0.3 * (icded - 580));Calcul_matiere!AB70
+Mided;18;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AC70
+Mided;18;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 580) else (-0.3 * (icded - 580));Calcul_matiere!AD70
+Mided;19;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AE70
+Mided;19;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 580) else (-0.3 * (icded - 580));Calcul_matiere!AF70
+Mided;20,21;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AG70
+Mided;20,21;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 580) else (-0.3 * (icded - 580));Calcul_matiere!AH70
+Mided;22;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AI70
+Mided;22;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 665) else (-0.3 * (icded - 665));Calcul_matiere!AJ70
+Mided;23,24;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AK70
+Mided;23,24;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 500) else (-0.3 * (icded - 500));Calcul_matiere!AL70
+Mided;25;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AM70
+Mided;25;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 480) else (-0.3 * (icded - 480));Calcul_matiere!AN70
+Mided;26,27;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AO70
+Mided;26,27;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 480) else (-0.3 * (icded - 480));Calcul_matiere!AP70
+Mided;28;'2025 à 2027' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0;Calcul_matiere!AQ70
+Mided;28;'2028 et plus' == ('2028 et plus' if ((depotpc == '2028 à 2030') or (depotpc == 'à partir de 2031')) else depotpc);0 if (icded <= 480) else (-0.3 * (icded - 480));Calcul_matiere!AR70
+Miagrement_ext;1;True;0;Calcul_matiere!E79
+Miagrement_ext;2;(sagrement / sref) <= 0.1;0;Calcul_matiere!F79
+Miagrement_ext;2;(sagrement / sref) > 0.1;(min((sagrement / sref), 0.25) - 0.1) * 110;Calcul_matiere!G79
+Miagrement_ext;*;defaut;0;Calcul_matiere!H79
+MiHSP;1;hspmoy <= 2.5;0;Calcul_matiere!E86
+MiHSP;1;hspmoy > 2.5;((min(hspmoy, 2.9) / 2.5) - 1) * 95;Calcul_matiere!F86
+MiHSP;2;hspmoy <= 2.5;0;Calcul_matiere!G86
+MiHSP;2;hspmoy > 2.5;((min(hspmoy, 2.9) / 2.5) - 1) * 95;Calcul_matiere!H86
+MiHSP;*;defaut;0;Calcul_matiere!I86
+Mbcombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_ou_accolées') else 0;Calcul_bbio!E46
+Mccombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_ou_accolées') else 0;Calcul_energie!E79
+Micombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_ou_accolées') else 0;Calcul_matiere!E37
+Mipv;*;True;0 if (iclot13 <= 20) else (iclot13 - 20);Calcul_matiere!E62
+Miclim_RCU;*;True;(25 if ((rcu == 'oui') and (rcu_classe == 'oui') and (climatise == 'oui')) else 0) if decret2026 else 0;Calcul_matiere!E88
+Mcgeo_exception_MI;*;True;'oui' if ((usage == 'maisons_individuelles_ou_accolées') and (elevation == '<400m') and (depotpc == '2022 à 2024') and ((zoneclim == 'h2d') or (zoneclim == 'h3'))) else 'non';Calcul_energie!D75
+DH_effinergie_Q8;*;True;((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if (expobruit == 'br2,br3') else 0)) + (140 if (smoylgt < 30) else 0);Calcul_dh!Q8
+DH_max;1;categorie == 'catégorie 1';1250;Calcul_dh!G32
+DH_max;1;categorie == 'catégorie 2';1850;Calcul_dh!H32
+DH_max;2;(smoylgt <= 20) and ((1 if (categorie == 'catégorie 1') else 0) * (0 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 1));1250;Calcul_dh!G38
+DH_max;2;(smoylgt <= 20) and ((1 if (categorie == 'catégorie 1') else 0) * (1 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 0));1600;Calcul_dh!H38
+DH_max;2;(smoylgt <= 20) and ((1 if (categorie == 'catégorie 2') else 0) * 1);2600;Calcul_dh!I38
+DH_max;2;((smoylgt > 20) and (smoylgt <= 60)) and ((1 if (categorie == 'catégorie 1') else 0) * (0 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 1));1250;Calcul_dh!G39
+DH_max;2;((smoylgt > 20) and (smoylgt <= 60)) and ((1 if (categorie == 'catégorie 1') else 0) * (1 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 0));1700 - (5 * smoylgt);Calcul_dh!H39
+DH_max;2;((smoylgt > 20) and (smoylgt <= 60)) and ((1 if (categorie == 'catégorie 2') else 0) * 1);2850 - (12.5 * smoylgt);Calcul_dh!I39
+DH_max;2;(smoylgt > 60) and ((1 if (categorie == 'catégorie 1') else 0) * (0 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 1));1250;Calcul_dh!G40
+DH_max;2;(smoylgt > 60) and ((1 if (categorie == 'catégorie 1') else 0) * (1 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 0));1400;Calcul_dh!H40
+DH_max;2;(smoylgt > 60) and ((1 if (categorie == 'catégorie 2') else 0) * 1);2100;Calcul_dh!I40
+DH_max;3;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1150;Calcul_dh!G47
+DH_max;3;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2400;Calcul_dh!H47
+DH_max;3;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2600;Calcul_dh!I47
+DH_max;3;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J47
+DH_max;4,5;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));900;Calcul_dh!G54
+DH_max;4,5;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);1800;Calcul_dh!H54
+DH_max;4,5;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2200;Calcul_dh!I54
+DH_max;6;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));900;Calcul_dh!G61
+DH_max;6;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2200;Calcul_dh!H61
+DH_max;6;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2400;Calcul_dh!I61
+DH_max;6;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J61
+DH_max;7;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));900;Calcul_dh!G68
+DH_max;7;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2200;Calcul_dh!H68
+DH_max;7;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2400;Calcul_dh!I68
+DH_max;7;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J68
+DH_max;8;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));300;Calcul_dh!G75
+DH_max;8;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);700;Calcul_dh!H75
+DH_max;8;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;1000;Calcul_dh!I75
+DH_max;8;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J75
+DH_max;9;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));300;Calcul_dh!G82
+DH_max;9;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);700;Calcul_dh!H82
+DH_max;9;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;1000;Calcul_dh!I82
+DH_max;9;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J82
+DH_max;10;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1300;Calcul_dh!G89
+DH_max;10;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);3300;Calcul_dh!H89
+DH_max;10;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;3400;Calcul_dh!I89
+DH_max;10;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J89
+DH_max;11;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1300;Calcul_dh!G96
+DH_max;11;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);3300;Calcul_dh!H96
+DH_max;11;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;3400;Calcul_dh!I96
+DH_max;11;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J96
+DH_max;12;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));550;Calcul_dh!G103
+DH_max;12;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);1600;Calcul_dh!H103
+DH_max;12;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;1600;Calcul_dh!I103
+DH_max;12;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J103
+DH_max;13;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));2500;Calcul_dh!G110
+DH_max;13;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);5000;Calcul_dh!H110
+DH_max;13;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;5000;Calcul_dh!I110
+DH_max;13;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J110
+DH_max;14;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));250;Calcul_dh!G117
+DH_max;14;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);650;Calcul_dh!H117
+DH_max;14;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;650;Calcul_dh!I117
+DH_max;14;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J117
+DH_max;15;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1600;Calcul_dh!G124
+DH_max;15;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);3500;Calcul_dh!H124
+DH_max;15;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;3500;Calcul_dh!I124
+DH_max;15;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J124
+DH_max;16;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1250;Calcul_dh!G131
+DH_max;16;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2500;Calcul_dh!H131
+DH_max;16;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2500;Calcul_dh!I131
+DH_max;16;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J131
+DH_max;17;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));3300;Calcul_dh!G138
+DH_max;17;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);8000;Calcul_dh!H138
+DH_max;17;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;9500;Calcul_dh!I138
+DH_max;17;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J138
+DH_max;18;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1000;Calcul_dh!G145
+DH_max;18;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2200;Calcul_dh!H145
+DH_max;18;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2200;Calcul_dh!I145
+DH_max;19;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));900;Calcul_dh!G152
+DH_max;19;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2400;Calcul_dh!H152
+DH_max;19;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2600;Calcul_dh!I152
+DH_max;20;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));900;Calcul_dh!G159
+DH_max;20;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2400;Calcul_dh!H159
+DH_max;20;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2600;Calcul_dh!I159
+DH_max;21;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));1250;Calcul_dh!G166
+DH_max;21;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);3000;Calcul_dh!H166
+DH_max;21;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;3300;Calcul_dh!I166
+DH_max;21;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J166
+DH_max;22;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));12100;Calcul_dh!G173
+DH_max;22;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);21500;Calcul_dh!H173
+DH_max;22;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;21500;Calcul_dh!I173
+DH_max;22;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J173
+DH_max;23;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));3200;Calcul_dh!G180
+DH_max;23;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);8000;Calcul_dh!H180
+DH_max;23;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;8000;Calcul_dh!I180
+DH_max;24;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));900;Calcul_dh!G187
+DH_max;24;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);2200;Calcul_dh!H187
+DH_max;24;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;2200;Calcul_dh!I187
+DH_max;25;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));2000;Calcul_dh!G194
+DH_max;25;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);4600;Calcul_dh!H194
+DH_max;25;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;5000;Calcul_dh!I194
+DH_max;26;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));40;Calcul_dh!G201
+DH_max;26;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);170;Calcul_dh!H201
+DH_max;26;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;170;Calcul_dh!I201
+DH_max;26;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J201
+DH_max;27;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));260;Calcul_dh!G208
+DH_max;27;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);650;Calcul_dh!H208
+DH_max;27;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;650;Calcul_dh!I208
+DH_max;27;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';Calcul_dh!J208
+DH_max;28;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));2000;Calcul_dh!G215
+DH_max;28;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);4600;Calcul_dh!H215
+DH_max;28;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;5000;Calcul_dh!I215
+DH_effinergie;1;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else (((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if (expobruit == 'br2,br3') else 0)) + (140 if (smoylgt < 30) else 0));Calcul_dh!F3
+DH_effinergie;2;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else (((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if (expobruit == 'br2,br3') else 0)) + (140 if (smoylgt < 30) else 0));Calcul_dh!F4
+DH_effinergie;3;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3') or (categorie == 'catégorie 3')) else 600;Calcul_dh!F5
+DH_effinergie;4,5;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3') or (categorie == 'catégorie 3')) else 600;Calcul_dh!F6

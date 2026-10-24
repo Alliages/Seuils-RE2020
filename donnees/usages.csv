@@ -1,0 +1,29 @@
+id;usage_principal;usage_detaille;categorie3_possible
+1;Maisons_individuelles_ou_accolées;Maisons_individuelles_ou_accolées;0
+2;Logement_collectif;Logement_collectif;0
+3;Bureaux;Bureaux;1
+4;Enseignement_primaire_ou_secondaire;Enseignement_primaire_ou_secondaire - Enseignement primaire ;0
+5;Enseignement_primaire_ou_secondaire;Enseignement_primaire_ou_secondaire - Enseignement secondaire;0
+6;Médiathèques_et_bibliothèques;Médiathèques_et_bibliothèques;1
+7;Bâtiments_universitaires_d'enseignement_et_de_recherche_et_bâtiments_d’enseignements_atypiques;Bâtiments_universitaires_d'enseignement_et_de_recherche_et_bâtiments_d’enseignements_atypiques;1
+8;Hôtels;Hôtels - 0, 1 et 2 étoiles (partie nuit);1
+9;Hôtels;Hôtels - 3, 4 et 5 étoiles (partie nuit);1
+10;Hôtels;Hôtels - 0, 1 et 2 étoiles (partie jour);1
+11;Hôtels;Hôtels - 3, 4 et 5 étoiles (partie jour);1
+12;Etablissements_d'accueil_de_la_petite_enfance ;Etablissements_d'accueil_de_la_petite_enfance ;1
+13;Restaurants;Restaurants - en continu, 18 heures par jour, 7 jours sur 7;1
+14;Restaurants;Restaurants - 1 repas par jour, 5 jours sur 7;1
+15;Restaurants;Restaurants - 2 repas par jour, 7 jours sur 7;1
+16;Restaurants;Restaurants - 2 repas par jour, 6 jours sur 7;1
+17;Commerces;Commerces;1
+18;Vestiaires seuls;Vestiaires seuls;0
+19;Etablissements_sanitaires_avec_hébergement;Etablissements_sanitaires_avec_hébergement;0
+20;Etablissements_de_santé;Etablissements_de_santé - partie nuit ;0
+21;Etablissements_de_santé;Etablissements_de_santé - partie jour ;1
+22;Aérogares;Aérogares;1
+23;Industries_ou_artisanats;Industries_ou_artisanats - 3x8h;0
+24;Industries_ou_artisanats;Industries_ou_artisanats - 8h à 18h;0
+25;Etablissements_sportifs_municipaux_ou_scolaires;Etablissements_sportifs_municipaux_ou_scolaires;0
+26;Restaurants_scolaires;Restaurants_scolaires - 1 repas par jour, 5 jours sur 7;0
+27;Restaurants_scolaires;Restaurants_scolaires - 3 repas par jour, 5 jours sur 7;0
+28;Etablissements_sportifs_privés;Etablissements_sportifs_privés;0

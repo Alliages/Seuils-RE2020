@@ -1,0 +1,169 @@
+usage_id;rcu;periode;valeur;source
+1;oui;2022 à 2024;200;Calcul_energie!L6
+1;oui;2025 à 2027;200;Calcul_energie!M6
+1;oui;à partir de 2028;160;Calcul_energie!N6
+1;non;2022 à 2024;160;Calcul_energie!L7
+1;non;2025 à 2027;160;Calcul_energie!M7
+1;non;à partir de 2028;160;Calcul_energie!N7
+2;oui;2022 à 2024;560;Calcul_energie!L8
+2;oui;2025 à 2027;320;Calcul_energie!M8
+2;oui;à partir de 2028;260;Calcul_energie!N8
+2;non;2022 à 2024;560;Calcul_energie!L9
+2;non;2025 à 2027;260;Calcul_energie!M9
+2;non;à partir de 2028;260;Calcul_energie!N9
+3;oui;2022 à 2024;280;Calcul_energie!L10
+3;oui;2025 à 2027;200;Calcul_energie!M10
+3;oui;à partir de 2028;200;Calcul_energie!N10
+3;non;2022 à 2024;200;Calcul_energie!L11
+3;non;2025 à 2027;200;Calcul_energie!M11
+3;non;à partir de 2028;200;Calcul_energie!N11
+4;oui;2022 à 2024;240;Calcul_energie!L12
+4;oui;2025 à 2027;200;Calcul_energie!M12
+4;oui;à partir de 2028;140;Calcul_energie!N12
+4;non;2022 à 2024;240;Calcul_energie!L13
+4;non;2025 à 2027;140;Calcul_energie!M13
+4;non;à partir de 2028;140;Calcul_energie!N13
+5;oui;2022 à 2024;240;Calcul_energie!L14
+5;oui;2025 à 2027;200;Calcul_energie!M14
+5;oui;à partir de 2028;140;Calcul_energie!N14
+5;non;2022 à 2024;240;Calcul_energie!L15
+5;non;2025 à 2027;140;Calcul_energie!M15
+5;non;à partir de 2028;140;Calcul_energie!N15
+6;oui;2022 à 2024;360;Calcul_energie!L16
+6;oui;2025 à 2027;285;Calcul_energie!M16
+6;oui;à partir de 2028;285;Calcul_energie!N16
+6;non;2022 à 2024;NA;Calcul_energie!L17
+6;non;2025 à 2027;285;Calcul_energie!M17
+6;non;à partir de 2028;285;Calcul_energie!N17
+7;oui;2022 à 2024;225;Calcul_energie!L18
+7;oui;2025 à 2027;190;Calcul_energie!M18
+7;oui;à partir de 2028;190;Calcul_energie!N18
+7;non;2022 à 2024;NA;Calcul_energie!L19
+7;non;2025 à 2027;190;Calcul_energie!M19
+7;non;à partir de 2028;190;Calcul_energie!N19
+8;oui;2022 à 2024;490;Calcul_energie!L20
+8;oui;2025 à 2027;390;Calcul_energie!M20
+8;oui;à partir de 2028;390;Calcul_energie!N20
+8;non;2022 à 2024;NA;Calcul_energie!L21
+8;non;2025 à 2027;390;Calcul_energie!M21
+8;non;à partir de 2028;390;Calcul_energie!N21
+9;oui;2022 à 2024;485;Calcul_energie!L22
+9;oui;2025 à 2027;350;Calcul_energie!M22
+9;oui;à partir de 2028;350;Calcul_energie!N22
+9;non;2022 à 2024;NA;Calcul_energie!L23
+9;non;2025 à 2027;350;Calcul_energie!M23
+9;non;à partir de 2028;350;Calcul_energie!N23
+10;oui;2022 à 2024;595;Calcul_energie!L24
+10;oui;2025 à 2027;495;Calcul_energie!M24
+10;oui;à partir de 2028;495;Calcul_energie!N24
+10;non;2022 à 2024;NA;Calcul_energie!L25
+10;non;2025 à 2027;495;Calcul_energie!M25
+10;non;à partir de 2028;495;Calcul_energie!N25
+11;oui;2022 à 2024;630;Calcul_energie!L26
+11;oui;2025 à 2027;520;Calcul_energie!M26
+11;oui;à partir de 2028;520;Calcul_energie!N26
+11;non;2022 à 2024;NA;Calcul_energie!L27
+11;non;2025 à 2027;520;Calcul_energie!M27
+11;non;à partir de 2028;520;Calcul_energie!N27
+12;oui;2022 à 2024;895;Calcul_energie!L28
+12;oui;2025 à 2027;680;Calcul_energie!M28
+12;oui;à partir de 2028;680;Calcul_energie!N28
+12;non;2022 à 2024;NA;Calcul_energie!L29
+12;non;2025 à 2027;680;Calcul_energie!M29
+12;non;à partir de 2028;680;Calcul_energie!N29
+13;oui;2022 à 2024;670;Calcul_energie!L30
+13;oui;2025 à 2027;570;Calcul_energie!M30
+13;oui;à partir de 2028;570;Calcul_energie!N30
+13;non;2022 à 2024;NA;Calcul_energie!L31
+13;non;2025 à 2027;570;Calcul_energie!M31
+13;non;à partir de 2028;570;Calcul_energie!N31
+14;oui;2022 à 2024;605;Calcul_energie!L32
+14;oui;2025 à 2027;470;Calcul_energie!M32
+14;oui;à partir de 2028;470;Calcul_energie!N32
+14;non;2022 à 2024;NA;Calcul_energie!L33
+14;non;2025 à 2027;470;Calcul_energie!M33
+14;non;à partir de 2028;470;Calcul_energie!N33
+15;oui;2022 à 2024;705;Calcul_energie!L34
+15;oui;2025 à 2027;570;Calcul_energie!M34
+15;oui;à partir de 2028;570;Calcul_energie!N34
+15;non;2022 à 2024;NA;Calcul_energie!L35
+15;non;2025 à 2027;570;Calcul_energie!M35
+15;non;à partir de 2028;570;Calcul_energie!N35
+16;oui;2022 à 2024;675;Calcul_energie!L36
+16;oui;2025 à 2027;545;Calcul_energie!M36
+16;oui;à partir de 2028;545;Calcul_energie!N36
+16;non;2022 à 2024;NA;Calcul_energie!L37
+16;non;2025 à 2027;545;Calcul_energie!M37
+16;non;à partir de 2028;545;Calcul_energie!N37
+17;oui;2022 à 2024;315;Calcul_energie!L38
+17;oui;2025 à 2027;315;Calcul_energie!M38
+17;oui;à partir de 2028;315;Calcul_energie!N38
+17;non;2022 à 2024;NA;Calcul_energie!L39
+17;non;2025 à 2027;315;Calcul_energie!M39
+17;non;à partir de 2028;315;Calcul_energie!N39
+18;oui;2022 à 2024;1460;Calcul_energie!L40
+18;oui;2025 à 2027;1120;Calcul_energie!M40
+18;oui;à partir de 2028;1120;Calcul_energie!N40
+18;non;2022 à 2024;NA;Calcul_energie!L41
+18;non;2025 à 2027;585;Calcul_energie!M41
+18;non;à partir de 2028;585;Calcul_energie!N41
+19;oui;2022 à 2024;1155;Calcul_energie!L42
+19;oui;2025 à 2027;890;Calcul_energie!M42
+19;oui;à partir de 2028;890;Calcul_energie!N42
+19;non;2022 à 2024;NA;Calcul_energie!L43
+19;non;2025 à 2027;330;Calcul_energie!M43
+19;non;à partir de 2028;330;Calcul_energie!N43
+20;oui;2022 à 2024;575;Calcul_energie!L44
+20;oui;2025 à 2027;490;Calcul_energie!M44
+20;oui;à partir de 2028;490;Calcul_energie!N44
+20;non;2022 à 2024;NA;Calcul_energie!L45
+20;non;2025 à 2027;320;Calcul_energie!M45
+20;non;à partir de 2028;320;Calcul_energie!N45
+21;oui;2022 à 2024;615;Calcul_energie!L46
+21;oui;2025 à 2027;365;Calcul_energie!M46
+21;oui;à partir de 2028;365;Calcul_energie!N46
+21;non;2022 à 2024;NA;Calcul_energie!L47
+21;non;2025 à 2027;230;Calcul_energie!M47
+21;non;à partir de 2028;230;Calcul_energie!N47
+22;oui;2022 à 2024;290;Calcul_energie!L48
+22;oui;2025 à 2027;260;Calcul_energie!M48
+22;oui;à partir de 2028;260;Calcul_energie!N48
+22;non;2022 à 2024;NA;Calcul_energie!L49
+22;non;2025 à 2027;260;Calcul_energie!M49
+22;non;à partir de 2028;260;Calcul_energie!N49
+23;oui;2022 à 2024;NA;Calcul_energie!L50
+23;oui;2025 à 2027;315;Calcul_energie!M50
+23;oui;à partir de 2028;315;Calcul_energie!N50
+23;non;2022 à 2024;NA;Calcul_energie!L51
+23;non;2025 à 2027;315;Calcul_energie!M51
+23;non;à partir de 2028;315;Calcul_energie!N51
+24;oui;2022 à 2024;NA;Calcul_energie!L52
+24;oui;2025 à 2027;110;Calcul_energie!M52
+24;oui;à partir de 2028;110;Calcul_energie!N52
+24;non;2022 à 2024;NA;Calcul_energie!L53
+24;non;2025 à 2027;110;Calcul_energie!M53
+24;non;à partir de 2028;110;Calcul_energie!N53
+25;oui;2022 à 2024;330;Calcul_energie!L54
+25;oui;2025 à 2027;265;Calcul_energie!M54
+25;oui;à partir de 2028;265;Calcul_energie!N54
+25;non;2022 à 2024;NA;Calcul_energie!L55
+25;non;2025 à 2027;150;Calcul_energie!M55
+25;non;à partir de 2028;150;Calcul_energie!N55
+26;oui;2022 à 2024;570;Calcul_energie!L56
+26;oui;2025 à 2027;445;Calcul_energie!M56
+26;oui;à partir de 2028;445;Calcul_energie!N56
+26;non;2022 à 2024;NA;Calcul_energie!L57
+26;non;2025 à 2027;445;Calcul_energie!M57
+26;non;à partir de 2028;445;Calcul_energie!N57
+27;oui;2022 à 2024;615;Calcul_energie!L58
+27;oui;2025 à 2027;485;Calcul_energie!M58
+27;oui;à partir de 2028;485;Calcul_energie!N58
+27;non;2022 à 2024;NA;Calcul_energie!L59
+27;non;2025 à 2027;485;Calcul_energie!M59
+27;non;à partir de 2028;485;Calcul_energie!N59
+28;oui;2022 à 2024;535;Calcul_energie!L60
+28;oui;2025 à 2027;420;Calcul_energie!M60
+28;oui;à partir de 2028;420;Calcul_energie!N60
+28;non;2022 à 2024;NA;Calcul_energie!L61
+28;non;2025 à 2027;190;Calcul_energie!M61
+28;non;à partir de 2028;190;Calcul_energie!N61

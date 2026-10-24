@@ -1,0 +1,113 @@
+usage_id;periode;valeur;source
+1;2022 à 2024;640;Calcul_matiere!E5
+1;2025 à 2027;530;Calcul_matiere!F5
+1;2028 à 2030;475;Calcul_matiere!L5
+1;à partir de 2031;415;Calcul_matiere!M5
+2;2022 à 2024;740;Calcul_matiere!E6
+2;2025 à 2027;650;Calcul_matiere!F6
+2;2028 à 2030;580;Calcul_matiere!L6
+2;à partir de 2031;490;Calcul_matiere!M6
+3;2022 à 2024;980;Calcul_matiere!E7
+3;2025 à 2027;810;Calcul_matiere!F7
+3;2028 à 2030;710;Calcul_matiere!L7
+3;à partir de 2031;600;Calcul_matiere!M7
+4;2022 à 2024;900;Calcul_matiere!E8
+5;2022 à 2024;900;Calcul_matiere!E8
+4;2025 à 2027;770;Calcul_matiere!F8
+5;2025 à 2027;770;Calcul_matiere!F8
+4;2028 à 2030;680;Calcul_matiere!L8
+5;2028 à 2030;680;Calcul_matiere!L8
+4;à partir de 2031;590;Calcul_matiere!M8
+5;à partir de 2031;590;Calcul_matiere!M8
+6;2022 à 2024;NA;Calcul_matiere!E9
+6;2025 à 2027;940;Calcul_matiere!F9
+6;2028 à 2030;785;Calcul_matiere!L9
+6;à partir de 2031;630;Calcul_matiere!M9
+7;2022 à 2024;NA;Calcul_matiere!E10
+7;2025 à 2027;940;Calcul_matiere!F10
+7;2028 à 2030;790;Calcul_matiere!L10
+7;à partir de 2031;640;Calcul_matiere!M10
+8;2022 à 2024;NA;Calcul_matiere!E11
+9;2022 à 2024;NA;Calcul_matiere!E11
+10;2022 à 2024;NA;Calcul_matiere!E11
+11;2022 à 2024;NA;Calcul_matiere!E11
+8;2025 à 2027;820;Calcul_matiere!F11
+9;2025 à 2027;820;Calcul_matiere!F11
+10;2025 à 2027;820;Calcul_matiere!F11
+11;2025 à 2027;820;Calcul_matiere!F11
+8;2028 à 2030;680;Calcul_matiere!L11
+9;2028 à 2030;680;Calcul_matiere!L11
+10;2028 à 2030;680;Calcul_matiere!L11
+11;2028 à 2030;680;Calcul_matiere!L11
+8;à partir de 2031;540;Calcul_matiere!M11
+9;à partir de 2031;540;Calcul_matiere!M11
+10;à partir de 2031;540;Calcul_matiere!M11
+11;à partir de 2031;540;Calcul_matiere!M11
+12;2022 à 2024;NA;Calcul_matiere!E12
+12;2025 à 2027;950;Calcul_matiere!F12
+12;2028 à 2030;780;Calcul_matiere!L12
+12;à partir de 2031;630;Calcul_matiere!M12
+13;2022 à 2024;NA;Calcul_matiere!E13
+14;2022 à 2024;NA;Calcul_matiere!E13
+15;2022 à 2024;NA;Calcul_matiere!E13
+16;2022 à 2024;NA;Calcul_matiere!E13
+13;2025 à 2027;800;Calcul_matiere!F13
+14;2025 à 2027;800;Calcul_matiere!F13
+15;2025 à 2027;800;Calcul_matiere!F13
+16;2025 à 2027;800;Calcul_matiere!F13
+13;2028 à 2030;670;Calcul_matiere!L13
+14;2028 à 2030;670;Calcul_matiere!L13
+15;2028 à 2030;670;Calcul_matiere!L13
+16;2028 à 2030;670;Calcul_matiere!L13
+13;à partir de 2031;540;Calcul_matiere!M13
+14;à partir de 2031;540;Calcul_matiere!M13
+15;à partir de 2031;540;Calcul_matiere!M13
+16;à partir de 2031;540;Calcul_matiere!M13
+17;2022 à 2024;NA;Calcul_matiere!E14
+17;2025 à 2027;800;Calcul_matiere!F14
+17;2028 à 2030;670;Calcul_matiere!L14
+17;à partir de 2031;540;Calcul_matiere!M14
+18;2022 à 2024;NA;Calcul_matiere!E15
+18;2025 à 2027;1050;Calcul_matiere!F15
+18;2028 à 2030;900;Calcul_matiere!L15
+18;à partir de 2031;750;Calcul_matiere!M15
+19;2022 à 2024;NA;Calcul_matiere!E16
+19;2025 à 2027;880;Calcul_matiere!F16
+19;2028 à 2030;760;Calcul_matiere!L16
+19;à partir de 2031;620;Calcul_matiere!M16
+20;2022 à 2024;NA;Calcul_matiere!E17
+21;2022 à 2024;NA;Calcul_matiere!E17
+20;2025 à 2027;880;Calcul_matiere!F17
+21;2025 à 2027;880;Calcul_matiere!F17
+20;2028 à 2030;760;Calcul_matiere!L17
+21;2028 à 2030;760;Calcul_matiere!L17
+20;à partir de 2031;620;Calcul_matiere!M17
+21;à partir de 2031;620;Calcul_matiere!M17
+22;2022 à 2024;NA;Calcul_matiere!E18
+22;2025 à 2027;1120;Calcul_matiere!F18
+22;2028 à 2030;950;Calcul_matiere!L18
+22;à partir de 2031;780;Calcul_matiere!M18
+23;2022 à 2024;NA;Calcul_matiere!E19
+24;2022 à 2024;NA;Calcul_matiere!E19
+23;2025 à 2027;840;Calcul_matiere!F19
+24;2025 à 2027;840;Calcul_matiere!F19
+23;2028 à 2030;695;Calcul_matiere!L19
+24;2028 à 2030;695;Calcul_matiere!L19
+23;à partir de 2031;550;Calcul_matiere!M19
+24;à partir de 2031;550;Calcul_matiere!M19
+25;2022 à 2024;NA;Calcul_matiere!E20
+25;2025 à 2027;900;Calcul_matiere!F20
+25;2028 à 2030;760;Calcul_matiere!L20
+25;à partir de 2031;620;Calcul_matiere!M20
+26;2022 à 2024;NA;Calcul_matiere!E21
+27;2022 à 2024;NA;Calcul_matiere!E21
+26;2025 à 2027;800;Calcul_matiere!F21
+27;2025 à 2027;800;Calcul_matiere!F21
+26;2028 à 2030;670;Calcul_matiere!L21
+27;2028 à 2030;670;Calcul_matiere!L21
+26;à partir de 2031;540;Calcul_matiere!M21
+27;à partir de 2031;540;Calcul_matiere!M21
+28;2022 à 2024;NA;Calcul_matiere!E22
+28;2025 à 2027;900;Calcul_matiere!F22
+28;2028 à 2030;760;Calcul_matiere!L22
+28;à partir de 2031;620;Calcul_matiere!M22
