@@ -60,3 +60,11 @@ def regles(coefficient):
             ids = None if l["usages"] == "*" else {int(x) for x in l["usages"].split(",")}
             sortie.append((ids, l["condition"], l["formule"], l["source"]))
     return sortie
+
+
+@lru_cache(maxsize=None)
+def aides():
+    """Infobulles par champ : colonne I de l'Excel, complétée par donnees/aides_complements.csv."""
+    sortie = {l["champ"]: l["texte"] for l in table("aides_complements")}
+    sortie.update({l["champ"]: l["texte"] for l in table("aides")})   # l'Excel l'emporte
+    return sortie

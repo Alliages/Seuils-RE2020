@@ -1,0 +1,10 @@
+champ;texte;source
+usage;Usage de la partie de bâtiment, tel que défini dans l'annexe à l'article R. 172-4. Pour un bâtiment à plusieurs usages, calculer chaque partie séparément.;Annexe R.172-4, chap. II §V
+departement;La zone climatique est déduite du département. Carte des zones : [alliages.github.io/zones-climatiques-re2020](https://alliages.github.io/zones-climatiques-re2020/).;Annexe R.172-4, chap. IV
+periode_pc;Année de dépôt de la demande de permis de construire (PC) ou de la déclaration préalable : elle fixe les valeurs moyennes et les jalons 2025, 2028 et 2031.;Annexe R.172-4, chap. III
+rcu;Bâtiment ou partie de bâtiment raccordé à un réseau de distribution de chaleur et de froid. Les valeurs d'Icénergie_maxmoyen diffèrent selon le raccordement.;Annexe R.172-4, chap. III §II
+igh;Immeuble de grande hauteur au sens de l'article R. 146-3 du code de la construction et de l'habitation. Dérogation sur Icconstruction_maxmoyen et Misurf_tot pour les PC déposés à partir du 1er juillet 2026.;Décret n° 2026-200, art. 2 III 3°
+iclot1;Impact du lot 1 « VRD – Voiries et réseaux divers » : réseaux extérieurs jusqu'au domaine public, stockage, assainissement autonome, aires de stationnement extérieures.;Annexe R.172-4, chap. III §III
+iclot2;Impact du lot 2 « fondations et infrastructure » : fondations, murs et structures enterrées, parcs de stationnement en superstructure (hors garages des maisons).;Annexe R.172-4, chap. III §III
+iclot13;Impact du lot 13 « Équipement de production locale d'électricité » : panneaux, onduleurs, étanchéité associée…;Annexe R.172-4, chap. III §III
+icded;Impact de l'ensemble des composants évalués avec des données environnementales par défaut ou des valeurs forfaitaires, hors lots 1, 2 et 13.;Annexe R.172-4, chap. III §III

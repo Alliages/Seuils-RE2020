@@ -7,8 +7,20 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "0.8.0"
-EXCEL_REFERENCE = "calcul_seuils_RE2020_NU v2.2"
+VERSION = "0.8.2"
+EXCEL_REFERENCE = "calcul_seuils_RE2020_NU v2.2"     # classeur d'où viennent donnees/ (README)
+
+# ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────
+INDICATEURS = [
+    ("bbio_max", "Bbio_max", "points", 1, "bioclimatique"),
+    ("cepnr_max", "Cep,nr_max", "kWhep/m².an", 1, "energie"),
+    ("cep_max", "Cep_max", "kWhep/m².an", 1, "energie"),
+    ("icenergie_max", "Icénergie_max", "kg éq. CO₂/m²", 1, "carbone"),
+    ("icconstruction_max", "Icconstruction_max", "kg éq. CO₂/m² (50 ans)", 1, "carbone"),
+    ("dh_max", "DH_max", "°C.h", 0, "confort"),
+]
+# Évolution affichée sous chaque seuil : jalon -> période de dépôt correspondante
+JALONS_FUTURS = {"2028": "2028 à 2030", "2031": "à partir de 2031"}
 
 # ─── Emplacements ────────────────────────────────────────────────────────────
 DOSSIER_DONNEES = Path(__file__).resolve().parent.parent / "donnees"
@@ -17,6 +29,7 @@ SEPARATEUR_CSV = ";"
 # ─── Listes de choix (identiques au classeur de référence) ───────────────────
 ZONES = ["H1a", "H1b", "H1c", "H2a", "H2b", "H2c", "H2d", "H3"]
 ALTITUDES = ["<400m", "400m-800m", ">800m"]
+LIBELLES_ALTITUDE = {"<400m": "altitude < 400 m", "400m-800m": "altitude 400 à 800 m", ">800m": "altitude > 800 m"}
 PERIODES_PC = ["2022 à 2024", "2025 à 2027", "2028 à 2030", "à partir de 2031"]
 # année représentative de chaque période (feuille Enumération, colonne P)
 ANNEE_PERIODE = {"2022 à 2024": 2023, "2025 à 2027": 2026, "2028 à 2030": 2029, "à partir de 2031": 2032}

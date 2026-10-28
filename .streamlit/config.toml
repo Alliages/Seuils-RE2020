@@ -1,0 +1,20 @@
+# Thème de l'interface — palette : Ash Grey #bdbea9, Muted Teal #8db38b, Wisteria Blue #86a5d9,
+# Gunmetal #3f4045, Bronze Spice #c75000 (voir aussi interface/style.py)
+[theme]
+base = "light"
+primaryColor = "#c75000"
+backgroundColor = "#efefea"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#3f4045"
+linkColor = "#c75000"
+borderColor = "#bdbea9"
+baseRadius = "12px"
+font = "Work Sans:https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
+
+[theme.sidebar]
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#efefea"
+textColor = "#3f4045"
+
+[client]
+toolbarMode = "minimal"

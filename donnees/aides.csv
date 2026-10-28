@@ -1,0 +1,13 @@
+champ;texte;source
+altitude;[https://www.geoportail.gouv.fr/carte](https://www.geoportail.gouv.fr/carte);Input_resultats!I9
+sref;voir le Guide RE2020 du CEREMA page 48;Input_resultats!I10
+scombles;Surface de plancher des combles aménagés dont la hauteur sous plafond est inférieure à 1,8 mètres;Input_resultats!I11
+nb_logements;Nombre de logements du bâtiment. surface moyenne des logements du bâtiment ou de la partie de bâtiment, notée Smoylgt, est calculée de la manière suivante : Smoylgt = Sref/ NL;"Input_resultats!I12;Input_resultats!I13"
+exposition_bruit;dans le chapitre V de [https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000045292850](https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000045292850);Input_resultats!I14
+rcu_classe;Pour les bâtiments ou les parties de bâtiments raccordés à un réseau de distribution de chaleur et de froid classé en application de l’article L. 712-1 du code de l’énergie, lorsque la demande de permis de construire correspondante est déposée avant le 31 décembre 2027, le coefficient Icénergie_maxmoyen prend, en fonction de l’usage de la partie de bâtiment, les valeurs définies pour les parties de bâtiments raccordés à un réseau de distribution de chaleur et de froid faisant l'objet d'un permis de construire déposé au cours des années 2022 à 2024.;Input_resultats!I19
+categorie;dans le chapitre V partie II de [https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000045292850](https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000045292850);Input_resultats!I22
+climatise;pour le DH et carbone si RCU classé (pour le DH cela s'applique seulement à des parties de bâtiment);Input_resultats!I23
+sagrement;la surface cumulée des balcons, des loggias et des terrasses en épannelage du bâtiment ou partie de bâtiment. Les toitures terrasses, terrasses de rez-de-chaussée, de rez-de-jardin, de plain-pied et coursives d’accès extérieur ne sont pas incluses dans cette surface.;Input_resultats!I26
+hsp;La hauteur sous plafond moyenne, du bâtiment ou de la partie de bâtiment, à usage d’habitation, notée HSPmoy, est la moyenne des hauteurs sous plafond des locaux à usage d’habitation inclus dans la surface de référence pondérée par la surface de référence de ces locaux.;Input_resultats!I27
+pc_apres_juillet_2026;Décret n° 2026-200 du 18 mars 2026 (HSP, agrément, Miclim_RCU, IGH) : PC déposés à partir du 1er juillet 2026;Input_resultats!I28
+classe_inertie;(classe d’inertie définit suivant les règles Thbat);Input_resultats!I29

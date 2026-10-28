@@ -158,6 +158,30 @@ def ids_usage(libelle, detaille):
     return PAR_PRINCIPAL[cle]
 
 
+# ─── Infobulles : colonne I de la feuille Input_resultats ────────────────────
+# ligne Excel -> champ de saisie ; plusieurs lignes peuvent viser le même champ
+AIDES_LIGNES = {9: "altitude", 10: "sref", 11: "scombles", 12: "nb_logements", 13: "nb_logements",
+                14: "exposition_bruit", 19: "rcu_classe", 22: "categorie", 23: "climatise",
+                26: "sagrement", 27: "hsp", 28: "pc_apres_juillet_2026", 29: "classe_inertie"}
+
+
+def texte_aide(brut):
+    """Texte d'une cellule d'aide : pour une formule SI(…), la branche « vrai » ; URL -> lien."""
+    if isinstance(brut, str) and brut.startswith("="):
+        chaines = re.findall(r'"((?:[^"]|"")*)"', brut)
+        brut = chaines[0].replace('""', '"') if chaines else ""
+    texte = str(brut).strip()
+    return re.sub(r"(https?://\S+)", r"[\1](\1)", texte)
+
+
+aides = {}
+for ligne, champ in AIDES_LIGNES.items():
+    t = texte_aide(formule_brute("Input_resultats", f"I{ligne}"))
+    if t:
+        texte_prec, src_prec = aides.get(champ, ("", ""))
+        aides[champ] = ((texte_prec + ". " + t if texte_prec else t), (src_prec + ";" if src_prec else "") + f"Input_resultats!I{ligne}")
+ecrire("aides.csv", ["champ", "texte", "source"], [(c, t, s) for c, (t, s) in aides.items()])
+
 # ─── Zones climatiques ───────────────────────────────────────────────────────
 Z = "zone climatique"
 lignes = []
