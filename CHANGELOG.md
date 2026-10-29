@@ -3,6 +3,26 @@
 Numérotation : 0.8.x tant que l'outil n'est pas validé, puis 0.9.
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 0.8.4 — 29 octobre 2026
+
+Interface d'après la maquette (évolution importante).
+
+- Titre « Les 6 seuils de la RE2020 » en Archivo Black ; bandeau de date de dépôt en bleu nuit.
+- Menu sur fond dégradé Bronze Spice → bleu nuit, titre « Les paramètres du projet ».
+- Cartes de seuils sur fond pastel par famille, bande foncée pour l'évolution 2028/2031 ;
+  DH_max en jaune (confort d'été).
+- Survol plus marqué : liseré Bronze Spice sur les champs, Ash Grey sur les étapes, cartes surélevées,
+  boutons en Bronze Spice.
+- Département précédé de son numéro, par exemple « 75 – Paris (H1a) », liste triée par numéro.
+- Détail : formule avec les noms des modulations, puis la même formule chiffrée ; DH_max ajouté.
+- « Valeur moyenne » remplacé par le nom réglementaire (Bbio_maxmoyen…, exigence pour un bâtiment moyen).
+- Sous la surface d'agrément, son pourcentage de la SHAB (Sref).
+- Nombre de logements en entier.
+- Toutes les saisies utiles affichées en petit sous la ligne de récapitulatif ; même ligne dans l'export.
+- Export : formules, puis valeurs des modulations.
+- Polices incluses dans le dépôt (static/polices, licence SIL OFL) : l'outil fonctionne hors connexion.
+- Alerte « surface d'agrément » retirée (le pourcentage est affiché sous le champ).
+
 ## 0.8.2 — 28 octobre 2026
 
 Interface (évolution importante).

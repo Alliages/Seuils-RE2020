@@ -34,6 +34,18 @@ def zones_par_departement():
     return {l["departement"]: l["zone"] for l in table("zones_departements")}
 
 
+def _ordre_numero(numero):
+    """'01' … '19', '2A', '2B', '21' … : la Corse se range entre 19 et 21."""
+    return float(numero.replace("2A", "20.1").replace("2B", "20.2"))
+
+
+@lru_cache(maxsize=None)
+def departements():
+    """{nom: (numéro, zone)}, dans l'ordre des numéros."""
+    lignes = sorted(table("zones_departements"), key=lambda l: _ordre_numero(l["numero"]))
+    return {l["departement"]: (l["numero"], l["zone"]) for l in lignes}
+
+
 @lru_cache(maxsize=None)
 def index(nom, *cles):
     """Index d'une table de valeurs : (clés…) -> valeur numérique ou None."""

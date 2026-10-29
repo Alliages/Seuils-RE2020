@@ -7,7 +7,6 @@ from .variables import ALTITUDES, PERIODES_PC, ZONES
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 USAGES_RE2020_DES_2022 = {1, 2, 3, 4, 5}     # autres usages : PC à partir de 2026 (décret 2026-16)
-TAUX_AGREMENT_SIGNALE = 0.10
 
 
 def alertes(projet):
@@ -28,6 +27,4 @@ def alertes(projet):
         messages.append("Réseau classé coché sans raccordement à un réseau de chaleur.")
     if projet.igh and projet.usage_id == 1:
         messages.append("Une maison individuelle ne peut pas être un IGH.")
-    if projet.sref > 0 and projet.sagrement / projet.sref > TAUX_AGREMENT_SIGNALE:
-        messages.append(f"Surface d'agrément = {projet.sagrement / projet.sref:.0%} de la Sref.")
     return messages

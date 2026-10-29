@@ -9,12 +9,41 @@ textColor = "#3f4045"
 linkColor = "#c75000"
 borderColor = "#bdbea9"
 baseRadius = "12px"
-font = "Work Sans:https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
+font = "Work Sans"
 
 [theme.sidebar]
 backgroundColor = "#ffffff"
 secondaryBackgroundColor = "#efefea"
 textColor = "#3f4045"
+
+# Polices incluses dans le dépôt (static/polices, licence SIL OFL) : fonctionnent hors connexion
+[[theme.fontFaces]]
+family = "Work Sans"
+url = "app/static/polices/work-sans-latin-400-normal.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Work Sans"
+url = "app/static/polices/work-sans-latin-500-normal.woff2"
+weight = 500
+
+[[theme.fontFaces]]
+family = "Work Sans"
+url = "app/static/polices/work-sans-latin-600-normal.woff2"
+weight = 600
+
+[[theme.fontFaces]]
+family = "Work Sans"
+url = "app/static/polices/work-sans-latin-700-normal.woff2"
+weight = 700
+
+[[theme.fontFaces]]
+family = "Archivo Black"
+url = "app/static/polices/archivo-black-latin-400-normal.woff2"
+weight = 400
+
+[server]
+enableStaticServing = true
 
 [client]
 toolbarMode = "minimal"

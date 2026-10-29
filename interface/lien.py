@@ -15,7 +15,7 @@ CHAMPS = {
     "departement": ("dep", str, "Paris"),
     "altitude": ("alt", str, "<400m"),
     "sref": ("sref", float, 3000.0),
-    "nb_logements": ("nl", float, 50.0),
+    "nb_logements": ("nl", int, 50),
     "scombles": ("combles", float, 0.0),
     "hsp": ("hsp", float, 2.5),
     "sagrement": ("agr", float, 0.0),
@@ -35,7 +35,7 @@ CHAMPS = {
 }
 DEFAUTS = {champ: defaut for champ, (_nom, _type, defaut) in CHAMPS.items()}
 PARAM_VERSION = "v"
-VALEURS_MIN = {"sref": 1.0, "nb_logements": 1.0, "hsp": 2.0}   # mêmes bornes que les champs de saisie
+VALEURS_MIN = {"sref": 1.0, "nb_logements": 1, "hsp": 2.0}   # mêmes bornes que les champs de saisie
 
 
 def _choix():
@@ -50,6 +50,11 @@ def _convertir(texte, type_):
         if texte not in ("0", "1"):
             raise ValueError(texte)
         return texte == "1"
+    if type_ is int:
+        nombre = float(texte)                 # accepte « 50 » et « 50.0 »
+        if not nombre.is_integer():
+            raise ValueError(texte)
+        return int(nombre)
     return type_(texte)
 
 
@@ -65,7 +70,7 @@ def lire(params):
             continue
         if champ in choix and valeur not in choix[champ]:
             continue
-        if type_ is float and (valeur != valeur or valeur < VALEURS_MIN.get(champ, 0.0)):   # NaN ou trop petit
+        if type_ in (int, float) and (valeur != valeur or valeur < VALEURS_MIN.get(champ, 0)):   # NaN ou trop petit
             continue
         sortie[champ] = valeur
     return sortie

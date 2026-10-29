@@ -6,7 +6,7 @@ du code de la construction et de l'habitation (France métropolitaine).
 
 > Document non officiel, à utiliser avec toutes les vérifications nécessaires.
 
-**Version 0.8.2** (version de travail). Le moteur redonne à l'identique le classeur Excel de
+**Version 0.8.4** (version de travail). Le moteur redonne à l'identique le classeur Excel de
 référence sur 10 670 cas de test ; l'outil passera en 0.9 après validation en usage réel.
 
 Pour en savoir plus sur la réglementation :
@@ -46,12 +46,14 @@ Pour l'arrêter : `Ctrl + C` dans le terminal.
 - **Menu en 5 étapes**, à gauche : bâtiment, permis de construire (PC), contraintes extérieures,
   carbone, réseau de chaleur et label. Seuls les champs utiles à l'usage choisi s'affichent.
   Le point d'interrogation à côté de chaque champ donne sa définition.
-- **Résultats** : les six seuils, avec en petit leur évolution aux jalons 2028 et 2031,
-  puis le détail des modulations.
+- **Résultats** : les six seuils, avec leur évolution aux jalons 2028 et 2031, puis le détail :
+  formule avec les noms des modulations, même formule chiffrée, valeur de chaque modulation.
+  Sous le récapitulatif, en petit, toutes les saisies utiles au calcul.
 - **Sauvegarder par lien** : l'adresse de la page contient toutes les saisies. La copier suffit
   à retrouver le projet. Le lien garde les saisies, pas les résultats : rouvert, il recalcule le
   projet avec la version de l'outil en ligne. Rien n'est stocké sur un serveur.
-- **Exporter** : un fichier `.txt` ou un texte à copier, avec les seuils puis les modulations.
+- **Exporter** : un fichier `.txt` ou un texte à copier, avec les seuils puis les formules et les
+  modulations.
 
 ## Utiliser le moteur sans interface
 
@@ -82,7 +84,8 @@ seuils_re2020/          moteur de calcul, sans dépendance à Streamlit
 donnees/                toutes les valeurs réglementaires et les infobulles (CSV, séparateur « ; »)
 tests/                  10 670 cas de référence calculés par le classeur Excel + tests
 outils/                 extraction depuis le classeur, banc de test LibreOffice, diagnostic
-.streamlit/config.toml  thème (couleurs, police)
+.streamlit/config.toml  thème (couleurs, polices)
+static/polices/         polices Work Sans et Archivo Black (licence SIL OFL)
 ```
 
 ## Données et sources
@@ -137,7 +140,8 @@ impair = correction. Détail dans `CHANGELOG.md`.
 
 ## Licence et crédits
 
-GNU GPL v3, comme le classeur d'origine.
+GNU GPL v3, comme le classeur d'origine. Polices Work Sans et Archivo Black : SIL Open Font License 1.1
+(`static/polices/`).
 
 Guillaume Meunier, d'après son classeur `calcul_seuils_RE2020_NU`. Le passage du classeur à la
 version 2.0 (indicateurs carbone et énergie des nouveaux usages) est dû à Félix Dubois (CSTB) ;

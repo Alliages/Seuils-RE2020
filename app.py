@@ -6,27 +6,28 @@ Le calcul est fait par le paquet seuils_re2020 ; ce fichier gère la saisie, l'a
 l'export et la sauvegarde par lien (paramètres d'URL, voir interface/lien.py).
 """
 from datetime import date
+from html import escape
 
 import streamlit as st
 
 from interface import lien
 from interface.style import CSS, carte_seuil
 from seuils_re2020 import Projet, alertes, calculer, donnees
-from seuils_re2020.export import evolution, libelle_depot, libelle_usage, nombre_fr, recapitulatif, texte_export
-from seuils_re2020.variables import (ALTITUDES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, INDICATEURS,
-                                     LIBELLES_ALTITUDE, PERIODES_PC, VERSION)
+from seuils_re2020.export import (champs_visibles, details, evolution, formules, libelle_departement, libelle_depot,
+                                  libelle_usage, nombre_fr, recapitulatif, texte_export)
+from seuils_re2020.variables import (ALTITUDES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, INDICATEURS, LIBELLES_ALTITUDE,
+                                     NOMS_MOYENS, PERIODES_PC, SEUIL_AGREMENT, USAGE_LOGEMENT_COLLECTIF,
+                                     USAGE_MAISON, USAGES_EFFINERGIE, USAGES_LOGEMENT, VERSION)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
-TITRE = "Seuils RE2020"
+TITRE = "Les 6 seuils de la RE2020"
+TITRE_MENU = "Les paramètres du projet"
 URL_DEPOT = "https://github.com/Alliages/Seuils-RE2020"
 URL_ZONES = "https://alliages.github.io/zones-climatiques-re2020/"
 URL_OFFICIEL = "https://rt-re-batiment.developpement-durable.gouv.fr/re2020-r320.html"
 URL_WIKIPEDIA = "https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020"
-USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF = 1, 2
-USAGES_LOGEMENT = {USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF}
-USAGES_EFFINERGIE = {1, 2, 3, 4, 5}                 # label Effinergie : logements, bureaux, enseignement
 ZONES_PAR_DEPT = donnees.zones_par_departement()
-DEPARTEMENTS = sorted(ZONES_PAR_DEPT)
+DEPARTEMENTS = list(donnees.departements())          # dans l'ordre des numéros
 AIDES = donnees.aides()
 ETAPES = ["1 · Bâtiment", "2 · Permis de construire (PC)", "3 · Contraintes extérieures", "4 · Carbone",
           "5 · Réseau de chaleur et label"]
@@ -43,6 +44,7 @@ if "_initialise" not in etat:
     etat["_initialise"] = True
 for champ in lien.CHAMPS:                           # empêche Streamlit d'oublier un champ masqué
     etat[champ] = etat.get(champ, lien.DEFAUTS[champ])
+etat["nb_logements"] = int(etat["nb_logements"])    # nombre de logements : entier
 
 
 def aide(champ):
@@ -52,19 +54,19 @@ def aide(champ):
 def changement_usage():
     """Maison : un logement par défaut (Smoylgt = Sref), comme dans le classeur."""
     if etat["usage_id"] == USAGE_MAISON:
-        etat["nb_logements"] = 1.0
+        etat["nb_logements"] = 1
 
 
 # ─── Menu latéral en étapes ──────────────────────────────────────────────────
 with st.sidebar:
-    st.header("Projet")
+    st.markdown(f'<div class="titre-menu">{TITRE_MENU}</div>', unsafe_allow_html=True)
 
     with st.expander(ETAPES[0], expanded=True):
         st.selectbox("Usage", list(donnees.usages()), format_func=libelle_usage, key="usage_id", help=aide("usage"),
                      on_change=changement_usage)
         usage = etat["usage_id"]
         st.selectbox("Département", DEPARTEMENTS, key="departement", help=aide("departement"),
-                     format_func=lambda d: f"{d} ({ZONES_PAR_DEPT[d]})")
+                     format_func=libelle_departement)
         st.markdown(f"[Carte des zones climatiques]({URL_ZONES})")
         st.selectbox("Altitude du terrain", ALTITUDES, key="altitude", format_func=lambda a: LIBELLES_ALTITUDE[a][len("altitude "):],
                      help=aide("altitude"))
@@ -72,7 +74,7 @@ with st.sidebar:
         st.number_input(f"Surface de référence Sref ({unite})", min_value=1.0, step=10.0, key="sref",
                         help=aide("sref"))
         if usage in USAGES_LOGEMENT:
-            st.number_input("Nombre de logements (NL)", min_value=1.0, step=1.0, key="nb_logements",
+            st.number_input("Nombre de logements (NL)", min_value=1, step=1, format="%d", key="nb_logements",
                             help=aide("nb_logements"))
             st.caption(f"Smoylgt = {nombre_fr(etat['sref'] / etat['nb_logements'], 1)} m²")
         if usage == USAGE_MAISON:
@@ -84,6 +86,9 @@ with st.sidebar:
         if usage == USAGE_LOGEMENT_COLLECTIF:
             st.number_input("Surface cumulée d'agrément extérieur (m²)", min_value=0.0, key="sagrement",
                             help=aide("sagrement"))
+            taux = etat["sagrement"] / etat["sref"]
+            st.caption(f"Soit {nombre_fr(100 * taux, 1)} % de la SHAB (Sref) — Miagrément_ext s'applique "
+                       f"au-delà de {nombre_fr(100 * SEUIL_AGREMENT, 0)} %")
         if usage != USAGE_MAISON:
             st.checkbox("Immeuble de grande hauteur (IGH)", key="igh", help=aide("igh"))
 
@@ -124,13 +129,10 @@ with st.sidebar:
 # ─── Calcul ──────────────────────────────────────────────────────────────────
 # les champs masqués pour cet usage reprennent leur valeur neutre (sans effet sur les seuils)
 saisies = {champ: etat[champ] for champ in lien.CHAMPS}
-NEUTRES = {"nb_logements": usage in USAGES_LOGEMENT, "scombles": usage == USAGE_MAISON,
-           "hsp": usage in USAGES_LOGEMENT, "sagrement": usage == USAGE_LOGEMENT_COLLECTIF,
-           "igh": usage != USAGE_MAISON, "classe_inertie": usage in USAGES_EFFINERGIE,
-           "pc_apres_juillet_2026": saisies["periode_pc"] == "2025 à 2027"}
+NEUTRES = champs_visibles(usage, saisies["periode_pc"])
 for champ, visible in NEUTRES.items():
     if not visible:
-        saisies[champ] = lien.DEFAUTS[champ] if champ != "nb_logements" else 1.0
+        saisies[champ] = lien.DEFAUTS[champ] if champ != "nb_logements" else 1
 projet = Projet(**{k: v for k, v in saisies.items() if k != "departement"},
                 zone=ZONES_PAR_DEPT[saisies["departement"]])
 resultats = calculer(projet)
@@ -158,7 +160,8 @@ entete, version = st.columns([4, 1])
 entete.markdown(f'<div class="titre-page">{TITRE}</div>', unsafe_allow_html=True)
 version.markdown(f'<div style="text-align:right"><span class="version">v{VERSION} · non officiel</span></div>',
                  unsafe_allow_html=True)
-st.markdown(f'<div class="barre-recap">{recapitulatif(projet, etat["departement"])}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="barre-recap">{recapitulatif(projet, etat["departement"])}'
+            f'<div class="details-saisies">{details(projet)}</div></div>', unsafe_allow_html=True)
 
 principal, cote = st.columns([2.6, 1], gap="large")
 
@@ -175,13 +178,17 @@ with principal:
 
     with st.container(key="carte_detail"):
         st.markdown('<div class="titre-carte">Détail des modulations</div>', unsafe_allow_html=True)
-        for cle, nom, _unite, _dec, _famille in INDICATEURS[:5]:
+        for cle, nom, unite, dec, _famille in INDICATEURS:
             r = resultats[cle]
-            with st.expander(f"{nom} = {nombre_fr(r.valeur, 2)}"):
+            symbolique, chiffres = formules(cle, nom, r)
+            with st.expander(f"{nom} = {nombre_fr(r.valeur, dec)} {unite}"):
+                st.markdown(f'<div class="formule">{escape(symbolique)}</div>'
+                            f'<div class="formule chiffres">{escape(chiffres)}</div>', unsafe_allow_html=True)
                 if r.moyen is not None:
-                    st.write(f"Valeur moyenne : {nombre_fr(r.moyen, 2)}")
-                st.table({"coefficient": list(r.coefficients),
-                          "valeur": [nombre_fr(v, 4) for v in r.coefficients.values()]})
+                    st.write(f"{NOMS_MOYENS[cle]} (exigence pour un bâtiment moyen) : {nombre_fr(r.moyen, 2)}")
+                if r.coefficients:
+                    st.table({"modulation": list(r.coefficients),
+                              "valeur": [nombre_fr(v, 4) for v in r.coefficients.values()]})
 
 with cote:
     with st.container(key="carte_partage"):

@@ -7,7 +7,7 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "0.8.2"
+VERSION = "0.8.4"
 EXCEL_REFERENCE = "calcul_seuils_RE2020_NU v2.2"     # classeur d'où viennent donnees/ (README)
 
 # ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────
@@ -19,6 +19,19 @@ INDICATEURS = [
     ("icconstruction_max", "Icconstruction_max", "kg éq. CO₂/m² (50 ans)", 1, "carbone"),
     ("dh_max", "DH_max", "°C.h", 0, "confort"),
 ]
+# Nom réglementaire de la valeur moyenne : « valeur de l'exigence pour un bâtiment moyen »
+NOMS_MOYENS = {"bbio_max": "Bbio_maxmoyen", "cepnr_max": "Cep,nr_maxmoyen", "cep_max": "Cep_maxmoyen",
+               "icenergie_max": "Icénergie_maxmoyen", "icconstruction_max": "Icconstruction_maxmoyen",
+               "dh_max": "DH_maxcat"}
+# Termes ajoutés hors de la parenthèse dans Icconstruction_max (kg éq. CO₂/m²)
+TERMES_ADDITIFS = {"Migéo", "Miinfra", "Mivrd", "Mipv", "Mided", "Miagrément_ext", "MiHSP", "Miclim_RCU"}
+
+# ─── Usages particuliers (numéros de donnees/usages.csv) ─────────────────────
+USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF = 1, 2
+USAGES_LOGEMENT = {USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF}
+USAGES_EFFINERGIE = {1, 2, 3, 4, 5}                  # label Effinergie : logements, bureaux, enseignement
+SEUIL_AGREMENT = 0.10                                # Miagrément_ext s'applique au-delà de 10 % de la Sref
+
 # Évolution affichée sous chaque seuil : jalon -> période de dépôt correspondante
 JALONS_FUTURS = {"2028": "2028 à 2030", "2031": "à partir de 2031"}
 
