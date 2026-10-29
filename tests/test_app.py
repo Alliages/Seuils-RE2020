@@ -49,7 +49,7 @@ def test_lien_invalide_ignore():
 
 def test_categorie_3_proposee_seulement_si_possible():
     app = lancer({"usage": "2"})                       # logements collectifs : pas de catégorie 3
-    choix = next(s for s in app.sidebar.selectbox if s.label.startswith("Catégorie"))
+    choix = next(s for s in app.sidebar.selectbox if "Catégorie de contraintes" in s.label)
     assert choix.options == ["Catégorie 1", "Catégorie 2"]
 
 
@@ -67,3 +67,18 @@ def test_nombre_de_logements_entier():
 def test_agrement_en_pourcentage_de_la_shab():
     app = lancer({"agr": "450", "sref": "3000"})
     assert any("15,0 % de la SHAB" in c.value for c in app.sidebar.caption)
+
+
+def test_deux_onglets_et_icones():
+    app = lancer()
+    assert len(app.tabs) == 2 and "Extension et surélévation" in app.tabs[1].label
+    assert any(":material/" in s.label for s in app.sidebar.selectbox)
+    assert 'class="ico"' in textes(app)
+
+
+def test_alerte_petite_surface_selon_usage():
+    maison = lancer({"usage": "1", "sref": "45", "nl": "1"})
+    assert any("art. 50-3, I)" in w.value for w in maison.warning)
+    bureaux = lancer({"usage": "3", "sref": "50"})
+    assert any("art. 50-3, III)" in w.value for w in bureaux.warning)
+    assert not any("50-3" in w.value for w in lancer({"usage": "3", "sref": "51"}).warning)

@@ -13,6 +13,12 @@ def alertes(projet):
     """Liste de messages à afficher à côté des résultats."""
     messages = []
     usage = donnees.usages()[projet.usage_id]
+    # petite construction : première règle qui vise l'usage (donnees/surfaces_minimales.csv)
+    for usages, sref_max, texte in donnees.surfaces_minimales():
+        if usages is None or projet.usage_id in usages:
+            if projet.sref <= sref_max:
+                messages.append(texte)
+            break
     if projet.zone not in ZONES or projet.altitude not in ALTITUDES or projet.periode_pc not in PERIODES_PC:
         messages.append("Zone, altitude ou période de dépôt inconnue.")
     if projet.sref <= 0:

@@ -69,7 +69,8 @@ def recapitulatif(projet, departement=None):
                 libelle_departement(departement) if departement else projet.zone,
                 LIBELLES_ALTITUDE[projet.altitude], f"Sref {nombre_fr(projet.sref, 0)} m²"]
     if projet.usage_id in USAGES_LOGEMENT:
-        morceaux.append(f"{nombre_fr(projet.nb_logements, 0)} logements "
+        pluriel = "s" if projet.nb_logements > 1 else ""
+        morceaux.append(f"{nombre_fr(projet.nb_logements, 0)} logement{pluriel} "
                         f"(Smoylgt {nombre_fr(projet.sref / projet.nb_logements, 1)} m²)")
     morceaux.append(f"Catégorie {projet.categorie}")
     return " · ".join(morceaux)

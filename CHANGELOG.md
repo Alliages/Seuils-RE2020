@@ -3,6 +3,16 @@
 Numérotation : 0.8.x tant que l'outil n'est pas validé, puis 0.9.
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 0.8.5 — 29 octobre 2026
+
+- Icônes Material Symbols (fournies avec Streamlit) : étapes du menu, champs (en Bronze Spice), cartes de
+  seuils, sens de l'évolution 2028/2031, cartes de droite, liens, bandeau. Liste dans `interface/icones.py`.
+- Deux onglets : « Construction neuve » et « Extension et surélévation » (en préparation).
+- Alerte « petite surface » : construction de 50 m² ou moins = exigences de moyens et non RE2020 complète
+  (arrêté du 4 août 2021, art. 50-3, I pour les maisons, III pour les autres usages) ; seuils dans
+  `donnees/surfaces_minimales.csv`.
+- Accord « 1 logement » dans le récapitulatif.
+
 ## 0.8.4 — 29 octobre 2026
 
 Interface d'après la maquette (évolution importante).
@@ -58,7 +68,7 @@ Refonte complète du dépôt (l'ancienne application reste dans l'historique Git
 
 ## À faire
 
-- Surélévations et extensions (méthode applicable selon les surfaces : solution à venir).
+- Onglet Extension et surélévation : méthode applicable selon les surfaces (solution à venir).
 - Valeurs OPEE : situer le projet par rapport aux bâtiments réels pour montrer la difficulté à
   atteindre chaque seuil.
 - Écriture simplifiée des conditions de `regles.csv` ; découpage des tables par texte réglementaire.

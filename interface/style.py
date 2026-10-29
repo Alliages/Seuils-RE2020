@@ -67,9 +67,16 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
     box-shadow: {OMBRE}; }}
 [class*="st-key-carte_detail"] {{ background: {FOND_DETAIL}; }}
 [class*="st-key-carte_detail"] [data-testid="stExpander"] details {{ background: {BLANC}; border-radius: 14px; }}
+.ico {{ font-family: 'Material Symbols Rounded'; font-weight: 400; font-style: normal; font-size: 1.25em;
+    line-height: 1; vertical-align: -0.22em; margin-right: .4rem; letter-spacing: normal; display: inline-block; }}
+.titre-carte .ico {{ color: {BRONZE_SPICE}; }}
 .titre-carte {{ font-weight: 600; font-size: 1.1rem; color: {BLEU_NUIT}; margin-bottom: .4rem; }}
 .formule {{ font-family: monospace; font-size: .85rem; color: {BLEU_NUIT}; line-height: 1.5; }}
 .formule.chiffres {{ color: {BRONZE_SPICE}; margin-bottom: .6rem; }}
+
+/* ── Onglets ── */
+[data-testid="stTabs"] button[role="tab"] p {{ font-size: 1.02rem; font-weight: 600; }}
+[data-testid="stTabs"] button[role="tab"]:hover p {{ color: {BRONZE_SPICE}; }}
 
 /* ── En-tête ── */
 .titre-page {{ font-family: 'Archivo Black', 'Work Sans', sans-serif; font-size: 3.1rem; color: {BLEU_NUIT};
@@ -92,7 +99,7 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
 .carte-seuil .valeur {{ font-family: 'Archivo Black', 'Work Sans', sans-serif; font-size: 2.2rem; color: {BLEU_NUIT};
     margin-top: .25rem; }}
 .carte-seuil .unite {{ font-size: .82rem; color: {BLEU_NUIT}; opacity: .8; }}
-.carte-seuil .evol {{ background: var(--fonce); color: var(--texte-bande); font-size: .82rem; font-weight: 500;
+.carte-seuil .evol {{ background: var(--fonce); color: var(--texte-bande); font-size: .78rem; font-weight: 500;
     padding: .55rem 1.3rem; min-height: 2.2rem; }}
 .pastille {{ display: inline-block; width: .7rem; height: .7rem; border-radius: 50%; background: var(--fonce);
     margin-right: .45rem; flex-shrink: 0; }}
@@ -100,10 +107,14 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
 """
 
 
-def carte_seuil(nom, valeur, unite, famille, evolution=""):
-    """Carte HTML d'un seuil ; le texte est échappé."""
+def carte_seuil(nom, valeur, unite, famille, evolution="", icone=None, icone_evolution=None):
+    """Carte HTML d'un seuil ; le texte est échappé. Sans icône : pastille de couleur."""
     clair, fonce, texte = COULEURS_FAMILLE[famille]
+    couleur_icone = BRONZE_SPICE if famille == "carbone" else BLEU_NUIT
+    marque = (f'<span class="ico" style="color:{couleur_icone}">{escape(icone)}</span>' if icone
+              else '<span class="pastille"></span>')
+    fleche = f'<span class="ico">{escape(icone_evolution)}</span>' if icone_evolution and evolution else ""
     return (f'<div class="carte-seuil" style="--clair:{clair};--fonce:{fonce};--texte-bande:{texte}">'
-            f'<div class="haut"><div class="nom"><span class="pastille"></span>{escape(nom)}</div>'
+            f'<div class="haut"><div class="nom">{marque}{escape(nom)}</div>'
             f'<div class="valeur">{escape(valeur)}</div><div class="unite">{escape(unite)}</div></div>'
-            f'<div class="evol">{escape(evolution) or "&nbsp;"}</div></div>')
+            f'<div class="evol">{fleche}{escape(evolution) or "&nbsp;"}</div></div>')

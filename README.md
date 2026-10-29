@@ -6,7 +6,7 @@ du code de la construction et de l'habitation (France métropolitaine).
 
 > Document non officiel, à utiliser avec toutes les vérifications nécessaires.
 
-**Version 0.8.4** (version de travail). Le moteur redonne à l'identique le classeur Excel de
+**Version 0.8.5** (version de travail). Le moteur redonne à l'identique le classeur Excel de
 référence sur 10 670 cas de test ; l'outil passera en 0.9 après validation en usage réel.
 
 Pour en savoir plus sur la réglementation :
@@ -43,9 +43,12 @@ Pour l'arrêter : `Ctrl + C` dans le terminal.
 
 ## Utiliser l'application
 
+- **Deux onglets** : « Construction neuve » (le calcul des seuils) et « Extension et surélévation »
+  (en préparation).
 - **Menu en 5 étapes**, à gauche : bâtiment, permis de construire (PC), contraintes extérieures,
   carbone, réseau de chaleur et label. Seuls les champs utiles à l'usage choisi s'affichent.
-  Le point d'interrogation à côté de chaque champ donne sa définition.
+  Le point d'interrogation à côté de chaque champ donne sa définition. Une alerte signale les
+  constructions de 50 m² ou moins, soumises à des exigences de moyens et non à la RE2020 complète.
 - **Résultats** : les six seuils, avec leur évolution aux jalons 2028 et 2031, puis le détail :
   formule avec les noms des modulations, même formule chiffrée, valeur de chaque modulation.
   Sous le récapitulatif, en petit, toutes les saisies utiles au calcul.
@@ -72,7 +75,7 @@ Les numéros d'usage sont dans `donnees/usages.csv`.
 
 ```
 app.py                  interface Streamlit
-interface/              style (palette) et sauvegarde par lien
+interface/              style (palette), icônes (icones.py) et sauvegarde par lien
 seuils_re2020/          moteur de calcul, sans dépendance à Streamlit
   variables.py          paramètres et listes de choix, regroupés en tête
   regles.py             description du projet, date du décret 2026-200, choix des règles
@@ -125,7 +128,7 @@ envoi sur GitHub (`.github/workflows/tests.yml`).
 
 ## Limites connues
 
-- Surélévations et extensions : pas encore traitées.
+- Extensions et surélévations : onglet en préparation.
 - IGH en 2031 : le classeur prend 95 % de la valeur 2028 standard ; une lecture littérale du décret
   donnerait 95 % de la valeur IGH 2028. Interprétation à confirmer.
 - DH Effinergie : le bonus « exposition au bruit » du classeur ne se déclenche jamais ; reproduit

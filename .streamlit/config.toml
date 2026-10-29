@@ -7,11 +7,13 @@ backgroundColor = "#efefea"
 secondaryBackgroundColor = "#ffffff"
 textColor = "#3f4045"
 linkColor = "#c75000"
+orangeColor = "#c75000"          # couleur des icônes de libellés (:orange[...])
 borderColor = "#bdbea9"
 baseRadius = "12px"
 font = "Work Sans"
 
 [theme.sidebar]
+orangeColor = "#c75000"
 backgroundColor = "#ffffff"
 secondaryBackgroundColor = "#efefea"
 textColor = "#3f4045"
