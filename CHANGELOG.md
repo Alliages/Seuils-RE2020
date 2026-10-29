@@ -3,6 +3,12 @@
 Numérotation : 0.8.x tant que l'outil n'est pas validé, puis 0.9.
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 0.8.6 — 29 octobre 2026
+
+- README réécrit en deux parties : une première partie pour tout public (lien, capture d'écran, mode d'emploi
+  en quatre étapes, sauvegarde et export), une seconde pour le code, sa vérification et les fichiers à relire.
+- Capture d'écran de l'outil dans `docs/capture-accueil.png`.
+
 ## 0.8.5 — 29 octobre 2026
 
 - Icônes Material Symbols (fournies avec Streamlit) : étapes du menu, champs (en Bronze Spice), cartes de

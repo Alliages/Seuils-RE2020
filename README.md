@@ -1,25 +1,82 @@
-# Seuils RE2020
+# Les 6 seuils de la RE2020
 
-Calculateur des six seuils réglementaires de la RE2020 — Bbio_max, Cep,nr_max, Cep_max,
-Icénergie_max, Icconstruction_max et DH_max — pour les 28 usages de l'annexe à l'article R. 172-4
-du code de la construction et de l'habitation (France métropolitaine).
+Un outil en ligne qui calcule les six seuils réglementaires de la RE2020 pour un projet
+de construction neuve : Bbio_max, Cep,nr_max, Cep_max, Icénergie_max, Icconstruction_max
+et DH_max.
 
-> Document non officiel, à utiliser avec toutes les vérifications nécessaires.
+**Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
 
-**Version 0.8.5** (version de travail). Le moteur redonne à l'identique le classeur Excel de
-référence sur 10 670 cas de test ; l'outil passera en 0.9 après validation en usage réel.
+> Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
+> Version 0.8.6, version de travail.
 
-Pour en savoir plus sur la réglementation :
-[site officiel de la RE2020](https://rt-re-batiment.developpement-durable.gouv.fr/re2020-r320.html) ·
-[la RE2020 sur Wikipédia](https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020) ·
-[carte des zones climatiques](https://alliages.github.io/zones-climatiques-re2020/)
+![Capture d'écran de l'outil](docs/capture-accueil.png)
 
-## Installer et lancer
+---
+
+# Partie 1 : pour les utilisateurs
+
+## À quoi ça sert
+
+Vous renseignez les caractéristiques de votre projet (type de bâtiment, département,
+altitude, surface, nombre de logements…). L'outil affiche aussitôt les six seuils à
+respecter, avec leur unité, puis le détail du calcul.
+
+Il est fait pour les projets dont le permis de construire est déposé à partir du
+1er juillet 2026 (décret n° 2026-200).
+
+## Comment l'utiliser en quatre étapes
+
+1. **Ouvrir la page** : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/).
+   Le premier chargement peut prendre quelques secondes.
+2. **Renseigner le menu de gauche**, étape par étape : bâtiment, permis de construire,
+   contraintes extérieures, carbone, réseau de chaleur, label. Seuls les champs utiles au
+   type de bâtiment choisi apparaissent. Le point d'interrogation (?) à côté de chaque champ
+   en donne la définition.
+3. **Lire les résultats** : six cartes colorées, une par seuil. Chaque carte indique si le
+   seuil reste identique en 2028 et 2031 ou s'il évolue.
+4. **Garder une trace** : voir « Sauvegarder et exporter » ci-dessous.
+
+Le menu s'ouvre par défaut. Sur téléphone, il recouvre la page : le refermer avec le
+bouton « « » en haut à gauche.
+
+## Sauvegarder et exporter
+
+- **Sauvegarder par lien** : l'adresse de la page contient toutes vos saisies. Copiez-la
+  pour retrouver votre projet plus tard. Le lien ne garde que les saisies : rouvert, il
+  recalcule le projet avec la version en ligne de l'outil. Aucune donnée n'est stockée
+  sur un serveur.
+- **Télécharger (.txt)** : un fichier texte avec les six seuils, leurs formules et les
+  valeurs des modulations. Il existe aussi une copie dans le presse-papiers.
+
+## Les alertes
+
+Une alerte apparaît pour les constructions de **50 m² ou moins** : elles relèvent
+d'exigences de moyens, et non de la RE2020 complète.
+
+## Ce que l'outil ne fait pas encore
+
+- **Extensions et surélévations** : l'onglet existe mais est en préparation.
+- **Projets mixtes** (plusieurs usages dans un même bâtiment) : pas de calcul au prorata
+  des surfaces.
+- **IGH** : l'interprétation de la règle pour les immeubles de grande hauteur en 2031 est à
+  confirmer (voir partie 2).
+
+## Pour en savoir plus sur la réglementation
+
+- [Site officiel de la RE2020](https://rt-re-batiment.developpement-durable.gouv.fr/re2020-r320.html)
+- [La RE2020 sur Wikipédia](https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020)
+- [Carte des zones climatiques](https://alliages.github.io/zones-climatiques-re2020/)
+
+---
+
+# Partie 2 : pour les développeurs et les relecteurs
+
+## Installer et lancer en local
 
 Il faut Python 3.10 ou plus récent ([python.org](https://www.python.org/downloads/)).
-Ouvrir un terminal **dans le dossier `Seuils-RE2020`**, puis :
+Ouvrir un terminal dans le dossier du projet, puis :
 
-### Windows (PowerShell ou invite de commandes)
+**Windows (PowerShell ou invite de commandes)**
 
 ```
 python -m venv .venv
@@ -27,10 +84,10 @@ python -m venv .venv
 .venv\Scripts\python -m streamlit run app.py
 ```
 
-Si `python` n'est pas reconnu, remplacer le premier `python` par `py`.
-Ces commandes n'ont pas besoin d'« activer » l'environnement : `source` n'existe pas sous Windows.
+Si `python` n'est pas reconnu, remplacer le premier `python` par `py`. Sous Windows, il n'y a
+pas besoin d'« activer » l'environnement.
 
-### macOS et Linux
+**macOS et Linux**
 
 ```bash
 python3 -m venv .venv
@@ -38,27 +95,11 @@ python3 -m venv .venv
 .venv/bin/python -m streamlit run app.py
 ```
 
-L'application s'ouvre dans le navigateur, à l'adresse http://localhost:8501.
-Pour l'arrêter : `Ctrl + C` dans le terminal.
-
-## Utiliser l'application
-
-- **Deux onglets** : « Construction neuve » (le calcul des seuils) et « Extension et surélévation »
-  (en préparation).
-- **Menu en 5 étapes**, à gauche : bâtiment, permis de construire (PC), contraintes extérieures,
-  carbone, réseau de chaleur et label. Seuls les champs utiles à l'usage choisi s'affichent.
-  Le point d'interrogation à côté de chaque champ donne sa définition. Une alerte signale les
-  constructions de 50 m² ou moins, soumises à des exigences de moyens et non à la RE2020 complète.
-- **Résultats** : les six seuils, avec leur évolution aux jalons 2028 et 2031, puis le détail :
-  formule avec les noms des modulations, même formule chiffrée, valeur de chaque modulation.
-  Sous le récapitulatif, en petit, toutes les saisies utiles au calcul.
-- **Sauvegarder par lien** : l'adresse de la page contient toutes les saisies. La copier suffit
-  à retrouver le projet. Le lien garde les saisies, pas les résultats : rouvert, il recalcule le
-  projet avec la version de l'outil en ligne. Rien n'est stocké sur un serveur.
-- **Exporter** : un fichier `.txt` ou un texte à copier, avec les seuils puis les formules et les
-  modulations.
+L'application s'ouvre sur http://localhost:8501. Pour l'arrêter : `Ctrl + C`.
 
 ## Utiliser le moteur sans interface
+
+Le calcul est indépendant de Streamlit et s'utilise directement en Python :
 
 ```python
 from seuils_re2020 import Projet, calculer
@@ -69,13 +110,13 @@ resultats = calculer(projet)
 print(resultats["bbio_max"].valeur, resultats["bbio_max"].coefficients)
 ```
 
-Les numéros d'usage sont dans `donnees/usages.csv`.
+Les numéros d'usage se trouvent dans `donnees/usages.csv`.
 
-## Organisation
+## Organisation du dépôt
 
 ```
-app.py                  interface Streamlit
-interface/              style (palette), icônes (icones.py) et sauvegarde par lien
+app.py                  interface Streamlit (point d'entrée)
+interface/              style (palette), icônes (icones.py), sauvegarde par lien (lien.py)
 seuils_re2020/          moteur de calcul, sans dépendance à Streamlit
   variables.py          paramètres et listes de choix, regroupés en tête
   regles.py             description du projet, date du décret 2026-200, choix des règles
@@ -84,68 +125,74 @@ seuils_re2020/          moteur de calcul, sans dépendance à Streamlit
   controles.py          alertes de cohérence des saisies
   expressions.py        évaluation sûre des formules de donnees/regles.csv
   donnees.py            lecture des tables
-donnees/                toutes les valeurs réglementaires et les infobulles (CSV, séparateur « ; »)
-tests/                  10 670 cas de référence calculés par le classeur Excel + tests
-outils/                 extraction depuis le classeur, banc de test LibreOffice, diagnostic
+donnees/                valeurs réglementaires et infobulles (CSV, séparateur « ; »)
+tests/                  cas de référence et tests automatiques
+outils/                 extraction depuis le classeur Excel, banc de test LibreOffice, diagnostic
 .streamlit/config.toml  thème (couleurs, polices)
-static/polices/         polices Work Sans et Archivo Black (licence SIL OFL)
+static/polices/         Work Sans et Archivo Black (licence SIL OFL)
+docs/                   captures d'écran du README
+CHANGELOG.md            journal des versions
 ```
 
 ## Données et sources
 
-Aucune valeur réglementaire n'est écrite dans le code : tout est dans `donnees/`, et chaque ligne
-indique la cellule du classeur d'où elle vient (colonne `source`).
+Aucune valeur réglementaire n'est écrite dans le code. Tout est dans `donnees/`, et chaque
+ligne indique la cellule du classeur d'où elle provient (colonne `source`).
 
-- Tables simples : valeurs moyennes, Mbgéo, Mcgéo, Migéo, Mccat, Mbbruit, seuils des lots…
-- `regles.csv` : modulations qui dépendent de la surface, de la date ou d'autres saisies,
-  écrites comme des formules lisibles, par exemple `(47.5 - (0.095 * sref)) / bbiomaxmoyen`.
-- `aides.csv` : infobulles reprises de la colonne I de l'onglet de saisie du classeur ;
-  `aides_complements.csv` : définitions de l'annexe pour les autres champs.
+- **Tables simples** : valeurs moyennes, Mbgéo, Mcgéo, Migéo, Mccat, Mbbruit, seuils des lots…
+- **`regles.csv`** : modulations qui dépendent de la surface, de la date ou d'autres saisies,
+  écrites en formules lisibles, par exemple `(47.5 - (0.095 * sref)) / bbiomaxmoyen`.
+- **`aides.csv`** : infobulles reprises de la colonne I de l'onglet de saisie du classeur.
+  **`aides_complements.csv`** : définitions de l'annexe pour les autres champs.
 
-Textes de référence : annexe à l'article R. 172-4 du CCH consolidée (décrets 2021-1004, 2022-305,
-2024-1258, 2026-16) et décret n° 2026-200 du 18 mars 2026, applicable aux permis de construire
-déposés à partir du 1er juillet 2026.
+Textes de référence : annexe à l'article R. 172-4 du code de la construction et de l'habitation
+(décrets 2021-1004, 2022-305, 2024-1258, 2026-16) et décret n° 2026-200 du 18 mars 2026.
 
 Après une mise à jour du classeur, régénérer les données puis relancer les tests :
 
 ```
-python outils/extraire_excel.py outils/calcul_seuils_RE2020_NU_v2.2.xlsx <classeur_recalculé.xlsx> donnees
+python outils/extraire_excel.py outils/calcul_seuils_RE2020_NU_v2.2.xlsx <classeur_recalcule.xlsx> donnees
 python -m pytest
 ```
 
-## Tests
+## Vérifier le calcul
+
+Le moteur est comparé au classeur Excel de référence (v2.2) sur **10 670 cas** : 28 usages
+croisés avec zones, altitudes, périodes, surfaces, bruit, catégories, lots carbone, hauteur
+sous plafond, agrément, réseau de chaleur, IGH et date du permis. L'écart toléré est de 10⁻⁶.
 
 ```
-.venv\Scripts\python -m pip install pytest      (Windows)
-.venv\Scripts\python -m pytest
+python -m pip install pytest
+python -m pytest
 ```
 
-`tests/test_cas_reference.py` compare le moteur au classeur Excel v2.2 sur 10 670 cas
-(28 usages × zones, altitudes, périodes, surfaces, bruit, catégories, lots carbone, HSP, agrément,
-réseau de chaleur, IGH, date du PC). Écart toléré : 10⁻⁶. Les autres tests vérifient l'export,
-l'évolution 2028/2031 et l'interface (affichage, lien de sauvegarde). Ils tournent aussi à chaque
-envoi sur GitHub (`.github/workflows/tests.yml`).
+`tests/test_cas_reference.py` porte la comparaison Excel. Les autres tests couvrent l'export,
+l'évolution 2028/2031 et l'interface (affichage, lien de sauvegarde). Ils tournent aussi à
+chaque envoi sur GitHub (`.github/workflows/tests.yml`).
+
+**Fichiers à relire en priorité** : `donnees/regles.csv` et `donnees/aides.csv` (valeurs et
+formules), `seuils_re2020/calculs.py` (assemblage des six seuils) et
+`seuils_re2020/regles.py` (choix des règles selon la date de dépôt).
 
 ## Limites connues
 
-- Extensions et surélévations : onglet en préparation.
-- IGH en 2031 : le classeur prend 95 % de la valeur 2028 standard ; une lecture littérale du décret
-  donnerait 95 % de la valeur IGH 2028. Interprétation à confirmer.
-- DH Effinergie : le bonus « exposition au bruit » du classeur ne se déclenche jamais ; reproduit
-  tel quel, à corriger dans le classeur puis ici.
-- Pas de calcul multi-usages au prorata des Sref.
-- Sur téléphone, le menu s'ouvre par défaut et recouvre la page : le refermer avec « « ».
+- **Extensions et surélévations** : onglet en préparation.
+- **IGH en 2031** : le classeur retient 95 % de la valeur 2028 standard. Une lecture littérale
+  du décret donnerait 95 % de la valeur IGH 2028. Interprétation à confirmer.
+- **DH Effinergie** : le bonus « exposition au bruit » du classeur ne se déclenche jamais.
+  Reproduit tel quel, à corriger d'abord dans le classeur puis ici.
+- **Multi-usages** : pas de calcul au prorata des Sref.
 
 ## Versions
 
-0.8.x tant que l'outil n'est pas validé, puis 0.9. Chiffre pair = évolution importante, chiffre
-impair = correction. Détail dans `CHANGELOG.md`.
+Version 0.8.x tant que l'outil n'est pas validé, puis 0.9. Chiffre pair = évolution importante,
+chiffre impair = correction. Détail dans `CHANGELOG.md`.
 
 ## Licence et crédits
 
-GNU GPL v3, comme le classeur d'origine. Polices Work Sans et Archivo Black : SIL Open Font License 1.1
-(`static/polices/`).
+GNU GPL v3, comme le classeur d'origine. Polices Work Sans et Archivo Black : SIL Open Font
+License 1.1 (`static/polices/`).
 
 Guillaume Meunier, d'après son classeur `calcul_seuils_RE2020_NU`. Le passage du classeur à la
-version 2.0 (indicateurs carbone et énergie des nouveaux usages) est dû à Félix Dubois (CSTB) ;
-corrections signalées par Cédrick Gbegnon, Léonard Forissier et Félix Dubois.
+version 2.0 (indicateurs carbone et énergie des nouveaux usages) est dû à Félix Dubois (CSTB).
+Corrections signalées par Cédrick Gbegnon, Léonard Forissier et Félix Dubois.
