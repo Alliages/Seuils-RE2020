@@ -7,7 +7,7 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "0.8.6"
+VERSION = "0.8.7"
 EXCEL_REFERENCE = "calcul_seuils_RE2020_NU v2.2"     # classeur d'où viennent donnees/ (README)
 
 # ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────

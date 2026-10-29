@@ -7,7 +7,7 @@ et DH_max.
 **Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
 
 > Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
-> Version 0.8.6, version de travail.
+> Version 0.8.7, version de travail.
 
 ![Capture d'écran de l'outil](docs/capture-accueil.png)
 
@@ -196,3 +196,47 @@ License 1.1 (`static/polices/`).
 Guillaume Meunier, d'après son classeur `calcul_seuils_RE2020_NU`. Le passage du classeur à la
 version 2.0 (indicateurs carbone et énergie des nouveaux usages) est dû à Félix Dubois (CSTB).
 Corrections signalées par Cédrick Gbegnon, Léonard Forissier et Félix Dubois.
+
+## Faire un lien vers l'outil (usage externe)
+
+Un lien peut ouvrir l'outil avec des saisies déjà renseignées. Les paramètres absents
+prennent leur valeur par défaut.
+
+Exemple : bureaux (usage 3), altitude 400 à 800 m, tout le reste par défaut :
+
+    https://seuils-re2020.streamlit.app/?v=0.8.7&usage=3&alt=400m-800m
+
+Le paramètre `v` indique la version de l'outil qui a produit le lien. Il n'est pas utilisé
+à la lecture : le lien est recalculé avec la version en ligne.
+
+| Paramètre | Champ du menu | Valeurs admises | Défaut |
+|---|---|---|---|
+| `usage` | Usage | numéro `id` de `donnees/usages.csv` (1 maison, 2 logement collectif, 3 bureaux…) | 2 |
+| `dep` | Département | nom tel qu'affiché dans le menu (ex. `Paris`) | Paris |
+| `alt` | Altitude | `<400m`, `400m-800m`, `>800m` | `<400m` |
+| `sref` | Surface de référence (m²) | nombre ≥ 1 | 3000 |
+| `nl` | Nombre de logements | entier ≥ 1 | 50 |
+| `combles` | Combles aménagés de moins de 1,8 m (m²) | nombre ≥ 0 | 0 |
+| `hsp` | Hauteur sous plafond (m) | nombre ≥ 2 | 2.5 |
+| `agr` | Surface cumulée d'agrément extérieur (m²) | nombre ≥ 0 | 0 |
+| `pc` | Période de dépôt du PC | `2022 à 2024`, `2025 à 2027`, `2028 à 2030`, `à partir de 2031` | `2025 à 2027` |
+| `juillet` | PC déposé à partir du 1er juillet 2026 | 1 ou 0 | 1 |
+| `cat` | Catégorie | 1, 2 ou 3 | 1 |
+| `bruit` | Exposition au bruit | BR1, BR2 ou BR3 | BR1 |
+| `clim` | Bâtiment climatisé | 1 ou 0 | 0 |
+| `igh` | Immeuble de grande hauteur | 1 ou 0 | 0 |
+| `rcu` | Raccordé à un réseau de chaleur | 1 ou 0 | 0 |
+| `classe` | Réseau classé | 1 ou 0 | 0 |
+| `inertie` | Classe d'inertie | `Très légère, légère ou moyenne`, `Lourde ou très lourde` | `Lourde ou très lourde` |
+| `lot1` | Lot 1 – VRD | nombre ≥ 0 | 0 |
+| `lot2` | Lot 2 – fondations et infrastructure | nombre ≥ 0 | 0 |
+| `lot13` | Lot 13 – production locale d'électricité | nombre ≥ 0 | 0 |
+| `ded` | Données par défaut et forfaits (Icded) | nombre ≥ 0 | 0 |
+
+Règles d'écriture :
+
+- Les `<` et `>` de `alt` s'écrivent `%3C` et `%3E` (`alt=%3C400m`, `alt=%3E800m`).
+- Les espaces et accents des valeurs texte (`pc`, `inertie`) sont encodés par le navigateur.
+- Les cases à cocher s'écrivent `1` (oui) ou `0` (non).
+- Les décimales s'écrivent avec un point (`hsp=2.7`).
+- `juillet` n'a d'effet que si `pc` vaut `2025 à 2027`.

@@ -3,6 +3,10 @@
 Numérotation : 0.8.x tant que l'outil n'est pas validé, puis 0.9.
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 0.8.7 — 29 octobre 2026
+
+- README : section « Faire un lien vers l'outil (usage externe) » (paramètres de l'adresse, valeurs admises, défauts).
+
 ## 0.8.6 — 29 octobre 2026
 
 - README réécrit en deux parties : une première partie pour tout public (lien, capture d'écran, mode d'emploi
