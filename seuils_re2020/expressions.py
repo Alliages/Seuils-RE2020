@@ -2,7 +2,7 @@
 Évaluation sûre des expressions stockées dans donnees/regles.csv.
 
 Les expressions sont du Python restreint : nombres, textes, variables du projet,
-opérations arithmétiques, comparaisons, and / or / not, « a if c else b », min et max.
+opérations arithmétiques (sans puissance : « ** » peut bloquer l'application), comparaisons, and / or / not, « a if c else b », min et max.
 Tout autre élément (appel de fonction, attribut, import…) est refusé.
 """
 import ast
@@ -13,7 +13,7 @@ NOEUDS_AUTORISES = (
     ast.Expression, ast.BoolOp, ast.BinOp, ast.UnaryOp, ast.Compare, ast.IfExp,
     ast.Call, ast.Name, ast.Load, ast.Constant,
     ast.And, ast.Or, ast.Not, ast.USub, ast.UAdd,
-    ast.Add, ast.Sub, ast.Mult, ast.Div, ast.Pow,
+    ast.Add, ast.Sub, ast.Mult, ast.Div,
     ast.Eq, ast.NotEq, ast.Lt, ast.LtE, ast.Gt, ast.GtE,
 )
 FONCTIONS_AUTORISEES = {"min": min, "max": max}

@@ -19,6 +19,9 @@ from .regles import appliquer, decret_2026_applicable, variables
 from .variables import (COEF_IGH, NE_S_APPLIQUE_PAS, NON_APPLICABLE, PERIODES_APRES_DECRET,
                         PERIODES_DEROGATION_RCU)
 
+# ─── Paramètres ──────────────────────────────────────────────────────────────
+MOYEN_ENERGIE = {"cepnr_max": "cepnr", "cep_max": "cep"}   # clé de donnees.moyennes() par indicateur
+
 
 @dataclass
 class Resultat:
@@ -36,7 +39,7 @@ def _table(nom, *cles):
     return v
 
 
-def _mbbruit(projet, vars_):
+def _mbbruit(projet):
     if projet.categorie == 3:
         expo = "cat3"
     else:
@@ -92,7 +95,7 @@ def bbio_max(projet, vars_):
         "Mbcombles": appliquer("Mbcombles", projet, vars_),
         "Mbsurf_moy": appliquer("Mbsurf_moy", projet, vars_),
         "Mbsurf_tot": appliquer("Mbsurf_tot", projet, vars_),
-        "Mbbruit": _mbbruit(projet, vars_),
+        "Mbbruit": _mbbruit(projet),
         "MbHSP": appliquer("MbHSP", projet, vars_) if decret else 0.0,
     }
     return Resultat(_assembler(moyen, c), moyen, c)
@@ -161,13 +164,18 @@ def calculer(projet):
     vars_ = variables(projet)
     sortie = {"bbio_max": _protege(lambda: bbio_max(projet, vars_))}
 
+    # Les coefficients Cep/Icénergie ne dépendent pas de l'indicateur : calculés une seule fois
+    cache = {}
+
+    def coefficients_energie():
+        if "mc" not in cache:
+            cache["mc"] = coefficients_mc(projet, vars_, donnees.moyennes()[projet.usage_id]["cepnr"])
+        return cache["mc"]
+
     def energie(cle):
         moyens = donnees.moyennes()[projet.usage_id]
-        mc = coefficients_mc(projet, vars_, moyens["cepnr"])
-        moyen = {"cepnr_max": moyens["cepnr"], "cep_max": moyens["cep"],
-                 "icenergie_max": None}[cle]
-        if cle == "icenergie_max":
-            moyen = _icenergie_moyen(projet)
+        moyen = _icenergie_moyen(projet) if cle == "icenergie_max" else moyens[MOYEN_ENERGIE[cle]]
+        mc = coefficients_energie()
         return Resultat(_assembler(moyen, mc), moyen, mc)
 
     for cle in ("cepnr_max", "cep_max", "icenergie_max"):

@@ -13,6 +13,7 @@ import streamlit as st
 
 from interface import icones as I
 from interface import lien
+from interface.textes import NOTE_BORNES
 from interface.style import CSS, carte_seuil
 from seuils_re2020 import Projet, alertes, calculer, decret_2026_applicable, donnees, regime_travaux
 from seuils_re2020.export import (champs_visibles, details, evolution, explication_dh, formules, libelle_departement,
@@ -46,14 +47,6 @@ AIDE_IGH_GRISE = ("Les règles IGH (décret n° 2026-200) ne s'appliquent qu'aux
 URL_ARTICLE_50_3 = "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000050146201/2026-07-02"
 URL_FICHE_EXTENSION = ("https://rt-re-batiment.developpement-durable.gouv.fr/IMG/pdf/"
                        "20250415_fiche_application_extension_batiment_et_const_inf_50.pdf")
-# Lecture des bornes retenue (affichée dans l'onglet Extension et surélévation), validée le 30/10/2026
-NOTE_BORNES = (
-    "Bornes comprises : de 50 à 80 m² et de 50 à 150 m², 50, 80 et 150 m² inclus. « Moins de 50 m² » s'arrête "
-    "avant 50 m². La part de l'existant se compare à 30 % : « moins de 30 % » d'un côté, « 30 % ou plus » de "
-    "l'autre. Seule l'extension de maison de 50 à 80 m² est en RE2020 light : une surélévation de maison de "
-    "50 m² ou plus, comme une extension de maison de plus de 80 m², relève de la RE2020 complète. "
-    "L'arrêté écrit « strictement entre » : l'outil retient les bornes comprises (règles validées le 30/10/2026).")
-
 st.set_page_config(page_title=TITRE, layout="wide", initial_sidebar_state="expanded")
 st.markdown(CSS, unsafe_allow_html=True)
 

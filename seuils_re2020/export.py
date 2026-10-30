@@ -8,7 +8,7 @@ from datetime import date
 
 from . import donnees
 from .calculs import calculer
-from .variables import (INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYENS, PERIODES_PC, SEUIL_AGREMENT,
+from .variables import (INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYENS, PERIODES_PC,
                         TERMES_ADDITIFS, USAGE_LOGEMENT_COLLECTIF, USAGE_MAISON, USAGES_EFFINERGIE,
                         USAGES_LOGEMENT, VERSION)
 

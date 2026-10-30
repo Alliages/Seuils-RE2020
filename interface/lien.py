@@ -4,6 +4,7 @@ Sauvegarde d'un projet dans l'adresse de la page (paramètres d'URL).
 Le lien contient les saisies, pas les résultats : rouvert, il recalcule le projet avec la
 version de l'outil en ligne. Aucune donnée n'est stockée sur un serveur.
 """
+import math
 from urllib.parse import urlencode
 
 from seuils_re2020 import donnees
@@ -41,6 +42,9 @@ CHAMPS_TRAVAUX = {"typologie", "sexistant"}                 # champs qui ne vont
 DEFAUTS = {champ: defaut for champ, (_nom, _type, defaut) in CHAMPS.items()}
 PARAM_VERSION = "v"
 VALEURS_MIN = {"sref": 1.0, "nb_logements": 1, "hsp": 2.0, "sexistant": 1.0}   # mêmes bornes que les champs de saisie
+# Bornes hautes : un lien modifié à la main ne peut pas faire exploser les calculs (ou afficher « inf »)
+VALEURS_MAX = {"sref": 1e6, "nb_logements": 10_000, "hsp": 10.0, "sexistant": 1e6, "sagrement": 1e6,
+               "scombles": 1e6, "iclot1": 1e4, "iclot2": 1e4, "iclot13": 1e4, "icded": 1e4}
 
 
 def _choix():
@@ -58,9 +62,14 @@ def _convertir(texte, type_):
         return texte == "1"
     if type_ is int:
         nombre = float(texte)                 # accepte « 50 » et « 50.0 »
-        if not nombre.is_integer():
+        if not math.isfinite(nombre) or not nombre.is_integer():
             raise ValueError(texte)
         return int(nombre)
+    if type_ is float:
+        nombre = float(texte)
+        if not math.isfinite(nombre):         # « inf » et « nan » refusés
+            raise ValueError(texte)
+        return nombre
     return type_(texte)
 
 
@@ -76,8 +85,8 @@ def lire(params):
             continue
         if champ in choix and valeur not in choix[champ]:
             continue
-        if type_ in (int, float) and (valeur != valeur or valeur < VALEURS_MIN.get(champ, 0)):   # NaN ou trop petit
-            continue
+        if type_ in (int, float) and not VALEURS_MIN.get(champ, 0) <= valeur <= VALEURS_MAX.get(champ, math.inf):
+            continue                          # hors bornes
         sortie[champ] = valeur
     return sortie
 
