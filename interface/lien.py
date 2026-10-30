@@ -7,7 +7,8 @@ version de l'outil en ligne. Aucune donnée n'est stockée sur un serveur.
 from urllib.parse import urlencode
 
 from seuils_re2020 import donnees
-from seuils_re2020.variables import ALTITUDES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, PERIODES_PC, VERSION
+from seuils_re2020.variables import (ALTITUDES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, PERIODES_PC, TYPOLOGIES_TRAVAUX,
+                                     VERSION)
 
 # ─── Paramètres : champ -> (nom dans l'URL, type, valeur par défaut) ─────────
 CHAMPS = {
@@ -32,17 +33,22 @@ CHAMPS = {
     "rcu": ("rcu", bool, False),
     "rcu_classe": ("classe", bool, False),
     "classe_inertie": ("inertie", str, "Lourde ou très lourde"),
+    # onglet Extension et surélévation (hors calcul des seuils)
+    "typologie": ("travaux", str, "extension"),
+    "sexistant": ("sexist", float, 1000.0),
 }
+CHAMPS_TRAVAUX = {"typologie", "sexistant"}                 # champs qui ne vont pas dans Projet
 DEFAUTS = {champ: defaut for champ, (_nom, _type, defaut) in CHAMPS.items()}
 PARAM_VERSION = "v"
-VALEURS_MIN = {"sref": 1.0, "nb_logements": 1, "hsp": 2.0}   # mêmes bornes que les champs de saisie
+VALEURS_MIN = {"sref": 1.0, "nb_logements": 1, "hsp": 2.0, "sexistant": 1.0}   # mêmes bornes que les champs de saisie
 
 
 def _choix():
     """Valeurs admises pour les champs à liste."""
     return {"usage_id": set(donnees.usages()), "departement": set(donnees.zones_par_departement()),
             "altitude": set(ALTITUDES), "periode_pc": set(PERIODES_PC), "categorie": {1, 2, 3},
-            "exposition_bruit": set(EXPOSITIONS_BRUIT), "classe_inertie": set(CLASSES_INERTIE)}
+            "exposition_bruit": set(EXPOSITIONS_BRUIT), "classe_inertie": set(CLASSES_INERTIE),
+            "typologie": set(TYPOLOGIES_TRAVAUX)}
 
 
 def _convertir(texte, type_):

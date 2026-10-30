@@ -27,7 +27,7 @@ def textes(app):
 def test_affichage_par_defaut():
     app = lancer()
     assert not app.exception
-    assert textes(app).count('class="carte-seuil"') == NB_SEUILS
+    assert " ".join(m.value for m in app.tabs[0].markdown).count('class="carte-seuil"') == NB_SEUILS
     assert "Paris (H1a)" in textes(app)
     assert "déposé : 2025 à 2027, à partir du 1er juillet 2026" in textes(app)
     assert "référence" not in " ".join(c.value for c in app.caption)
@@ -79,6 +79,31 @@ def test_deux_onglets_et_icones():
 def test_alerte_petite_surface_selon_usage():
     maison = lancer({"usage": "1", "sref": "45", "nl": "1"})
     assert any("art. 50-3, I)" in w.value for w in maison.warning)
-    bureaux = lancer({"usage": "3", "sref": "50"})
+    bureaux = lancer({"usage": "3", "sref": "49"})
     assert any("art. 50-3, III)" in w.value for w in bureaux.warning)
-    assert not any("50-3" in w.value for w in lancer({"usage": "3", "sref": "51"}).warning)
+    assert not any("50-3" in w.value for w in lancer({"usage": "3", "sref": "50"}).warning)   # moins de 50 m²
+    commerce = lancer({"usage": "17", "sref": "40"})
+    assert any("RT2012" in w.value for w in commerce.warning)
+
+
+def test_renvoi_extension_sous_200_m2():
+    renvoi = lambda app: any("voir l'onglet" in m.value for m in app.sidebar.markdown)
+    assert renvoi(lancer({"sref": "199"}))
+    assert not renvoi(lancer({"sref": "200"}))
+
+
+def test_explication_dh_au_dessus_de_1250():
+    from seuils_re2020 import Projet
+    from seuils_re2020.export import explication_dh
+    projet = Projet(usage_id=2, zone="H3", altitude="<400m", sref=3000, periode_pc="2028 à 2030",
+                    nb_logements=50, climatise=True)
+    assert "H2d ou H3" in explication_dh(projet, 1400) and "Smoylgt" in explication_dh(projet, 1400)
+    assert explication_dh(projet, 1250) == ""
+
+
+def test_igh_grise_avant_juillet_2026():
+    case = lambda app: next(c for c in app.sidebar.checkbox if "IGH" in c.label)
+    avant = lancer({"pc": "2025 à 2027", "juillet": "0", "igh": "1"})
+    assert case(avant).disabled and avant.session_state["igh"] is False
+    apres = lancer({"pc": "2028 à 2030", "igh": "1"})
+    assert not case(apres).disabled and apres.session_state["igh"] is True

@@ -84,6 +84,6 @@ def aides():
 
 @lru_cache(maxsize=None)
 def surfaces_minimales():
-    """[(usages ou None pour tous, Sref maximale, message)] : petites constructions hors RE2020 complète."""
-    return [(None if l["usages"] == "*" else {int(x) for x in l["usages"].split(",")}, float(l["sref_max"]), l["texte"])
+    """[(usages ou None pour tous, Sref limite exclue, message)] : petites constructions hors RE2020 complète."""
+    return [(None if l["usages"] == "*" else {int(x) for x in l["usages"].split(",")}, float(l["sref_limite"]), l["texte"])
             for l in table("surfaces_minimales")]

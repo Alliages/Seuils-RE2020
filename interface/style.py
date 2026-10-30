@@ -25,6 +25,9 @@ COULEURS_FAMILLE = {
     "carbone": ("#ff9a57", BRONZE_SPICE, BLANC),
     "confort": ("#fbf39c", JAUNE_ETE, BLEU_NUIT),
 }
+# régime des travaux -> (fond du bandeau, texte) ; exigences de moyens en Bronze Spice (maquette)
+COULEURS_REGIME = {"complete": (BLEU_NUIT, BLANC), "light": (MUTED_TEAL, BLEU_NUIT), "moyens": (BRONZE_SPICE, BLANC),
+                   "rt2012": (GUNMETAL, BLANC)}
 RAYON_CARTE = "20px"
 OMBRE = "0 2px 14px rgba(31, 34, 56, 0.10)"
 OMBRE_SURVOL = "0 8px 24px rgba(31, 34, 56, 0.22)"
@@ -82,12 +85,52 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
 .titre-page {{ font-family: 'Archivo Black', 'Work Sans', sans-serif; font-size: 3.1rem; color: {BLEU_NUIT};
     line-height: 1.05; letter-spacing: .02em; }}
 .version {{ display: inline-block; background: {BLANC}; border: 1px solid {ASH_GREY}; border-radius: 999px;
-    padding: .4rem 1rem; font-size: .9rem; color: {GUNMETAL}; }}
+    padding: .4rem 1rem; font-size: .9rem; color: {GUNMETAL}; white-space: nowrap; }}
 .barre-recap {{ background: {BLANC}; border-radius: 28px; padding: .8rem 1.6rem; box-shadow: {OMBRE};
     color: {GUNMETAL}; margin: .8rem 0 1.3rem 0; font-size: 1.05rem; }}
 .barre-recap .details-saisies {{ font-size: .8rem; opacity: .8; margin-top: .3rem; line-height: 1.45; }}
 .bandeau {{ background: {BLEU_NUIT}; color: {BLANC}; border-radius: {RAYON_CARTE}; padding: 1.2rem 1.6rem;
     margin-bottom: 1rem; font-size: 1.15rem; }}
+.bandeau .sous-bandeau {{ font-size: .9rem; opacity: .85; margin-top: .3rem; }}
+
+/* ── Onglet Extension et surélévation (maquette du 30/10/2026) ── */
+[class*="st-key-carte_extension"] .titre-carte {{ margin-bottom: 1rem; }}
+.titre-complement {{ font-weight: 400; font-size: 1rem; color: {GUNMETAL}; margin-left: 1.2rem; }}
+.st-key-typologie [data-testid="stWidgetLabel"], .st-key-typologie [role="radiogroup"] {{
+    justify-content: center; }}
+.st-key-typologie [data-testid="stWidgetLabel"] p {{ font-size: 1.15rem; }}
+.st-key-typologie [role="radiogroup"] p {{ font-size: 1.2rem; }}
+.st-key-typologie [role="radiogroup"] {{ gap: 1.5rem; }}
+[class*="st-key-encadre"] {{ border: 2.5px solid {BLEU_NUIT}; border-radius: 16px; padding: .8rem 1rem 1rem 1rem;
+    min-height: 7.2rem; justify-content: center; overflow: visible; }}
+[class*="st-key-encadre_existant"] [data-testid="stWidgetLabel"] {{ justify-content: center; }}
+/* même taille de libellé que « Surface des travaux » ; champ sur le fond des champs du menu (à remplir) */
+[class*="st-key-encadre_existant"] [data-testid="stWidgetLabel"] p {{ font-size: 1.05rem; color: {GUNMETAL};
+    white-space: nowrap; }}
+[class*="st-key-encadre_existant"] [data-testid="stNumberInputContainer"],
+[class*="st-key-encadre_existant"] [data-testid="stNumberInputContainer"] input,
+[class*="st-key-encadre_existant"] [data-testid="stNumberInputContainer"] button {{ background: {FOND}; }}
+.rappel-travaux {{ text-align: center; color: {GUNMETAL}; font-size: 1.05rem; line-height: 1.6; }}
+.valeur-travaux {{ display: inline-block; background: {FOND}; border-radius: 10px; padding: .1rem .9rem;
+    font-weight: 700; font-size: 1.15rem; color: {BLEU_NUIT}; margin-top: .2rem; }}
+.part-existant {{ font-size: .9rem; opacity: .85; margin-top: .4rem; }}
+.bandeau-regime {{ position: relative; }}
+.bandeau-regime::before {{ content: ""; position: absolute; left: -4.2rem; top: 50%; transform: translateY(-50%);
+    border-style: solid; border-width: 1.6rem 0 1.6rem 2.4rem;
+    border-color: transparent transparent transparent {BLEU_NUIT}; }}
+@media (max-width: 900px) {{ .bandeau-regime::before {{ display: none; }} }}
+.bandeau.regime-complete {{ background: {COULEURS_REGIME["complete"][0]}; color: {COULEURS_REGIME["complete"][1]}; }}
+.bandeau.regime-light {{ background: {COULEURS_REGIME["light"][0]}; color: {COULEURS_REGIME["light"][1]}; }}
+.bandeau.regime-moyens {{ background: {COULEURS_REGIME["moyens"][0]}; color: {COULEURS_REGIME["moyens"][1]}; }}
+.bandeau.regime-rt2012 {{ background: {COULEURS_REGIME["rt2012"][0]}; color: {COULEURS_REGIME["rt2012"][1]}; }}
+
+/* ── Menu : lien vers la carte des zones, sur une ligne ── */
+.lien-zones {{ font-size: .82rem; white-space: nowrap; margin: -.4rem 0 .6rem 0; }}
+.lien-zones .ico {{ color: {BRONZE_SPICE}; margin-right: .3rem; }}
+
+/* ── Menu : renvoi vers l'onglet Extension et surélévation, sous la Sref ── */
+.renvoi-onglet {{ font-weight: 600; font-size: .9rem; color: {BLEU_NUIT}; line-height: 1.35; margin: -.3rem 0 .9rem 0; }}
+.renvoi-onglet .ico {{ color: {BRONZE_SPICE}; }}
 
 /* ── Cartes de seuils : fond clair, liseré et bande d'évolution foncés ── */
 .carte-seuil {{ background: var(--clair); border-radius: {RAYON_CARTE}; border-top: 7px solid var(--fonce);

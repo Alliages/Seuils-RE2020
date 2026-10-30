@@ -14,9 +14,9 @@ def alertes(projet):
     messages = []
     usage = donnees.usages()[projet.usage_id]
     # petite construction : première règle qui vise l'usage (donnees/surfaces_minimales.csv)
-    for usages, sref_max, texte in donnees.surfaces_minimales():
+    for usages, sref_limite, texte in donnees.surfaces_minimales():
         if usages is None or projet.usage_id in usages:
-            if projet.sref <= sref_max:
+            if projet.sref < sref_limite:
                 messages.append(texte)
             break
     if projet.zone not in ZONES or projet.altitude not in ALTITUDES or projet.periode_pc not in PERIODES_PC:

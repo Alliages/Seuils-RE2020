@@ -2,12 +2,13 @@
 
 Un outil en ligne qui calcule les six seuils réglementaires de la RE2020 pour un projet
 de construction neuve : Bbio_max, Cep,nr_max, Cep_max, Icénergie_max, Icconstruction_max
-et DH_max.
+et DH_max. Pour une extension ou une surélévation, il indique aussi la réglementation qui
+s'applique.
 
 **Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
 
 > Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
-> Version 0.8.7, version de travail.
+> Version 1.0.0, version initiale.
 
 ![Capture d'écran de l'outil](docs/capture-accueil.png)
 
@@ -36,6 +37,12 @@ Il est fait pour les projets dont le permis de construire est déposé à partir
    seuil reste identique en 2028 et 2031 ou s'il évolue.
 4. **Garder une trace** : voir « Sauvegarder et exporter » ci-dessous.
 
+Pour une **extension ou une surélévation**, saisir la surface des travaux comme Sref dans le
+menu, puis ouvrir l'onglet « Extension et surélévation ». Il indique la réglementation qui
+s'applique, d'après l'article 50-3 de l'arrêté du 4 août 2021, et les seuils à respecter.
+Pour une surélévation climatisée de maison de 50 à 80 m² en zone H2d ou H3, DH_max est porté
+à 1 400 °C.h.
+
 Le menu s'ouvre par défaut. Sur téléphone, il recouvre la page : le refermer avec le
 bouton « « » en haut à gauche.
 
@@ -48,18 +55,12 @@ bouton « « » en haut à gauche.
 - **Télécharger (.txt)** : un fichier texte avec les six seuils, leurs formules et les
   valeurs des modulations. Il existe aussi une copie dans le presse-papiers.
 
-## Les alertes
-
-Une alerte apparaît pour les constructions de **50 m² ou moins** : elles relèvent
-d'exigences de moyens, et non de la RE2020 complète.
-
 ## Ce que l'outil ne fait pas encore
 
-- **Extensions et surélévations** : l'onglet existe mais est en préparation.
+- **Extensions et surélévations** : la réglementation applicable n'est pas encore dans
+  l'export texte.
 - **Projets mixtes** (plusieurs usages dans un même bâtiment) : pas de calcul au prorata
   des surfaces.
-- **IGH** : l'interprétation de la règle pour les immeubles de grande hauteur en 2031 est à
-  confirmer (voir partie 2).
 
 ## Pour en savoir plus sur la réglementation
 
@@ -67,9 +68,59 @@ d'exigences de moyens, et non de la RE2020 complète.
 - [La RE2020 sur Wikipédia](https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020)
 - [Carte des zones climatiques](https://alliages.github.io/zones-climatiques-re2020/)
 
+## Remerciements
+
+Merci à Cédrick Gbegnon, Léonard Forissier et Félix Dubois pour leurs relectures et les
+corrections qu'ils ont signalées dans le classeur Excel, et à Félix Dubois (CSTB) pour le
+passage du classeur à la version 2.0. Merci aussi à Claude, l'assistant d'Anthropic, pour
+son aide dans la conversion du classeur en application.
+
 ---
 
 # Partie 2 : pour les développeurs et les relecteurs
+
+## Comment l'outil est construit
+
+```mermaid
+flowchart TB
+    textes["<b>Textes officiels</b><br/>annexe R. 172-4, décrets, arrêté du 4 août 2021"]
+    excel["<b>Classeur Excel v2.2</b><br/>référence vérifiée"]
+    donnees["<b>donnees/</b><br/>tables CSV, source de chaque valeur"]
+    tests["<b>tests/</b><br/>10 670 cas de référence"]
+    subgraph moteur["Moteur Python : seuils_re2020/"]
+        variables["<b>variables.py</b><br/>constantes en tête"]
+        regles["<b>regles.py</b><br/>choix des règles selon la date"]
+        calculs["<b>calculs.py</b><br/>les six seuils"]
+        travaux["<b>travaux.py</b><br/>extension et surélévation"]
+    end
+    app["<b>app.py + interface/</b><br/>Streamlit : saisie, résultats"]
+    site["<b>Site en ligne</b><br/>seuils-re2020.streamlit.app"]
+
+    textes --> donnees
+    excel --> donnees
+    excel --> tests
+    donnees --> moteur
+    tests -.-> moteur
+    moteur --> app
+    app --> site
+    %% liens invisibles : les quatre modules du moteur sur une même ligne
+    donnees ~~~ variables & regles & calculs & travaux
+
+    classDef source fill:#efefea,stroke:#bdbea9,stroke-width:2px,color:#3f4045
+    classDef donnee fill:#c9eec8,stroke:#8db38b,stroke-width:2px,color:#1f2238
+    classDef code fill:#b9cdf6,stroke:#86a5d9,stroke-width:2px,color:#1f2238
+    classDef ecran fill:#ff9a57,stroke:#c75000,stroke-width:2px,color:#1f2238
+    classDef enligne fill:#1f2238,stroke:#1f2238,color:#ffffff
+    class textes,excel source
+    class donnees,tests donnee
+    class variables,regles,calculs,travaux code
+    class app ecran
+    class site enligne
+    style moteur fill:#ffffff,stroke:#bdbea9,stroke-width:2px,stroke-dasharray:6 4,color:#3f4045
+```
+
+Versions 0.8.x et 0.9.x de travail, puis 1.0.0 · journal dans `CHANGELOG.md` · tests à chaque envoi
+sur GitHub.
 
 ## Installer et lancer en local
 
@@ -123,6 +174,7 @@ seuils_re2020/          moteur de calcul, sans dépendance à Streamlit
   calculs.py            assemblage des six seuils
   export.py             récapitulatif, évolution 2028/2031, export texte
   controles.py          alertes de cohérence des saisies
+  travaux.py            extensions et surélévations : régime applicable (art. 50-3)
   expressions.py        évaluation sûre des formules de donnees/regles.csv
   donnees.py            lecture des tables
 donnees/                valeurs réglementaires et infobulles (CSV, séparateur « ; »)
@@ -144,9 +196,16 @@ ligne indique la cellule du classeur d'où elle provient (colonne `source`).
   écrites en formules lisibles, par exemple `(47.5 - (0.095 * sref)) / bbiomaxmoyen`.
 - **`aides.csv`** : infobulles reprises de la colonne I de l'onglet de saisie du classeur.
   **`aides_complements.csv`** : définitions de l'annexe pour les autres champs.
+- **`travaux_cas.csv`, `travaux_regimes.csv`, `travaux_dh.csv`** : extensions et surélévations
+  (cas testés dans l'ordre, indicateurs exigés, majoration de DH_max), avec le texte source.
+  Saisis à la main d'après les règles validées le 30/10/2026 : ils ne viennent pas du classeur.
 
 Textes de référence : annexe à l'article R. 172-4 du code de la construction et de l'habitation
 (décrets 2021-1004, 2022-305, 2024-1258, 2026-16) et décret n° 2026-200 du 18 mars 2026.
+
+**IGH** (décret n° 2026-200) : la case n'est active que pour un permis de construire déposé à
+partir du 1er juillet 2026. Icconstruction_maxmoyen vaut 95 % de la valeur 2025-2027 pour un
+PC de 2028 à 2030, et 95 % de la valeur 2028 standard pour un PC à partir de 2031.
 
 Après une mise à jour du classeur, régénérer les données puis relancer les tests :
 
@@ -176,17 +235,15 @@ formules), `seuils_re2020/calculs.py` (assemblage des six seuils) et
 
 ## Limites connues
 
-- **Extensions et surélévations** : onglet en préparation.
-- **IGH en 2031** : le classeur retient 95 % de la valeur 2028 standard. Une lecture littérale
-  du décret donnerait 95 % de la valeur IGH 2028. Interprétation à confirmer.
+- **Extensions et surélévations** : le régime n'est pas encore dans l'export texte.
 - **DH Effinergie** : le bonus « exposition au bruit » du classeur ne se déclenche jamais.
   Reproduit tel quel, à corriger d'abord dans le classeur puis ici.
 - **Multi-usages** : pas de calcul au prorata des Sref.
 
 ## Versions
 
-Version 0.8.x tant que l'outil n'est pas validé, puis 0.9. Chiffre pair = évolution importante,
-chiffre impair = correction. Détail dans `CHANGELOG.md`.
+Versions 0.8.x et 0.9.x tant que l'outil n'était pas validé, puis 1.0.0, version initiale.
+Chiffre pair = évolution importante, chiffre impair = correction. Détail dans `CHANGELOG.md`.
 
 ## Licence et crédits
 
@@ -204,7 +261,7 @@ prennent leur valeur par défaut.
 
 Exemple : bureaux (usage 3), altitude 400 à 800 m, tout le reste par défaut :
 
-    https://seuils-re2020.streamlit.app/?v=0.8.7&usage=3&alt=400m-800m
+    https://seuils-re2020.streamlit.app/?v=1.0.0&usage=3&alt=400m-800m
 
 Le paramètre `v` indique la version de l'outil qui a produit le lien. Il n'est pas utilisé
 à la lecture : le lien est recalculé avec la version en ligne.
@@ -224,7 +281,7 @@ Le paramètre `v` indique la version de l'outil qui a produit le lien. Il n'est 
 | `cat` | Catégorie | 1, 2 ou 3 | 1 |
 | `bruit` | Exposition au bruit | BR1, BR2 ou BR3 | BR1 |
 | `clim` | Bâtiment climatisé | 1 ou 0 | 0 |
-| `igh` | Immeuble de grande hauteur | 1 ou 0 | 0 |
+| `igh` | Immeuble de grande hauteur (PC à partir du 1er juillet 2026) | 1 ou 0 | 0 |
 | `rcu` | Raccordé à un réseau de chaleur | 1 ou 0 | 0 |
 | `classe` | Réseau classé | 1 ou 0 | 0 |
 | `inertie` | Classe d'inertie | `Très légère, légère ou moyenne`, `Lourde ou très lourde` | `Lourde ou très lourde` |
@@ -232,6 +289,8 @@ Le paramètre `v` indique la version de l'outil qui a produit le lien. Il n'est 
 | `lot2` | Lot 2 – fondations et infrastructure | nombre ≥ 0 | 0 |
 | `lot13` | Lot 13 – production locale d'électricité | nombre ≥ 0 | 0 |
 | `ded` | Données par défaut et forfaits (Icded) | nombre ≥ 0 | 0 |
+| `travaux` | Type de travaux (onglet Extension et surélévation) | `extension`, `surelevation` | `extension` |
+| `sexist` | Sref des locaux existants (m²) | nombre ≥ 1 | 1000 |
 
 Règles d'écriture :
 

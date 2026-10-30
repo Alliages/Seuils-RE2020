@@ -16,6 +16,9 @@ from .variables import (INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYE
 ESPACE_MILLIERS = " "          # espace fine insécable, typographie française
 AVERTISSEMENT = "Document non officiel, à utiliser avec toutes les vérifications nécessaires."
 LARGEUR_LIBELLE = 20
+DH_REFERENCE = 1250             # DH_maxcat du logement en catégorie 1, non climatisé (°C.h)
+SMOYLGT_DH = 60                 # logements collectifs : DH_max dépend de Smoylgt jusqu'à 60 m²
+ZONES_CHAUDES = {"H2d", "H3"}
 
 
 # ─── Mise en forme ───────────────────────────────────────────────────────────
@@ -118,6 +121,24 @@ def formules(cle, nom, resultat):
 
 
 # ─── Évolution aux jalons ────────────────────────────────────────────────────
+def explication_dh(projet, valeur):
+    """Pourquoi DH_max dépasse 1 250 °C.h (texte vide sinon) : catégorie 2, climatisation en zone chaude…"""
+    if not isinstance(valeur, (int, float)) or valeur <= DH_REFERENCE:
+        return ""
+    raisons = []
+    if projet.categorie == 2:
+        raisons.append("le bâtiment est en catégorie 2 de contraintes extérieures : DH_maxcat est plus élevé")
+    elif projet.climatise and projet.zone in ZONES_CHAUDES:
+        raisons.append("la partie de bâtiment est climatisée en zone H2d ou H3 : DH_maxcat est majoré")
+    if projet.usage_id == USAGE_LOGEMENT_COLLECTIF and projet.sref / projet.nb_logements <= SMOYLGT_DH and raisons:
+        raisons.append(f"en logement collectif, la valeur dépend aussi de la surface moyenne des logements "
+                       f"(Smoylgt ≤ {SMOYLGT_DH} m²)")
+    if not raisons:
+        raisons.append("la valeur DH_maxcat de cet usage est plus élevée que celle du logement")
+    return (f"DH_max dépasse {nombre_fr(DH_REFERENCE, 0)} °C.h (valeur du logement en catégorie 1, non climatisé) "
+            "parce que " + " ; ".join(raisons) + ".")
+
+
 def evolution(projet):
     """{'2028': {indicateur: valeur}, '2031': {…}} pour les jalons postérieurs à la période saisie."""
     rang = PERIODES_PC.index(projet.periode_pc)

@@ -1,0 +1,2 @@
+condition;dh_max;texte;source
+maison and typologie == 'surelevation' and sref >= 50 and sref <= 80 and climatise and (zoneclim == 'h2d' or zoneclim == 'h3');1400;Surélévation climatisée de maison de 50 à 80 m² en zone H2d ou H3 : DH_maxcat porté à 1 400 °C.h.;Arrêté du 4 août 2021 art. 50-3, II (surélévations climatisées de maisons individuelles en H2d ou H3), modifié par l'arrêté du 18 mars 2026 · règle validée le 30/10/2026 (bornes 50 et 80 m² comprises, régime RE2020 complète)

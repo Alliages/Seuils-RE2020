@@ -10,7 +10,9 @@ Exemple :
 from .calculs import Resultat, calculer
 from .controles import alertes
 from .regles import Projet, decret_2026_applicable
+from .travaux import Regime, regime_travaux
 from .variables import VERSION
 
 __version__ = VERSION
-__all__ = ["Projet", "Resultat", "calculer", "alertes", "decret_2026_applicable", "__version__"]
+__all__ = ["Projet", "Resultat", "calculer", "alertes", "decret_2026_applicable", "Regime", "regime_travaux",
+           "__version__"]

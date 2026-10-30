@@ -7,7 +7,7 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "0.8.7"
+VERSION = "1.0.0"
 EXCEL_REFERENCE = "calcul_seuils_RE2020_NU v2.2"     # classeur d'où viennent donnees/ (README)
 
 # ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────
@@ -31,6 +31,12 @@ USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF = 1, 2
 USAGES_LOGEMENT = {USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF}
 USAGES_EFFINERGIE = {1, 2, 3, 4, 5}                  # label Effinergie : logements, bureaux, enseignement
 SEUIL_AGREMENT = 0.10                                # Miagrément_ext s'applique au-delà de 10 % de la Sref
+
+# ─── Extensions et surélévations (onglet dédié, donnees/travaux_*.csv) ───────
+TYPOLOGIES_TRAVAUX = {"extension": "Extension", "surelevation": "Surélévation"}
+# Usages hors « activités tertiaires spécifiques, usage industriel ou artisanal » (numéros de donnees/usages.csv) :
+# maisons, logements collectifs, bureaux, enseignement primaire et secondaire. Tous les autres usages en relèvent.
+USAGES_HORS_TERTIAIRE_SPECIFIQUE = {1, 2, 3, 4, 5}
 
 # Évolution affichée sous chaque seuil : jalon -> période de dépôt correspondante
 JALONS_FUTURS = {"2028": "2028 à 2030", "2031": "à partir de 2031"}

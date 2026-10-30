@@ -1,0 +1,5 @@
+regime;libelle;indicateurs;texte;source
+complete;RE2020 complète;bbio_max,cepnr_max,cep_max,icenergie_max,icconstruction_max,dh_max;Les six seuils s'appliquent, comme pour une construction neuve.;Art. R. 172-4 du CCH
+light;RE2020 light;bbio_max,icconstruction_max,dh_max;Seuls Bbio_max, Icconstruction_max et DH_max s'appliquent, avec les exigences des articles 23 à 26 et 29 de l'arrêté (article 22 sauf pour le premier niveau créé en surélévation).;Art. 50-3, II de l'arrêté du 4 août 2021 (1°, 4° et 5° de l'art. R. 172-4 du CCH)
+moyens;Exigences de moyens;;Aucun seuil de performance : des exigences par élément s'appliquent (parois, menuiseries, ponts thermiques, émetteurs, pompes à chaleur, éclairage…).;Art. 50-3, III de l'arrêté du 4 août 2021
+rt2012;RT2012;;La RE2020 ne s'applique pas : ce sont les exigences de la RT2012 qui s'appliquent. Aucun seuil RE2020 n'est donné.;Guide RE2020 du CEREMA, version septembre 2026 (activités tertiaires spécifiques, usage industriel ou artisanal)

@@ -1,0 +1,9 @@
+ordre;condition;regime;cas;source
+1;tertiaire_specifique and sref < 50;rt2012;Tertiaire spécifique, industrie ou artisanat, moins de 50 m²;Guide RE2020 du CEREMA, version septembre 2026 (activités tertiaires spécifiques, usage industriel ou artisanal)
+2;tertiaire_specifique and sref >= 50 and sref <= 150 and part < 0.30;rt2012;Tertiaire spécifique, industrie ou artisanat, de 50 à 150 m², moins de 30 % de l'existant;Guide RE2020 du CEREMA, version septembre 2026 (activités tertiaires spécifiques, usage industriel ou artisanal)
+3;sref < 50;moyens;Moins de 50 m²;Arrêté du 4 août 2021 art. 50-3, I (III, 1re puce : constructions et extensions, y compris les surélévations, « inférieure à 50 m² »)
+4;maison and typologie == 'extension' and sref >= 50 and sref <= 80;light;Extension de maison, de 50 à 80 m²;Arrêté du 4 août 2021 art. 50-3, I (II, 1re puce : extensions de maison individuelle) · bornes comprises (règle validée le 30/10/2026)
+5;not maison and sref >= 50 and sref <= 150 and part < 0.30;moyens;Hors maison, de 50 à 150 m², moins de 30 % de l'existant;Arrêté du 4 août 2021 art. 50-3, I (III, 2e puce : extensions, y compris les surélévations, à usage autre que de maison individuelle) · bornes comprises (règle validée le 30/10/2026)
+6;typologie == 'surelevation' and not maison and sref >= 50 and sref <= 150 and part >= 0.30;light;Surélévation hors maison, de 50 à 150 m², 30 % de l'existant ou plus;Arrêté du 4 août 2021 art. 50-3, I (II), modifié par l'arrêté du 18 mars 2026 · bornes comprises (règle validée le 30/10/2026)
+7;typologie == 'surelevation' and not maison and sref > 150 and part < 0.30;light;Surélévation hors maison, plus de 150 m², moins de 30 % de l'existant;Arrêté du 4 août 2021 art. 50-3, I (II), modifié par l'arrêté du 18 mars 2026
+8;True;complete;Tous les autres cas (dont toute surélévation de maison de 50 m² ou plus et toute extension de maison de plus de 80 m²);Art. R. 172-4 du CCH : les six exigences s'appliquent
