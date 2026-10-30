@@ -16,7 +16,8 @@ Réunit les versions de travail 0.9.0-beta à 0.9.9, jamais publiées séparéme
   95 % de la valeur 2028 standard (lecture du classeur, validée).
 - README repris de la version relue par l'auteur ; adresse du dépôt en minuscules
   (github.com/alliages/seuils-re2020).
-- Tests : 72.
+- Tests : 72. Correctif : les tests GitHub Actions échouaient depuis 0.8.5 (`pytest` ne trouvait pas
+  `seuils_re2020`) ; `pytest.ini` ajoute le dossier du projet au chemin de Python.
 
 ## 0.9.9 — 30 octobre 2026
 
