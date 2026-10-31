@@ -279,6 +279,8 @@ with onglet_extension:
         with case_existant.container(key="encadre_existant"):
             st.number_input(I.ico_libelle("sexistant", f"Sref des locaux existants ({unite_sref})"), min_value=1.0,
                             step=10.0, key="sexistant", help=aide("sexistant"))
+            # sur téléphone, la valeur n'est transmise qu'après validation (Entrée ou appui ailleurs)
+            st.caption("Valider avec Entrée ou en touchant ailleurs.")
         regime = regime_travaux(usage, etat["typologie"], projet.sref, etat["sexistant"], projet.zone,
                                 projet.climatise)
         with case_travaux.container(key="encadre_travaux"):
