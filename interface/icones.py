@@ -11,7 +11,7 @@ MENU = "tune"
 ONGLETS = {"neuf": "domain_add", "extension": "add_home_work"}
 ETAPES = {"batiment": "apartment", "permis": "description", "contraintes": "noise_aware",
           "carbone": "co2", "reseau": "heat"}
-CHAMPS = {"usage": "category", "departement": "location_on", "altitude": "landscape", "sref": "square_foot",
+CHAMPS = {"usage_id": "category", "departement": "location_on", "altitude": "landscape", "sref": "square_foot",
           "nb_logements": "door_front", "scombles": "roofing", "hsp": "height", "sagrement": "balcony",
           "igh": "domain", "periode_pc": "calendar_month", "pc_apres_juillet_2026": "event",
           "categorie": "warning", "exposition_bruit": "volume_up", "climatise": "ac_unit",
@@ -25,7 +25,7 @@ CARTES = {"detail": "functions", "partage": "link", "export": "download", "effin
 LIENS = {"officiel": "account_balance", "wikipedia": "public", "zones": "map", "depot": "code"}
 DIVERS = {"bandeau": "event", "recap": "summarize", "telecharger": "file_download", "copier": "content_copy",
           "stable": "trending_flat", "baisse": "trending_down", "hausse": "trending_up", "alerte": "warning",
-          "en_cours": "construction", "info": "info"}
+          "info": "info"}
 COULEUR_LIBELLE = "orange"        # couleur Streamlit « orange » = Bronze Spice (.streamlit/config.toml)
 
 

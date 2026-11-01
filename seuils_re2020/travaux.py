@@ -5,14 +5,10 @@ Les cas, les régimes et la majoration de DH_max sont dans donnees/travaux_*.csv
 le premier cas vrai, dans l'ordre du fichier, donne le régime (même principe que le classeur).
 """
 from dataclasses import dataclass, field
-from functools import lru_cache
 
 from . import donnees
 from .expressions import evaluer
-from .variables import TYPOLOGIES_TRAVAUX, USAGE_MAISON, USAGES_HORS_TERTIAIRE_SPECIFIQUE
-
-# ─── Paramètres ──────────────────────────────────────────────────────────────
-DECIMALES_PART = 6            # arrondi de la part de l'existant : 90 / 300 donne bien 0,30 pile
+from .variables import DECIMALES_PART, TYPOLOGIES_TRAVAUX, USAGE_MAISON, USAGES_HORS_TERTIAIRE_SPECIFIQUE
 
 
 @dataclass
@@ -32,20 +28,6 @@ class Regime:
     cas_testes: list = field(default_factory=list)   # [(ordre, cas, régime, vrai ?)] pour l'affichage
 
 
-@lru_cache(maxsize=None)
-def cas():
-    """[(ordre, condition, régime, cas, source)] dans l'ordre du fichier."""
-    return [(int(l["ordre"]), l["condition"], l["regime"], l["cas"], l["source"]) for l in donnees.table("travaux_cas")]
-
-
-@lru_cache(maxsize=None)
-def regimes():
-    """{régime: {libelle, indicateurs, texte, source}}"""
-    return {l["regime"]: {"libelle": l["libelle"], "texte": l["texte"], "source": l["source"],
-                          "indicateurs": [i for i in l["indicateurs"].split(",") if i]}
-            for l in donnees.table("travaux_regimes")}
-
-
 def variables_travaux(usage_id, typologie, sref, sexistant, zone="", climatise=False):
     """Variables des conditions de donnees/travaux_*.csv (textes en minuscules)."""
     return {"typologie": typologie, "maison": usage_id == USAGE_MAISON,
@@ -60,13 +42,14 @@ def regime_travaux(usage_id, typologie, sref, sexistant, zone="", climatise=Fals
         raise ValueError(f"typologie inconnue : {typologie}")
     v = variables_travaux(usage_id, typologie, sref, sexistant, zone, climatise)
     testes, retenu = [], None
-    for ordre, condition, regime, libelle_cas, source in cas():
+    regimes = donnees.travaux_regimes()
+    for ordre, condition, regime, libelle_cas, source in donnees.travaux_cas():
         vrai = retenu is None and bool(evaluer(condition, v))
-        testes.append((ordre, libelle_cas, regimes()[regime]["libelle"], vrai))
+        testes.append((ordre, libelle_cas, regimes[regime]["libelle"], vrai))
         if vrai:
             retenu = (ordre, regime, libelle_cas, source)
     ordre, cle, libelle_cas, source_cas = retenu             # la dernière ligne du fichier est toujours vraie
-    r = regimes()[cle]
+    r = regimes[cle]
     resultat = Regime(cle=cle, libelle=r["libelle"], indicateurs=r["indicateurs"], texte=r["texte"],
                       source=r["source"], cas=libelle_cas, source_cas=source_cas, ordre_cas=ordre,
                       part=v["part"], cas_testes=testes)

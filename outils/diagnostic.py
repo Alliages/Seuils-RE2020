@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tests"))
-from test_cas_reference import INDICATEURS, identiques, lire_cas, projet_depuis  # noqa: E402
+from test_cas_reference import INDICATEURS, attendu, identiques, lire_cas, projet_depuis  # noqa: E402
 
 from seuils_re2020 import calculs, regles                    # noqa: E402
 from seuils_re2020.expressions import NonApplicable          # noqa: E402
@@ -34,12 +34,12 @@ for l in lire_cas():
     p = projet_depuis(l)
     r = calculs.calculer(p)
     for ind in INDICATEURS:
-        if not identiques(l[ind], r[ind].valeur):
+        if not identiques(attendu(l, ind), r[ind].valeur):
             cle = (ind, l["usage_id"], cause(p, ind))
             compte[cle] += 1
             if len(exemples[cle]) < NB_EXEMPLES:
                 exemples[cle].append(f"{l['groupe']} {l['periode_pc']} {l['zone']} sref={l['sref']} "
-                                     f"Excel={l[ind]} moteur={r[ind].valeur}")
+                                     f"Excel={attendu(l, ind)} moteur={r[ind].valeur}")
 for cle, n in sorted(compte.items(), key=lambda x: -x[1]):
     print(n, cle)
     for e in exemples[cle]:

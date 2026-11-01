@@ -7,6 +7,11 @@ from functools import lru_cache
 from .variables import DOSSIER_DONNEES, SEPARATEUR_CSV
 
 
+def _ids(texte):
+    """Colonne « usages » : '*' -> None (tous les usages), '1,2' -> {1, 2}."""
+    return None if texte == "*" else {int(x) for x in texte.split(",")}
+
+
 def _nombre(texte):
     """'0.15' -> 0.15 ; 'NA' -> None (valeur absente dans le texte réglementaire)."""
     if texte in ("NA", "", None):
@@ -66,12 +71,8 @@ def seuils_lots():
 @lru_cache(maxsize=None)
 def regles(coefficient):
     """Règles d'un coefficient, dans l'ordre du classeur (la première vraie l'emporte)."""
-    sortie = []
-    for l in table("regles"):
-        if l["coefficient"] == coefficient:
-            ids = None if l["usages"] == "*" else {int(x) for x in l["usages"].split(",")}
-            sortie.append((ids, l["condition"], l["formule"], l["source"]))
-    return sortie
+    return [(_ids(l["usages"]), l["condition"], l["formule"], l["source"])
+            for l in table("regles") if l["coefficient"] == coefficient]
 
 
 @lru_cache(maxsize=None)
@@ -85,5 +86,19 @@ def aides():
 @lru_cache(maxsize=None)
 def surfaces_minimales():
     """[(usages ou None pour tous, Sref limite exclue, message)] : petites constructions hors RE2020 complète."""
-    return [(None if l["usages"] == "*" else {int(x) for x in l["usages"].split(",")}, float(l["sref_limite"]), l["texte"])
-            for l in table("surfaces_minimales")]
+    return [(_ids(l["usages"]), float(l["sref_limite"]), l["texte"]) for l in table("surfaces_minimales")]
+
+
+# ─── Extensions et surélévations ─────────────────────────────────────────────
+@lru_cache(maxsize=None)
+def travaux_cas():
+    """[(ordre, condition, régime, cas, source)] dans l'ordre du fichier."""
+    return [(int(l["ordre"]), l["condition"], l["regime"], l["cas"], l["source"]) for l in table("travaux_cas")]
+
+
+@lru_cache(maxsize=None)
+def travaux_regimes():
+    """{régime: {libelle, indicateurs, texte, source}}"""
+    return {l["regime"]: {"libelle": l["libelle"], "texte": l["texte"], "source": l["source"],
+                          "indicateurs": [i for i in l["indicateurs"].split(",") if i]}
+            for l in table("travaux_regimes")}

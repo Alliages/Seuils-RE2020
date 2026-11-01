@@ -9,14 +9,19 @@ import pytest
 
 from seuils_re2020 import Projet, calculer, decret_2026_applicable
 from seuils_re2020.expressions import evaluer
-from seuils_re2020.variables import TOLERANCE_TESTS
+from seuils_re2020.variables import INDICATEURS as INDICATEURS_SEUILS, ZONES_CHAUDES
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 FICHIER_CAS = Path(__file__).parent / "cas_reference.csv"
-INDICATEURS = ["bbio_max", "cepnr_max", "cep_max", "icenergie_max", "icconstruction_max",
-               "dh_max", "dh_effinergie"]
+INDICATEURS = [cle for cle, *_ in INDICATEURS_SEUILS] + ["dh_effinergie"]
 TEXTES_NON_APPLICABLE = {"erreur", "non applicable"}
 NB_ECARTS_AFFICHES = 25
+TOLERANCE = 1e-6
+# Correction du moteur (1.0.2) que le classeur v2.2 n'a pas encore : bonus bruit de DH Effinergie
+# (Calcul_dh!S8 compare expobruit au texte « BR2,BR3 », donc jamais vrai). À retirer quand le
+# classeur corrigé aura servi à régénérer cas_reference.csv.
+BONUS_BRUIT_EFFINERGIE = 130
+USAGES_BONUS_BRUIT = {1, 2}
 
 
 def lire_cas():
@@ -37,6 +42,14 @@ def projet_depuis(l):
         classe_inertie=l["classe_inertie"])
 
 
+def attendu(l, ind):
+    """Valeur du classeur, corrigée du bonus bruit de DH Effinergie (voir paramètres)."""
+    if (ind == "dh_effinergie" and int(l["usage_id"]) in USAGES_BONUS_BRUIT and l["zone"] not in ZONES_CHAUDES
+            and l["exposition_bruit"] in ("BR2", "BR3")):
+        return repr(float(l[ind]) + BONUS_BRUIT_EFFINERGIE)
+    return l[ind]
+
+
 def identiques(attendu, obtenu):
     """Même nombre (à la tolérance près), même texte, ou « non applicable » des deux côtés."""
     try:
@@ -46,7 +59,7 @@ def identiques(attendu, obtenu):
         if attendu.lower() in TEXTES_NON_APPLICABLE:
             return texte in TEXTES_NON_APPLICABLE
         return texte == attendu.lower()
-    return isinstance(obtenu, (int, float)) and abs(a - obtenu) <= TOLERANCE_TESTS * max(1.0, abs(a))
+    return isinstance(obtenu, (int, float)) and abs(a - obtenu) <= TOLERANCE * max(1.0, abs(a))
 
 
 def test_tous_les_cas_du_classeur():
@@ -55,9 +68,9 @@ def test_tous_les_cas_du_classeur():
     for n, l in enumerate(cas, start=2):
         resultats = calculer(projet_depuis(l))
         for ind in INDICATEURS:
-            if not identiques(l[ind], resultats[ind].valeur):
+            if not identiques(attendu(l, ind), resultats[ind].valeur):
                 ecarts.append(f"ligne {n} [{l['groupe']}] usage {l['usage_id']} {ind} : "
-                              f"Excel {l[ind]} / moteur {resultats[ind].valeur}")
+                              f"Excel {attendu(l, ind)} / moteur {resultats[ind].valeur}")
     assert not ecarts, f"{len(ecarts)} écarts sur {len(cas)} cas :\n" + "\n".join(ecarts[:NB_ECARTS_AFFICHES])
 
 
@@ -73,3 +86,10 @@ def test_date_du_decret_2026(periode, apres_juillet, attendu):
 def test_les_expressions_refusent_le_code_arbitraire():
     with pytest.raises(ValueError):
         evaluer("__import__('os').system('echo')", {})
+
+
+@pytest.mark.parametrize("bruit, bonus", [("BR1", 0), ("BR2", 130), ("BR3", 130)])
+def test_bonus_bruit_dh_effinergie(bruit, bonus):
+    p = Projet(usage_id=2, zone="H1a", altitude="<400m", sref=3000, periode_pc="2028 à 2030", nb_logements=50,
+               exposition_bruit=bruit)
+    assert calculer(p)["dh_effinergie"].valeur == 600 + bonus     # inertie lourde, Smoylgt ≥ 30 m² : bonus bruit seul

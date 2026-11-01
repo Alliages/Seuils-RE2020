@@ -34,18 +34,22 @@ class Projet:
     classe_inertie: str = "Lourde ou très lourde"   # pour le DH Effinergie seulement
 
 
-def decret_2026_applicable(projet):
+def decret_applicable(periode_pc, pc_apres_juillet_2026):
     """Le décret n° 2026-200 s'applique aux PC déposés à partir du 01/07/2026."""
-    if projet.periode_pc in PERIODES_APRES_DECRET:
+    if periode_pc in PERIODES_APRES_DECRET:
         return True
-    return projet.periode_pc == PERIODE_DECOUPEE_2026 and projet.pc_apres_juillet_2026
+    return periode_pc == PERIODE_DECOUPEE_2026 and pc_apres_juillet_2026
 
 
-def variables(projet, **supplement):
+def decret_2026_applicable(projet):
+    return decret_applicable(projet.periode_pc, projet.pc_apres_juillet_2026)
+
+
+def variables(projet):
     """Variables utilisées par les expressions de donnees/regles.csv (textes en minuscules)."""
     usage = donnees.usages()[projet.usage_id]
     oui = lambda b: "oui" if b else "non"
-    v = {
+    return {
         "usage": usage["principal"].replace("\xa0", " ").strip().lower(),
         "usage_detaille": usage["detaille"].replace("\xa0", " ").strip().lower(),
         "sref": float(projet.sref),
@@ -66,8 +70,6 @@ def variables(projet, **supplement):
         "iclot2": float(projet.iclot2), "iclot13": float(projet.iclot13),
         "classe_inertie": projet.classe_inertie.lower(),
     }
-    v.update(supplement)
-    return v
 
 
 def appliquer(coefficient, projet, vars_):
@@ -84,14 +86,6 @@ def appliquer(coefficient, projet, vars_):
     if defaut is not None:
         return _valeur(evaluer(defaut, vars_))
     raise NonApplicable(f"aucune règle {coefficient} pour l'usage {projet.usage_id}")
-
-
-def source(coefficient, projet, vars_):
-    """Cellule Excel de la règle retenue (pour l'affichage du détail)."""
-    for ids, condition, _formule, src in donnees.regles(coefficient):
-        if (ids is None or projet.usage_id in ids) and condition != "defaut" and evaluer(condition, vars_):
-            return src
-    return "défaut"
 
 
 def _valeur(x):

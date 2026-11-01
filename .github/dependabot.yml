@@ -1,0 +1,11 @@
+# Propositions automatiques de mise à jour : dépendances Python et actions GitHub, une fois par mois.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

@@ -1,22 +1,18 @@
 """
 Génère la matrice de cas de test : chaque cas porte les entrées Excel (cellules de
-Input_resultats). Le champ « js » a servi à l'audit du calculateur tiers mon-calculateur-RE2020.
+Input_resultats) et une description lisible (« meta »).
 Chaîne complète : banc/dump.py -> banc/gen_cas.py -> banc/excel_driver.py (LibreOffice)
 -> creer_cas_reference.py -> tests/cas_reference.csv
 Usage : python3 gen_cas.py <dossier_dump> <sortie.json>
 """
-import itertools, json, re, sys, collections
+import ast, collections, itertools, json, re, sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from seuils_re2020.variables import ALTITUDES, PERIODES_PC as PERIODES, ZONES  # noqa: E402
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 DUMP, SORTIE = sys.argv[1:3]
-ZONES = ["H1a", "H1b", "H1c", "H2a", "H2b", "H2c", "H2d", "H3"]
-PERIODES = [  # (libellé Excel, année JS, apresJuillet2026)
-    ("2022 à 2024", 2023, False),
-    ("2025 à 2027", 2026, True),
-    ("2028 à 2030", 2029, True),
-    ("à partir de 2031", 2032, True),
-]
-ALTITUDES = [("<400m", 200), ("400m-800m", 600), (">800m", 1000)]
 SREF_DEFAUT = {1: 120, 2: 3000}           # sinon 2000 m²
 SMOY_LC = 60                               # m² par logement (LC)
 SREFS_BALAYAGE = [40, 80, 100, 120, 150, 200, 300, 600, 1000, 2000, 4000, 8000, 15000]
@@ -33,8 +29,8 @@ def lire_dump(fichier):
 
 # ─── Usages détaillés (1..28) → (usage Excel, usage secondaire) ─────────────
 enum = lire_dump(f"{DUMP}/Enumération.txt")
-detail = [eval(enum[f"E{r}"]) for r in range(4, 32)]
-listes_sec = [eval(enum[f"{col}{r}"]) for col in "FGHIJK" for r in range(4, 8) if f"{col}{r}" in enum]
+detail = [ast.literal_eval(enum[f"E{r}"]) for r in range(4, 32)]
+listes_sec = [ast.literal_eval(enum[f"{col}{r}"]) for col in "FGHIJK" for r in range(4, 8) if f"{col}{r}" in enum]
 USAGES = {}
 for i, d in enumerate(detail, start=1):
     if " - " in d:
@@ -49,7 +45,7 @@ zc = lire_dump(f"{DUMP}/zone_climatique.txt")
 lignes = collections.defaultdict(dict)
 for adr, v in zc.items():
     m = re.match(r"([A-Z]+)(\d+)$", adr)
-    lignes[int(m[2])][m[1]] = eval(v)
+    lignes[int(m[2])][m[1]] = ast.literal_eval(v)
 DEPT = {}
 for r in sorted(lignes):
     l = lignes[r]
@@ -61,10 +57,10 @@ assert len(DEPT) == 8, DEPT
 def cas(usage, zone="H2b", alt=ALTITUDES[0], periode=PERIODES[2], sref=None, smoy=None,
         bruit="BR1", cat=1, clim=False, rcu=False, rcu_classe=False, igh=False,
         sagr=0.0, hsp=2.5, lot1=0, lot2=0, lot13=0, ded=0, scombles=0, groupe=""):
-    """Construit un cas en double représentation Excel / JS."""
+    """Construit un cas : cellules Excel saisies et description lisible."""
     sref = sref or SREF_DEFAUT.get(usage, 2000)
     if usage == 1:
-        nl, smoy = 1, sref                      # l'UI JS force smoylgt = Sref pour une maison
+        nl, smoy = 1, sref                      # maison : un logement, Smoylgt = Sref
     elif usage == 2:
         smoy = smoy or SMOY_LC
         nl = sref / smoy
@@ -73,26 +69,18 @@ def cas(usage, zone="H2b", alt=ALTITUDES[0], periode=PERIODES[2], sref=None, smo
     principal, sec = USAGES[usage]
     oui = lambda b: "OUI" if b else "NON"
     excel = {
-        "E4": principal, "E5": sec, "E6": DEPT[zone], "E7": "-", "E9": alt[0],
-        "E10": sref, "E11": scombles, "E12": nl, "E14": bruit, "E15": periode[0],
+        "E4": principal, "E5": sec, "E6": DEPT[zone], "E7": "-", "E9": alt,
+        "E10": sref, "E11": scombles, "E12": nl, "E14": bruit, "E15": periode,
         "E16": lot1, "E17": lot2, "E18": lot13, "E19": ded,
         "E20": oui(rcu), "E21": oui(rcu_classe), "E22": f"Catégorie {cat}",
         "E23": oui(clim), "E25": oui(igh), "E26": sagr * sref, "E27": hsp,
         "E29": "Lourde ou très lourde",
     }
-    js = {
-        "usage": usage, "anneePC": periode[1], "apresJuillet2026": periode[2],
-        "zone": zone, "altitude": alt[1], "sref": sref, "smoylgt": smoy,
-        "bruit": "BR1" if bruit == "BR1" else "BR2BR3",   # comme l'UI (case à cocher)
-        "categorie": f"cat{cat}", "climatise": clim, "rcu": rcu, "hsp": hsp, "igh": igh,
-        "sagrementExt": sagr * sref, "icLot1": lot1, "icLot2": lot2, "icLot13": lot13,
-        "icDed": ded, "scombles": scombles,
-    }
-    meta = dict(groupe=groupe, usage=usage, zone=zone, alt=alt[0], periode=periode[0],
+    meta = dict(groupe=groupe, usage=usage, zone=zone, alt=alt, periode=periode,
                 sref=sref, smoy=smoy, bruit=bruit, cat=cat, clim=clim, rcu=rcu,
                 rcu_classe=rcu_classe, igh=igh, sagr=sagr, hsp=hsp, lot1=lot1, lot2=lot2,
                 lot13=lot13, ded=ded, scombles=scombles)
-    return {"excel": excel, "js": js, "meta": meta}
+    return {"excel": excel, "meta": meta}
 
 
 liste = []

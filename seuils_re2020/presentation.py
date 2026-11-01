@@ -1,5 +1,6 @@
 """
-Récapitulatif du projet, évolution des seuils aux jalons 2028 et 2031, export en texte.
+Présentation des résultats : mise en forme des nombres et des libellés, récapitulatif,
+champs utiles selon l'usage, formules, évolution aux jalons 2028 et 2031, export en texte.
 
 Module sans dépendance à Streamlit : utilisable en ligne de commande ou par une autre interface.
 """
@@ -8,17 +9,16 @@ from datetime import date
 
 from . import donnees
 from .calculs import calculer
-from .variables import (INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYENS, PERIODES_PC,
-                        TERMES_ADDITIFS, USAGE_LOGEMENT_COLLECTIF, USAGE_MAISON, USAGES_EFFINERGIE,
-                        USAGES_LOGEMENT, VERSION)
+from .variables import (DH_REFERENCE, INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYENS, PERIODE_DECOUPEE_2026,
+                        PERIODES_PC, SMOYLGT_DH, TERMES_ADDITIFS, USAGE_LOGEMENT_COLLECTIF, USAGE_MAISON,
+                        USAGES_EFFINERGIE, USAGES_LOGEMENT, VERSION, ZONES_CHAUDES)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 ESPACE_MILLIERS = " "          # espace fine insécable, typographie française
 AVERTISSEMENT = "Document non officiel, à utiliser avec toutes les vérifications nécessaires."
+MENTION_TRAVAUX = ("Extension et surélévation : non exportées. Le régime applicable et les seuils exigés "
+                   "sont à lire dans l'onglet « Extension et surélévation » de l'outil.")
 LARGEUR_LIBELLE = 20
-DH_REFERENCE = 1250             # DH_maxcat du logement en catégorie 1, non climatisé (°C.h)
-SMOYLGT_DH = 60                 # logements collectifs : DH_max dépend de Smoylgt jusqu'à 60 m²
-ZONES_CHAUDES = {"H2d", "H3"}
 
 
 # ─── Mise en forme ───────────────────────────────────────────────────────────
@@ -34,6 +34,11 @@ def libelle_usage(usage_id):
     return donnees.usages()[usage_id]["detaille"].replace("_", " ").replace("\xa0", " ").strip()
 
 
+def unite_surface(usage_id):
+    """Unité de la Sref : surface habitable pour les logements, surface utile sinon."""
+    return "m² SHAB" if usage_id in USAGES_LOGEMENT else "m² SU"
+
+
 def libelle_departement(nom):
     """« 75 – Paris (H1a) » : numéro, nom, zone climatique."""
     numero, zone = donnees.departements()[nom]
@@ -46,20 +51,20 @@ def coef_fr(valeur, decimales=4):
     return f"{'−' if valeur < 0 and absolu != '0' else '+'} {absolu}"
 
 
-def libelle_depot(projet):
+def libelle_depot(projet, majuscule=False):
     """Date de dépôt du permis de construire, en clair."""
-    texte = f"permis de construire (PC) déposé : {projet.periode_pc}"
-    if projet.periode_pc == "2025 à 2027":
+    texte = f"{'P' if majuscule else 'p'}ermis de construire (PC) déposé : {projet.periode_pc}"
+    if projet.periode_pc == PERIODE_DECOUPEE_2026:
         texte += ", à partir du 1er juillet 2026" if projet.pc_apres_juillet_2026 else ", avant le 1er juillet 2026"
     return texte
 
 
-def champs_visibles(usage_id, periode_pc):
+def champs_utiles(usage_id, periode_pc):
     """Champs de saisie utiles pour cet usage (les autres sont sans effet sur les seuils)."""
     return {"nb_logements": usage_id in USAGES_LOGEMENT, "scombles": usage_id == USAGE_MAISON,
             "hsp": usage_id in USAGES_LOGEMENT, "sagrement": usage_id == USAGE_LOGEMENT_COLLECTIF,
             "igh": usage_id != USAGE_MAISON, "classe_inertie": usage_id in USAGES_EFFINERGIE,
-            "pc_apres_juillet_2026": periode_pc == "2025 à 2027"}
+            "pc_apres_juillet_2026": periode_pc == PERIODE_DECOUPEE_2026}
 
 
 def taux_agrement(projet):
@@ -81,9 +86,9 @@ def recapitulatif(projet, departement=None):
 
 def details(projet):
     """Toutes les autres saisies utiles, sur une ligne (affichée en petit sous le récapitulatif)."""
-    visible = champs_visibles(projet.usage_id, projet.periode_pc)
+    visible = champs_utiles(projet.usage_id, projet.periode_pc)
     oui_non = lambda b: "oui" if b else "non"
-    morceaux = [libelle_depot(projet)[0].upper() + libelle_depot(projet)[1:],
+    morceaux = [libelle_depot(projet, majuscule=True),
                 f"bruit {projet.exposition_bruit}", f"climatisé : {oui_non(projet.climatise)}"]
     if visible["igh"]:
         morceaux.append(f"IGH : {oui_non(projet.igh)}")
@@ -152,7 +157,7 @@ def evolution(projet):
 
 # ─── Export texte ────────────────────────────────────────────────────────────
 def texte_export(projet, resultats, evol=None, departement=None, lien=None, jour=None):
-    """Texte à copier ou à enregistrer : seuils, puis modulations, puis lien."""
+    """Texte à copier ou à enregistrer (construction neuve) : seuils, puis modulations, puis lien."""
     jour = jour or date.today()
     lignes = [
         f"Seuils RE2020 — outil Seuils-RE2020 v{VERSION} — {jour:%d/%m/%Y}",
@@ -176,7 +181,7 @@ def texte_export(projet, resultats, evol=None, departement=None, lien=None, jour
         if r.coefficients:
             lignes.append(f"    {NOMS_MOYENS[cle]:<24}{nombre_fr(r.moyen, 2)}")
             lignes += [f"    {nom:<24}{nombre_fr(v, 4)}" for nom, v in r.coefficients.items()]
-    lignes += ["", AVERTISSEMENT]
+    lignes += ["", MENTION_TRAVAUX, "", AVERTISSEMENT]
     if lien:
         lignes.append(f"Lien du projet : {lien}")
     return "\n".join(lignes) + "\n"

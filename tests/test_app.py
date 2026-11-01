@@ -94,7 +94,7 @@ def test_renvoi_extension_sous_200_m2():
 
 def test_explication_dh_au_dessus_de_1250():
     from seuils_re2020 import Projet
-    from seuils_re2020.export import explication_dh
+    from seuils_re2020.presentation import explication_dh
     projet = Projet(usage_id=2, zone="H3", altitude="<400m", sref=3000, periode_pc="2028 à 2030",
                     nb_logements=50, climatise=True)
     assert "H2d ou H3" in explication_dh(projet, 1400) and "Smoylgt" in explication_dh(projet, 1400)

@@ -14,7 +14,9 @@ import openpyxl
 from openpyxl.utils import column_index_from_string as col_num, get_column_letter as col_lettre
 
 sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from formules_excel import ADRESSES_SAISIE, NOMS, FormuleNonGeree, analyser, en_python, nombre, simplifier
+from seuils_re2020.variables import ALTITUDES, ZONES
 
 warnings.filterwarnings("ignore")
 
@@ -22,8 +24,6 @@ warnings.filterwarnings("ignore")
 F_FORMULES = sys.argv[1]
 F_VALEURS = sys.argv[2] if len(sys.argv) > 2 else F_FORMULES
 SORTIE = sys.argv[3] if len(sys.argv) > 3 else os.path.join(os.path.dirname(__file__), "..", "donnees")
-ZONES = ["H1a", "H1b", "H1c", "H2a", "H2b", "H2c", "H2d", "H3"]
-ALTITUDES = ["<400m", "400m-800m", ">800m"]
 SEP = ";"                                  # séparateur CSV (lisible dans Excel FR)
 # Résultats DH réutilisés par le DH Effinergie : désignent le DH_max de l'usage courant
 REFS_DH_MAX = {"Calcul_dh!C32", "Calcul_dh!C35", "Calcul_dh!C43", "Calcul_dh!C50"}

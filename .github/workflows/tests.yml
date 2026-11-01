@@ -11,5 +11,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -r requirements.txt pytest
+      - run: pip install -r requirements.txt pytest pip-audit
       - run: pytest -q
+      # vulnérabilités connues dans les dépendances installées (streamlit et ses dépendances indirectes)
+      - run: pip-audit

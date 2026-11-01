@@ -8,8 +8,8 @@ import math
 from urllib.parse import urlencode
 
 from seuils_re2020 import donnees
-from seuils_re2020.variables import (ALTITUDES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, PERIODES_PC, TYPOLOGIES_TRAVAUX,
-                                     VERSION)
+from seuils_re2020.variables import (ALTITUDES, CATEGORIES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, PERIODES_PC,
+                                     TYPOLOGIES_TRAVAUX, VERSION)
 
 # ─── Paramètres : champ -> (nom dans l'URL, type, valeur par défaut) ─────────
 CHAMPS = {
@@ -38,7 +38,6 @@ CHAMPS = {
     "typologie": ("travaux", str, "extension"),
     "sexistant": ("sexist", float, 1000.0),
 }
-CHAMPS_TRAVAUX = {"typologie", "sexistant"}                 # champs qui ne vont pas dans Projet
 DEFAUTS = {champ: defaut for champ, (_nom, _type, defaut) in CHAMPS.items()}
 PARAM_VERSION = "v"
 VALEURS_MIN = {"sref": 1.0, "nb_logements": 1, "hsp": 2.0, "sexistant": 1.0}   # mêmes bornes que les champs de saisie
@@ -50,7 +49,7 @@ VALEURS_MAX = {"sref": 1e6, "nb_logements": 10_000, "hsp": 10.0, "sexistant": 1e
 def _choix():
     """Valeurs admises pour les champs à liste."""
     return {"usage_id": set(donnees.usages()), "departement": set(donnees.zones_par_departement()),
-            "altitude": set(ALTITUDES), "periode_pc": set(PERIODES_PC), "categorie": {1, 2, 3},
+            "altitude": set(ALTITUDES), "periode_pc": set(PERIODES_PC), "categorie": set(CATEGORIES),
             "exposition_bruit": set(EXPOSITIONS_BRUIT), "classe_inertie": set(CLASSES_INERTIE),
             "typologie": set(TYPOLOGIES_TRAVAUX)}
 

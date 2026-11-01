@@ -3,6 +3,25 @@
 Numérotation : 0.8.x et 0.9.x tant que l'outil n'était pas validé, puis 1.0.0 (version initiale).
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 1.0.2 — 1er novembre 2026
+
+Audit du code (sécurité, simplicité, rapidité, efficacité, lisibilité) et correction du DH Effinergie.
+
+- Correctif : DH Effinergie, le bonus « exposition au bruit » (+130 °C.h en BR2 ou BR3) ne se
+  déclenchait jamais (`donnees/regles.csv`, erreur reprise du classeur, `Calcul_dh!S8`). Les cas de
+  référence sont ajustés dans le test en attendant le classeur corrigé.
+- Export texte : construction neuve seulement ; mention ajoutée dans le texte et dans l'onglet
+  Extension et surélévation.
+- Interface : `app.py` découpé en `interface/menu.py`, `onglet_neuf.py`, `onglet_extension.py` ;
+  textes, libellés, adresses et mise en page regroupés dans `interface/parametres.py` (remplace
+  `textes.py`) ; arguments communs des champs factorisés (`menu.champ`).
+- Moteur : `export.py` renommé `presentation.py` ; constantes dispersées regroupées dans
+  `variables.py` (périodes, zones chaudes, DH de référence…) ; périodes écrites en dur remplacées ;
+  code mort retiré ; tables des travaux lues par `donnees.py`.
+- Sécurité : récapitulatif échappé avant affichage HTML ; `pip-audit` dans les tests GitHub ;
+  Dependabot ; `ast.literal_eval` au lieu de `eval` dans `outils/banc/gen_cas.py` (champ `js` retiré).
+- Tests : 725 (pytest), dont le bonus bruit du DH Effinergie et la mention d'export.
+
 ## 1.0.0 — 30 octobre 2026
 
 Version initiale : calcul des six seuils en construction neuve et onglet « Extension et surélévation ».

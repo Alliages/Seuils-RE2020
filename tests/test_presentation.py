@@ -4,7 +4,7 @@ Export texte et évolution des seuils aux jalons 2028 et 2031.
 from dataclasses import replace
 
 from seuils_re2020 import Projet, calculer, donnees
-from seuils_re2020.export import (details, evolution, formules, libelle_departement, nombre_fr,
+from seuils_re2020.presentation import (details, evolution, formules, libelle_departement, nombre_fr,
                                   texte_export)
 from seuils_re2020.variables import INDICATEURS
 
@@ -31,6 +31,7 @@ def test_export_contient_seuils_puis_modulations():
     assert all(libelle in texte for _cle, libelle, *_ in INDICATEURS)
     assert "Paris (H1a)" in texte and "Permis de construire (PC) déposé" in texte
     assert "http://x/?usage=2" in texte
+    assert "Extension et surélévation : non exportées" in texte
 
 
 def test_nombre_fr():

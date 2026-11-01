@@ -8,7 +8,7 @@ s'applique.
 **Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
 
 > Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
-> Version 1.0.0, version initiale.
+> Version 1.0.2.
 
 ![Capture d'écran de l'outil](docs/capture-accueil.png)
 
@@ -53,12 +53,11 @@ bouton « « » en haut à gauche.
   recalcule le projet avec la version en ligne de l'outil. Aucune donnée n'est stockée
   sur un serveur.
 - **Télécharger (.txt)** : un fichier texte avec les six seuils, leurs formules et les
-  valeurs des modulations. Il existe aussi une copie dans le presse-papiers.
+  valeurs des modulations. Il existe aussi une copie dans le presse-papiers. L'export ne couvre
+  que la construction neuve : l'onglet « Extension et surélévation » n'y est pas repris.
 
 ## Ce que l'outil ne fait pas encore
 
-- **Extensions et surélévations** : la réglementation applicable n'est pas encore dans
-  l'export texte.
 - **Projets mixtes** (plusieurs usages dans un même bâtiment) : pas de calcul au prorata
   des surfaces.
 
@@ -166,13 +165,19 @@ Les numéros d'usage se trouvent dans `donnees/usages.csv`.
 ## Organisation du dépôt
 
 ```
-app.py                  interface Streamlit (point d'entrée)
-interface/              style (palette), icônes (icones.py), sauvegarde par lien (lien.py)
+app.py                  interface Streamlit (point d'entrée) : état, menu, calcul, page
+interface/              interface Streamlit
+  parametres.py         titres, adresses, libellés des champs, textes affichés, mise en page
+  menu.py               menu latéral en cinq étapes
+  onglet_neuf.py        onglet Construction neuve (seuils, détail, lien, export)
+  onglet_extension.py   onglet Extension et surélévation
+  style.py, icones.py   palette et feuille de style, icônes
+  lien.py               sauvegarde par lien (paramètres d'URL)
 seuils_re2020/          moteur de calcul, sans dépendance à Streamlit
   variables.py          paramètres et listes de choix, regroupés en tête
   regles.py             description du projet, date du décret 2026-200, choix des règles
   calculs.py            assemblage des six seuils
-  export.py             récapitulatif, évolution 2028/2031, export texte
+  presentation.py       mise en forme, récapitulatif, évolution 2028/2031, export texte
   controles.py          alertes de cohérence des saisies
   travaux.py            extensions et surélévations : régime applicable (art. 50-3)
   expressions.py        évaluation sûre des formules de donnees/regles.csv
@@ -235,9 +240,12 @@ formules), `seuils_re2020/calculs.py` (assemblage des six seuils) et
 
 ## Limites connues
 
-- **Extensions et surélévations** : le régime n'est pas encore dans l'export texte.
-- **DH Effinergie** : le bonus « exposition au bruit » du classeur ne se déclenche jamais.
-  Reproduit tel quel, à corriger d'abord dans le classeur puis ici.
+- **Extensions et surélévations** : non reprises dans l'export texte (choix).
+- **DH Effinergie** : le bonus « exposition au bruit » (+130 °C.h en BR2 ou BR3) est corrigé dans
+  le moteur depuis 1.0.2. Le classeur v2.2 ne l'applique pas encore (`Calcul_dh!S8` compare
+  l'exposition au texte « BR2,BR3 ») : `tests/test_cas_reference.py` ajoute le bonus aux valeurs
+  du classeur en attendant. Ne pas régénérer `donnees/regles.csv` avec `extraire_excel.py` avant
+  d'avoir corrigé le classeur, sinon l'erreur revient.
 - **Multi-usages** : pas de calcul au prorata des Sref.
 
 ## Versions
@@ -261,7 +269,7 @@ prennent leur valeur par défaut.
 
 Exemple : bureaux (usage 3), altitude 400 à 800 m, tout le reste par défaut :
 
-    https://seuils-re2020.streamlit.app/?v=1.0.0&usage=3&alt=400m-800m
+    https://seuils-re2020.streamlit.app/?v=1.0.2&usage=3&alt=400m-800m
 
 Le paramètre `v` indique la version de l'outil qui a produit le lien. Il n'est pas utilisé
 à la lecture : le lien est recalculé avec la version en ligne.

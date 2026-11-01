@@ -207,7 +207,7 @@ Micombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_o
 Mipv;*;True;0 if (iclot13 <= 20) else (iclot13 - 20);Calcul_matiere!E62
 Miclim_RCU;*;True;(25 if ((rcu == 'oui') and (rcu_classe == 'oui') and (climatise == 'oui')) else 0) if decret2026 else 0;Calcul_matiere!E88
 Mcgeo_exception_MI;*;True;'oui' if ((usage == 'maisons_individuelles_ou_accolées') and (elevation == '<400m') and (depotpc == '2022 à 2024') and ((zoneclim == 'h2d') or (zoneclim == 'h3'))) else 'non';Calcul_energie!D75
-DH_effinergie_Q8;*;True;((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if (expobruit == 'br2,br3') else 0)) + (140 if (smoylgt < 30) else 0);Calcul_dh!Q8
+DH_effinergie_Q8;*;True;((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if ((expobruit == 'br2') or (expobruit == 'br3')) else 0)) + (140 if (smoylgt < 30) else 0);Calcul_dh!Q8
 DH_max;1;categorie == 'catégorie 1';1250;Calcul_dh!G32
 DH_max;1;categorie == 'catégorie 2';1850;Calcul_dh!H32
 DH_max;2;(smoylgt <= 20) and ((1 if (categorie == 'catégorie 1') else 0) * (0 if (((zoneclim == 'h2d') or (zoneclim == 'h3')) and (climatise == 'oui')) else 1));1250;Calcul_dh!G38
@@ -311,7 +311,7 @@ DH_max;27;((1 if (categorie == 'catégorie 3') else 0) * 1) * 1;'pas de seuil';C
 DH_max;28;(1 if (categorie == 'catégorie 1') else 0) and ((0 if (climatise == 'oui') else 1) or (0 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 1));2000;Calcul_dh!G215
 DH_max;28;((1 if (categorie == 'catégorie 1') else 0) * (1 if (climatise == 'oui') else 0)) * (1 if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else 0);4600;Calcul_dh!H215
 DH_max;28;((1 if (categorie == 'catégorie 2') else 0) * (1 if (climatise == 'oui') else 0)) * 1;5000;Calcul_dh!I215
-DH_effinergie;1;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else (((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if (expobruit == 'br2,br3') else 0)) + (140 if (smoylgt < 30) else 0));Calcul_dh!F3
-DH_effinergie;2;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else (((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if (expobruit == 'br2,br3') else 0)) + (140 if (smoylgt < 30) else 0));Calcul_dh!F4
+DH_effinergie;1;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else (((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if ((expobruit == 'br2') or (expobruit == 'br3')) else 0)) + (140 if (smoylgt < 30) else 0));Calcul_dh!F3
+DH_effinergie;2;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3')) else (((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if ((expobruit == 'br2') or (expobruit == 'br3')) else 0)) + (140 if (smoylgt < 30) else 0));Calcul_dh!F4
 DH_effinergie;3;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3') or (categorie == 'catégorie 3')) else 600;Calcul_dh!F5
 DH_effinergie;4,5;True;dh_max if ((zoneclim == 'h2d') or (zoneclim == 'h3') or (categorie == 'catégorie 3')) else 600;Calcul_dh!F6

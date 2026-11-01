@@ -32,6 +32,8 @@ RAYON_CARTE = "20px"
 OMBRE = "0 2px 14px rgba(31, 34, 56, 0.10)"
 OMBRE_SURVOL = "0 8px 24px rgba(31, 34, 56, 0.22)"
 DEGRADE_MENU = f"linear-gradient(100deg, {BRONZE_SPICE} 0%, #8a3d1c 22%, {BLEU_NUIT} 62%)"
+CSS_REGIMES = "\n".join(f".bandeau.regime-{cle} {{ background: {fond}; color: {texte}; }}"
+                         for cle, (fond, texte) in COULEURS_REGIME.items())
 
 # Champs de saisie (listes déroulantes, nombres, texte) : survol et focus bien visibles
 CHAMPS_SAISIE = ['[data-testid="stSelectbox"] div[data-rac][role="group"]', '[data-testid="stNumberInputContainer"]',
@@ -119,10 +121,7 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
     border-style: solid; border-width: 1.6rem 0 1.6rem 2.4rem;
     border-color: transparent transparent transparent {BLEU_NUIT}; }}
 @media (max-width: 900px) {{ .bandeau-regime::before {{ display: none; }} }}
-.bandeau.regime-complete {{ background: {COULEURS_REGIME["complete"][0]}; color: {COULEURS_REGIME["complete"][1]}; }}
-.bandeau.regime-light {{ background: {COULEURS_REGIME["light"][0]}; color: {COULEURS_REGIME["light"][1]}; }}
-.bandeau.regime-moyens {{ background: {COULEURS_REGIME["moyens"][0]}; color: {COULEURS_REGIME["moyens"][1]}; }}
-.bandeau.regime-rt2012 {{ background: {COULEURS_REGIME["rt2012"][0]}; color: {COULEURS_REGIME["rt2012"][1]}; }}
+{CSS_REGIMES}
 
 /* ── Menu : lien vers la carte des zones, sur une ligne ── */
 .lien-zones {{ font-size: .82rem; white-space: nowrap; margin: -.4rem 0 .6rem 0; }}

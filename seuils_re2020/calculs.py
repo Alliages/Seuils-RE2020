@@ -16,8 +16,8 @@ from dataclasses import dataclass, field
 from . import donnees
 from .expressions import NonApplicable
 from .regles import appliquer, decret_2026_applicable, variables
-from .variables import (COEF_IGH, NE_S_APPLIQUE_PAS, NON_APPLICABLE, PERIODES_APRES_DECRET,
-                        PERIODES_DEROGATION_RCU)
+from .variables import (COEF_IGH, NE_S_APPLIQUE_PAS, NON_APPLICABLE, PERIODE_2022, PERIODE_2025, PERIODE_2028,
+                        PERIODE_2031, PERIODE_ICENERGIE_APRES_DECRET, PERIODES_APRES_DECRET, PERIODES_DEROGATION_RCU)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 MOYEN_ENERGIE = {"cepnr_max": "cepnr", "cep_max": "cep"}   # clé de donnees.moyennes() par indicateur
@@ -63,9 +63,9 @@ def _mcgeo(projet, vars_):
 def _icenergie_moyen(projet):
     # dérogation RCU classé : valeurs RCU 2022-2024 pour les PC déposés avant fin 2027
     if projet.rcu and projet.rcu_classe and projet.periode_pc in PERIODES_DEROGATION_RCU:
-        periode = "2022 à 2024"
+        periode = PERIODE_2022
     elif projet.periode_pc in PERIODES_APRES_DECRET:
-        periode = "à partir de 2028"
+        periode = PERIODE_ICENERGIE_APRES_DECRET
     else:
         periode = projet.periode_pc
     return _table("icenergie_moyen", ("usage_id", projet.usage_id), ("rcu", "oui" if projet.rcu else "non"),
@@ -74,10 +74,10 @@ def _icenergie_moyen(projet):
 
 def _icconstruction_moyen(projet):
     lire = lambda p: _table("icconstruction_moyen", ("usage_id", projet.usage_id), ("periode", p))
-    if projet.periode_pc == "2028 à 2030":
-        return lire("2025 à 2027") * COEF_IGH if projet.igh else lire("2028 à 2030")
-    if projet.periode_pc == "à partir de 2031":
-        return lire("2028 à 2030") * COEF_IGH if projet.igh else lire("à partir de 2031")
+    if projet.periode_pc == PERIODE_2028:
+        return lire(PERIODE_2025) * COEF_IGH if projet.igh else lire(PERIODE_2028)
+    if projet.periode_pc == PERIODE_2031:
+        return lire(PERIODE_2028) * COEF_IGH if projet.igh else lire(PERIODE_2031)
     return lire(projet.periode_pc)
 
 
@@ -164,18 +164,17 @@ def calculer(projet):
     vars_ = variables(projet)
     sortie = {"bbio_max": _protege(lambda: bbio_max(projet, vars_))}
 
-    # Les coefficients Cep/Icénergie ne dépendent pas de l'indicateur : calculés une seule fois
-    cache = {}
-
-    def coefficients_energie():
-        if "mc" not in cache:
-            cache["mc"] = coefficients_mc(projet, vars_, donnees.moyennes()[projet.usage_id]["cepnr"])
-        return cache["mc"]
+    # Les coefficients Mc sont communs à Cep,nr, Cep et Icénergie : calculés une seule fois
+    moyens = donnees.moyennes()[projet.usage_id]
+    try:
+        mc = coefficients_mc(projet, vars_, moyens["cepnr"])
+    except NonApplicable:
+        mc = None
 
     def energie(cle):
-        moyens = donnees.moyennes()[projet.usage_id]
+        if mc is None:
+            raise NonApplicable("coefficients Mc sans objet")
         moyen = _icenergie_moyen(projet) if cle == "icenergie_max" else moyens[MOYEN_ENERGIE[cle]]
-        mc = coefficients_energie()
         return Resultat(_assembler(moyen, mc), moyen, mc)
 
     for cle in ("cepnr_max", "cep_max", "icenergie_max"):

@@ -1,5 +1,5 @@
 champ;texte;source
-usage;Usage de la partie de bâtiment, tel que défini dans l'annexe à l'article R. 172-4. Pour un bâtiment à plusieurs usages, calculer chaque partie séparément.;Annexe R.172-4, chap. II §V
+usage_id;Usage de la partie de bâtiment, tel que défini dans l'annexe à l'article R. 172-4. Pour un bâtiment à plusieurs usages, calculer chaque partie séparément.;Annexe R.172-4, chap. II §V
 departement;La zone climatique est déduite du département. Carte des zones : [alliages.github.io/zones-climatiques-re2020](https://alliages.github.io/zones-climatiques-re2020/).;Annexe R.172-4, chap. IV
 periode_pc;Année de dépôt de la demande de permis de construire (PC) ou de la déclaration préalable : elle fixe les valeurs moyennes et les jalons 2025, 2028 et 2031.;Annexe R.172-4, chap. III
 rcu;Bâtiment ou partie de bâtiment raccordé à un réseau de distribution de chaleur et de froid. Les valeurs d'Icénergie_maxmoyen diffèrent selon le raccordement.;Annexe R.172-4, chap. III §II
