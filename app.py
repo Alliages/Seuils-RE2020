@@ -195,7 +195,7 @@ def ligne_evolution(cle, decimales):
 # ─── Page ────────────────────────────────────────────────────────────────────
 entete, version = st.columns([4, 1])
 entete.markdown(f'<div class="titre-page">{TITRE}</div>', unsafe_allow_html=True)
-version.markdown(f'<div style="text-align:right"><span class="version">v{VERSION} · non officiel</span></div>',
+version.markdown(f'<div style="text-align:right"><span class="version">v{VERSION} · initiale</span></div>',
                  unsafe_allow_html=True)
 onglet_neuf, onglet_extension = st.tabs([f"{I.ico(I.ONGLETS['neuf'])} {ONGLETS['neuf']}",
                                         f"{I.ico(I.ONGLETS['extension'])} {ONGLETS['extension']}"])
