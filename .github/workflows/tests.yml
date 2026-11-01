@@ -13,5 +13,6 @@ jobs:
           python-version: "3.11"
       - run: pip install -r requirements.txt pytest pip-audit
       - run: pytest -q
-      # vulnérabilités connues dans les dépendances installées (streamlit et ses dépendances indirectes)
-      - run: pip-audit
+      # vulnérabilités connues dans les dépendances de l'application (streamlit et ses dépendances
+      # indirectes), sans les outils préinstallés sur la machine de GitHub (setuptools…)
+      - run: pip-audit -r requirements.txt
