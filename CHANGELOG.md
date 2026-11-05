@@ -3,6 +3,21 @@
 Numérotation : 0.8.x et 0.9.x tant que l'outil n'était pas validé, puis 1.0.0 (version initiale).
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 1.0.4 — 5 novembre 2026
+
+Favicon et menu latéral au même code couleur que les cartes de seuils.
+
+- Favicon recolorée selon les familles des cartes : Bbio en bleu, Cep,nr et Cep en vert, Icénergie et
+  Icconstruction en bronze, DH en jaune (en 1.0.2 : énergie en bleu, carbone en vert, DH en bronze).
+- En-tête : favicon devant le titre « Les 6 seuils de la RE2020 » (titre ramené de 3,1 à 2,75 rem).
+- Menu latéral dans le style de la favicon : fond bleu nuit uni à trame d'hexagones (au lieu du
+  dégradé bronze → bleu nuit), titre précédé de l'hexagone et suivi d'une bande à six segments,
+  étapes à liseré et en-tête ouvert de la couleur de leur famille (Bâtiment = Bbio, Permis de construire
+  et Réseau = énergie, Contraintes extérieures = DH, Carbone = Ic), survol en couleur claire.
+- `interface/style.py` : `FAMILLE_ETAPE`, `SECTEURS`, `logo()`, `bande_six()` ; icône `MENU` retirée.
+- Capture d'écran du README mise à jour.
+- Tests : 726 (pytest), dont la favicon et la famille de chaque étape du menu.
+
 ## 1.0.2 — 1er novembre 2026
 
 Audit du code (sécurité, simplicité, rapidité, efficacité, lisibilité) et correction du DH Effinergie.

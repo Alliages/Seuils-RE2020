@@ -107,3 +107,14 @@ def test_igh_grise_avant_juillet_2026():
     assert case(avant).disabled and avant.session_state["igh"] is False
     apres = lancer({"pc": "2028 à 2030", "igh": "1"})
     assert not case(apres).disabled and apres.session_state["igh"] is True
+
+
+def test_favicon_et_style_du_menu():
+    """Favicon devant le titre et dans le menu ; une famille de couleur par étape, dans l'ordre du menu."""
+    from interface import style
+    from interface.parametres import ETAPES
+    assert list(style.FAMILLE_ETAPE) == list(ETAPES)
+    assert len(style.SECTEURS) == NB_SEUILS
+    assert (Path(APP).parent / "static" / "favicon.svg").exists()
+    html = textes(lancer())
+    assert html.count(style.FAVICON_URL) == 2 and "bande-six" in html

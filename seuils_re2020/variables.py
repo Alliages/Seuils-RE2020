@@ -7,7 +7,7 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "1.0.2"
+VERSION = "1.0.4"
 
 # ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────
 INDICATEURS = [

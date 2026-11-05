@@ -5,6 +5,7 @@ Les valeurs saisies restent dans st.session_state, sous le nom du champ (voir li
 import streamlit as st
 
 from interface import icones as I
+from interface import style
 from interface.parametres import (AIDE_IGH_GRISE, AIDES_REMPLACEES, ETAPES, LIBELLES, LIEN_ZONES, RENVOI_TRAVAUX,
                                   SREF_RENVOI_TRAVAUX, TEXTE_AGREMENT, TEXTE_CARBONE, TEXTE_SMOYLGT, TITRE_MENU,
                                   URL_ZONES)
@@ -38,7 +39,8 @@ def _changement_usage():
 
 def afficher():
     with st.sidebar:
-        st.markdown(f'<div class="titre-menu">{I.ico_html(I.MENU)}{TITRE_MENU}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="titre-menu">{style.logo()}{TITRE_MENU}</div>{style.bande_six()}',
+                    unsafe_allow_html=True)
         _batiment()
         _permis()
         _contraintes()

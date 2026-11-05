@@ -7,7 +7,6 @@ Dans un libellé Streamlit : ":material/nom:" ; dans du HTML : span de classe «
 from html import escape
 
 # ─── Icônes par zone de l'interface ──────────────────────────────────────────
-MENU = "tune"
 ONGLETS = {"neuf": "domain_add", "extension": "add_home_work"}
 ETAPES = {"batiment": "apartment", "permis": "description", "contraintes": "noise_aware",
           "carbone": "co2", "reseau": "heat"}

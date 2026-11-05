@@ -31,7 +31,23 @@ COULEURS_REGIME = {"complete": (BLEU_NUIT, BLANC), "light": (MUTED_TEAL, BLEU_NU
 RAYON_CARTE = "20px"
 OMBRE = "0 2px 14px rgba(31, 34, 56, 0.10)"
 OMBRE_SURVOL = "0 8px 24px rgba(31, 34, 56, 0.22)"
-DEGRADE_MENU = f"linear-gradient(100deg, {BRONZE_SPICE} 0%, #8a3d1c 22%, {BLEU_NUIT} 62%)"
+
+# ─── Favicon et menu (1.0.4) : hexagone à six secteurs, un par indicateur ────
+FAVICON_URL = "app/static/favicon.svg"     # servie par Streamlit (enableStaticServing)
+# famille de chaque secteur, dans l'ordre de la favicon : Bbio, Cep,nr, Cep, Icénergie, Icconstruction, DH
+SECTEURS = ["bioclimatique", "energie", "energie", "carbone", "carbone", "confort"]
+# famille de chaque étape du menu, dans l'ordre d'affichage
+FAMILLE_ETAPE = {"batiment": "bioclimatique", "permis": "energie", "contraintes": "confort", "carbone": "carbone",
+                 "reseau": "energie"}
+# trame d'hexagones très discrète sur le fond du menu
+TRAME_MENU = ("url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' "
+              "viewBox='0 0 56 97'%3E%3Cpath d='M28 0 L56 16.2 V48.5 L28 64.7 L0 48.5 V16.2 Z M28 64.7 V97' "
+              "fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.5'/%3E%3C/svg%3E\")")
+# variables CSS par étape : --famille (liseré, en-tête ouvert), --clair (survol), --texte (en-tête ouvert)
+CSS_ETAPES = "\n".join(
+    f'section[data-testid="stSidebar"] div:nth-child({n}) > [data-testid="stExpander"] {{ '
+    f'--famille: {COULEURS_FAMILLE[f][1]}; --clair: {COULEURS_FAMILLE[f][0]}; --texte: {COULEURS_FAMILLE[f][2]}; }}'
+    for n, f in enumerate(FAMILLE_ETAPE.values(), start=2))     # 1er enfant du menu : son titre
 CSS_REGIMES = "\n".join(f".bandeau.regime-{cle} {{ background: {fond}; color: {texte}; }}"
                          for cle, (fond, texte) in COULEURS_REGIME.items())
 
@@ -44,18 +60,27 @@ CSS = f"""
 <style>
 .block-container {{ padding-top: 2.2rem; max-width: 1400px; }}
 
-/* ── Menu latéral : dégradé Bronze → bleu nuit, étapes en cartes blanches ── */
-section[data-testid="stSidebar"], section[data-testid="stSidebar"] > div {{ background: {DEGRADE_MENU}; }}
-.titre-menu {{ display: inline-block; background: {GUNMETAL}; color: {BLANC}; font-weight: 700; font-size: 1rem;
-    white-space: nowrap;
-    padding: .45rem 1rem; border-radius: 14px; margin: 0 0 1rem 0; }}
+/* ── Menu latéral : style de la favicon — bleu nuit à hexagones, étapes aux couleurs de leur famille ── */
+section[data-testid="stSidebar"], section[data-testid="stSidebar"] > div {{ background: {BLEU_NUIT} {TRAME_MENU}; }}
+.titre-menu {{ display: flex; align-items: center; gap: .55rem; color: {BLANC}; font-weight: 700; font-size: 1rem;
+    white-space: nowrap; margin: 0 0 .7rem 0; }}
+.titre-menu img {{ width: 2rem; height: 2rem; }}
+.bande-six {{ display: flex; gap: 4px; margin: 0 0 1.2rem 0; }}
+.bande-six span {{ flex: 1; height: 6px; border-radius: 2px; }}
+{CSS_ETAPES}
 section[data-testid="stSidebar"] [data-testid="stExpander"] details {{
-    border: none; border-radius: 16px; background: {BLANC}; overflow: hidden; }}
-section[data-testid="stSidebar"] [data-testid="stExpander"] summary {{ font-weight: 600; color: {GUNMETAL};
+    border: none; border-left: 7px solid var(--famille, {ASH_GREY}); border-radius: 6px; background: {BLANC};
+    overflow: hidden; }}
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary {{ font-weight: 600; color: {BLEU_NUIT};
     transition: background .15s; }}
-section[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover {{ background: {ASH_GREY}; color: {BLEU_NUIT}; }}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary {{ background: {GUNMETAL}; color: {BLANC}; }}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary * {{ color: {BLANC}; fill: {BLANC}; }}
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover {{ background: var(--clair, {ASH_GREY});
+    color: {BLEU_NUIT}; }}
+section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary,
+section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary:hover {{
+    background: var(--famille, {GUNMETAL}); color: var(--texte, {BLANC}); }}
+section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary *,
+section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary:hover * {{
+    color: var(--texte, {BLANC}) !important; fill: var(--texte, {BLANC}); }}
 section[data-testid="stSidebar"] label p {{ color: {GUNMETAL}; font-weight: 500; }}
 [data-testid="stSidebarCollapseButton"] button, [data-testid="stExpandSidebarButton"] {{
     background: {ASH_GREY}; border-radius: 50%; color: {BLEU_NUIT}; }}
@@ -84,8 +109,9 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
 [data-testid="stTabs"] button[role="tab"]:hover p {{ color: {BRONZE_SPICE}; }}
 
 /* ── En-tête ── */
-.titre-page {{ font-family: 'Archivo Black', 'Work Sans', sans-serif; font-size: 3.1rem; color: {BLEU_NUIT};
+.titre-page {{ font-family: 'Archivo Black', 'Work Sans', sans-serif; font-size: 2.75rem; color: {BLEU_NUIT};
     line-height: 1.05; letter-spacing: .02em; }}
+.titre-page img {{ height: .95em; width: .95em; margin-right: .35em; vertical-align: -0.08em; }}
 .version {{ display: inline-block; background: {BLANC}; border: 1px solid {ASH_GREY}; border-radius: 999px;
     padding: .4rem 1rem; font-size: .9rem; color: {GUNMETAL}; white-space: nowrap; }}
 .barre-recap {{ background: {BLANC}; border-radius: 28px; padding: .8rem 1.6rem; box-shadow: {OMBRE};
@@ -160,3 +186,14 @@ def carte_seuil(nom, valeur, unite, famille, evolution="", icone=None, icone_evo
             f'<div class="haut"><div class="nom">{marque}{escape(nom)}</div>'
             f'<div class="valeur">{escape(valeur)}</div><div class="unite">{escape(unite)}</div></div>'
             f'<div class="evol">{fleche}{escape(evolution) or "&nbsp;"}</div></div>')
+
+
+def logo():
+    """Favicon (hexagone à six secteurs) en image, pour le titre de la page et celui du menu."""
+    return f'<img src="{FAVICON_URL}" alt="">'
+
+
+def bande_six():
+    """Bande de six segments aux couleurs des secteurs de la favicon (sous le titre du menu)."""
+    segments = "".join(f'<span style="background:{COULEURS_FAMILLE[f][1]}"></span>' for f in SECTEURS)
+    return f'<div class="bande-six">{segments}</div>'

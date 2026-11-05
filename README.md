@@ -187,7 +187,7 @@ tests/                  cas de référence et tests automatiques
 outils/                 extraction depuis le classeur Excel, banc de test LibreOffice, diagnostic
 .streamlit/config.toml  thème (couleurs, polices)
 static/polices/         Work Sans et Archivo Black (licence SIL OFL)
-static/favicon.*        favicon : hexagone à six secteurs (énergie en bleu, carbone en vert, DH en bronze)
+static/favicon.*        favicon : hexagone à six secteurs, aux couleurs des cartes de seuils
 docs/                   captures d'écran du README
 CHANGELOG.md            journal des versions
 ```
