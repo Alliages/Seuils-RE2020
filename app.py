@@ -6,6 +6,7 @@ Ce fichier enchaîne : état et lien -> menu -> calcul -> page. Le calcul est fa
 seuils_re2020 ; l'affichage est dans interface/ (menu.py, onglet_neuf.py, onglet_extension.py).
 """
 from dataclasses import fields
+from pathlib import Path
 
 import streamlit as st
 
@@ -19,7 +20,9 @@ from seuils_re2020.presentation import champs_utiles, evolution, texte_export
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 ZONES_PAR_DEPT = donnees.zones_par_departement()
 CHAMPS_PROJET = {f.name for f in fields(Projet)}
-st.set_page_config(page_title=TITRE, layout="wide", initial_sidebar_state="expanded")
+# Favicon : hexagone à six secteurs, un par indicateur (source vectorielle : static/favicon.svg)
+FAVICON = str(Path(__file__).parent / "static" / "favicon.png")
+st.set_page_config(page_title=TITRE, page_icon=FAVICON, layout="wide", initial_sidebar_state="expanded")
 st.markdown(CSS, unsafe_allow_html=True)
 
 # ─── État : lien (au premier affichage), puis valeurs conservées d'un écran à l'autre ──

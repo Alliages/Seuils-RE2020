@@ -21,6 +21,8 @@ Audit du code (sécurité, simplicité, rapidité, efficacité, lisibilité) et 
 - Sécurité : récapitulatif échappé avant affichage HTML ; `pip-audit` dans les tests GitHub ;
   Dependabot ; `ast.literal_eval` au lieu de `eval` dans `outils/banc/gen_cas.py` (champ `js` retiré).
 - Tests : 725 (pytest), dont le bonus bruit du DH Effinergie et la mention d'export.
+- Favicon (5 novembre 2026) : hexagone à six secteurs, un par indicateur — Bbio, Cep,nr et Cep en
+  bleu, Ic énergie et Ic construction en vert, DH en bronze (`static/favicon.svg`, `favicon.png`).
 
 ## 1.0.0 — 30 octobre 2026
 
