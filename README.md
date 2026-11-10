@@ -67,6 +67,11 @@ bouton « « » en haut à gauche.
 - [La RE2020 sur Wikipédia](https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020)
 - [Carte des zones climatiques](https://alliages.github.io/zones-climatiques-re2020/)
 
+## Autres outils
+
+- [Météo & Chaleur](https://vulgarisateurdh.streamlit.app/) : DH et nuits tropicales d'un fichier météo
+- [Lecteur RSEE](https://alliages.github.io/lecteur_RSEE/) : lire un RSEE et le situer par rapport aux seuils
+
 ## Remerciements
 
 Merci à Cédrick Gbegnon, Léonard Forissier et Félix Dubois pour leurs relectures et les

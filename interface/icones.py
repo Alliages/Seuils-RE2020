@@ -21,7 +21,8 @@ SEUILS = {"bbio_max": "wb_sunny", "cepnr_max": "bolt", "cep_max": "electric_mete
           "icenergie_max": "co2", "icconstruction_max": "construction", "dh_max": "device_thermostat"}
 CARTES = {"detail": "functions", "partage": "link", "export": "download", "effinergie": "eco",
           "liens": "menu_book", "extension": "add_home_work", "regime": "gavel", "cas": "rule"}
-LIENS = {"officiel": "account_balance", "wikipedia": "public", "zones": "map", "depot": "code"}
+LIENS = {"officiel": "account_balance", "wikipedia": "public", "zones": "map", "depot": "code",
+         "meteo": "partly_cloudy_day", "rsee": "fact_check"}
 DIVERS = {"bandeau": "event", "recap": "summarize", "telecharger": "file_download", "copier": "content_copy",
           "stable": "trending_flat", "baisse": "trending_down", "hausse": "trending_up", "alerte": "warning",
           "info": "info"}

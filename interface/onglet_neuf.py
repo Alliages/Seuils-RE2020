@@ -8,8 +8,9 @@ from html import escape
 import streamlit as st
 
 from interface import icones as I
-from interface.parametres import (BOUTON_TELECHARGER, COLONNES_NEUF, COPIER_TEXTE, NOM_FICHIER_EXPORT, TEXTE_EFFINERGIE,
-                                  TEXTE_LIEN, TITRES_CARTES, URL_DEPOT, URL_OFFICIEL, URL_WIKIPEDIA, URL_ZONES)
+from interface.parametres import (AUTRES_OUTILS, BOUTON_TELECHARGER, COLONNES_NEUF, COPIER_TEXTE, NOM_FICHIER_EXPORT,
+                                  TEXTE_EFFINERGIE, TEXTE_LIEN, TITRE_AUTRES_OUTILS, TITRES_CARTES, URL_DEPOT,
+                                  URL_OFFICIEL, URL_WIKIPEDIA, URL_ZONES)
 from interface.style import BRONZE_SPICE, carte_seuil
 from seuils_re2020 import alertes
 from seuils_re2020.presentation import details, explication_dh, formules, libelle_depot, nombre_fr, recapitulatif
@@ -101,3 +102,6 @@ def _cartes_laterales(projet, resultats, adresse, export):
                     f"- [{I.ico(I.LIENS['wikipedia'])} La RE2020 sur Wikipédia]({URL_WIKIPEDIA})\n"
                     f"- [{I.ico(I.LIENS['zones'])} Carte des zones climatiques]({URL_ZONES})\n"
                     f"- [{I.ico(I.LIENS['depot'])} Code source et données]({URL_DEPOT})")
+        st.caption(TITRE_AUTRES_OUTILS)
+        st.markdown("\n".join(f'- [{I.ico(I.LIENS[icone])} {libelle}]({url} "{info}")'
+                              for icone, libelle, url, info in AUTRES_OUTILS))

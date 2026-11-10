@@ -17,6 +17,8 @@ PIED_DE_PAGE = ("Document non officiel, à utiliser avec toutes les vérificatio
 # ─── Adresses ────────────────────────────────────────────────────────────────
 URL_DEPOT = "https://github.com/alliages/seuils-re2020"
 URL_ZONES = "https://alliages.github.io/zones-climatiques-re2020/"
+URL_METEO = "https://vulgarisateurdh.streamlit.app/"
+URL_RSEE = "https://alliages.github.io/lecteur_RSEE/"
 URL_OFFICIEL = "https://rt-re-batiment.developpement-durable.gouv.fr/re2020-r320.html"
 URL_WIKIPEDIA = "https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020"
 URL_ARTICLE_50_3 = "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000050146201/2026-07-02"
@@ -49,6 +51,11 @@ AIDES_REMPLACEES = {"altitude": "Afficher les coordonnées : [cartes.gouv.fr](ht
 AIDE_IGH_GRISE = ("Les règles IGH (décret n° 2026-200) ne s'appliquent qu'aux permis de construire déposés "
                   "à partir du 1er juillet 2026 : choisir la date de dépôt à l'étape 2.")
 LIEN_ZONES = "Carte des zones climatiques"
+# Autres outils du même auteur, listés dans la carte « Pour aller plus loin » :
+# (clé d'icône, libellé, adresse, info-bulle au survol)
+TITRE_AUTRES_OUTILS = "Autres outils"
+AUTRES_OUTILS = (("meteo", "Météo & Chaleur", URL_METEO, "DH et nuits tropicales d'un fichier météo"),
+                 ("rsee", "Lecteur RSEE", URL_RSEE, "Lire un RSEE et le situer par rapport aux seuils"))
 RENVOI_TRAVAUX = "Si c'est une extension ou une surélévation, voir l'onglet « Extension et surélévation »"
 SREF_RENVOI_TRAVAUX = 200       # renvoi affiché sous la Sref seulement en dessous de cette surface (m²)
 TEXTE_SMOYLGT = "Smoylgt = {smoylgt} m²"
