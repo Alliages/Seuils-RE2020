@@ -7,7 +7,7 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 
 # ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────
 INDICATEURS = [
@@ -39,6 +39,9 @@ ALTITUDES = ["<400m", "400m-800m", ">800m"]
 LIBELLES_ALTITUDE = {"<400m": "altitude < 400 m", "400m-800m": "altitude 400 à 800 m", ">800m": "altitude > 800 m"}
 PERIODES_PC = ["2022 à 2024", "2025 à 2027", "2028 à 2030", "à partir de 2031"]
 PERIODE_2022, PERIODE_2025, PERIODE_2028, PERIODE_2031 = PERIODES_PC
+# Périodes bloquées dans l'interface (1.0.5) : les PC déposés avant le 1er janvier 2025 relèvent de l'annexe
+# R.172-4 antérieure au décret n° 2024-1258 (FAQ RE2020 n° 212), pas encore intégrée au calcul.
+PERIODES_INDISPONIBLES = {PERIODE_2022}
 # année représentative de chaque période (feuille Enumération, colonne P)
 ANNEE_PERIODE = {PERIODE_2022: 2023, PERIODE_2025: 2026, PERIODE_2028: 2029, PERIODE_2031: 2032}
 EXPOSITIONS_BRUIT = ["BR1", "BR2", "BR3"]

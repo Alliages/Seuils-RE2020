@@ -50,6 +50,13 @@ LIBELLES = {
 AIDES_REMPLACEES = {"altitude": "Afficher les coordonnées : [cartes.gouv.fr](https://cartes.gouv.fr/explorer-les-cartes/)"}
 AIDE_IGH_GRISE = ("Les règles IGH (décret n° 2026-200) ne s'appliquent qu'aux permis de construire déposés "
                   "à partir du 1er juillet 2026 : choisir la date de dépôt à l'étape 2.")
+# Période de dépôt bloquée (variables.PERIODES_INDISPONIBLES) : suffixe dans la liste et message rouge
+SUFFIXE_PERIODE_INDISPONIBLE = " — indisponible (correction en cours)"
+MESSAGE_PERIODE_INDISPONIBLE = (
+    "**Période 2022 à 2024 temporairement indisponible.** Les permis de construire déposés avant le "
+    "1er janvier 2025 relèvent de la version de l'annexe R.172-4 antérieure au décret n° 2024-1258 "
+    "(FAQ RE2020 n° 212). Cette version n'est pas encore intégrée à l'outil : les seuils affichés seraient faux. "
+    "Correction en cours.")
 LIEN_ZONES = "Carte des zones climatiques"
 # Autres outils du même auteur, listés dans la carte « Pour aller plus loin » :
 # (clé d'icône, libellé, adresse, info-bulle au survol)

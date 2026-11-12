@@ -118,3 +118,15 @@ def test_favicon_et_style_du_menu():
     assert (Path(APP).parent / "static" / "favicon.svg").exists()
     html = textes(lancer())
     assert html.count(style.FAVICON_URL) == 2 and "bande-six" in html
+
+
+def test_periode_2022_2024_bloquee():
+    """1.0.5 : PC avant 2025 = annexe R.172-4 avant décret 2024-1258, non intégrée -> aucun seuil affiché."""
+    app = lancer({"pc": "2022 à 2024"})
+    assert not app.exception
+    assert len(app.tabs) == 0 and 'class="carte-seuil"' not in textes(app)
+    assert any("temporairement indisponible" in e.value for e in app.error)
+    assert any("temporairement indisponible" in e.value for e in app.sidebar.error)
+    choix = next(s for s in app.sidebar.selectbox if "Période de dépôt" in s.label)
+    assert choix.options[0].endswith("indisponible (correction en cours)")
+    assert app.query_params["pc"] == "2022 à 2024"           # le lien garde la période choisie

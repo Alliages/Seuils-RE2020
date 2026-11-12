@@ -6,13 +6,14 @@ import streamlit as st
 
 from interface import icones as I
 from interface import style
-from interface.parametres import (AIDE_IGH_GRISE, AIDES_REMPLACEES, ETAPES, LIBELLES, LIEN_ZONES, RENVOI_TRAVAUX,
-                                  SREF_RENVOI_TRAVAUX, TEXTE_AGREMENT, TEXTE_CARBONE, TEXTE_SMOYLGT, TITRE_MENU,
-                                  URL_ZONES)
+from interface.parametres import (AIDE_IGH_GRISE, AIDES_REMPLACEES, ETAPES, LIBELLES, LIEN_ZONES,
+                                  MESSAGE_PERIODE_INDISPONIBLE, RENVOI_TRAVAUX, SREF_RENVOI_TRAVAUX,
+                                  SUFFIXE_PERIODE_INDISPONIBLE, TEXTE_AGREMENT, TEXTE_CARBONE, TEXTE_SMOYLGT,
+                                  TITRE_MENU, URL_ZONES)
 from seuils_re2020 import decret_applicable, donnees
 from seuils_re2020.presentation import libelle_departement, libelle_usage, nombre_fr, unite_surface
 from seuils_re2020.variables import (ALTITUDES, CATEGORIES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, LIBELLES_ALTITUDE,
-                                     PERIODE_DECOUPEE_2026, PERIODES_PC, SEUIL_AGREMENT, USAGE_LOGEMENT_COLLECTIF,
+                                     PERIODE_DECOUPEE_2026, PERIODES_INDISPONIBLES, PERIODES_PC, SEUIL_AGREMENT, USAGE_LOGEMENT_COLLECTIF,
                                      USAGE_MAISON, USAGES_EFFINERGIE, USAGES_LOGEMENT)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
@@ -83,7 +84,11 @@ def _batiment():
 
 def _permis():
     with _etape("permis"):
-        st.selectbox(options=PERIODES_PC, **champ("periode_pc"))
+        # période bloquée : laissée dans la liste (anciens liens), signalée et expliquée en rouge
+        st.selectbox(options=PERIODES_PC, format_func=lambda p: p + SUFFIXE_PERIODE_INDISPONIBLE
+                     if p in PERIODES_INDISPONIBLES else p, **champ("periode_pc"))
+        if etat["periode_pc"] in PERIODES_INDISPONIBLES:
+            st.error(MESSAGE_PERIODE_INDISPONIBLE)
         if etat["periode_pc"] == PERIODE_DECOUPEE_2026:
             st.radio(options=[True, False], format_func=lambda b: "Oui" if b else "Non", horizontal=True,
                      **champ("pc_apres_juillet_2026"))

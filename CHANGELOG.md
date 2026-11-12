@@ -3,6 +3,22 @@
 Numérotation : 0.8.x et 0.9.x tant que l'outil n'était pas validé, puis 1.0.0 (version initiale).
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 1.0.5 — 12 novembre 2026
+
+Correctif : période de dépôt « 2022 à 2024 » bloquée.
+
+- Les permis de construire déposés avant le 1er janvier 2025 relèvent de la version de l'annexe R.172-4
+  antérieure au décret n° 2024-1258 (FAQ RE2020 n° 212 : pas de rétroactivité). L'outil, comme le classeur
+  de référence, applique la version issue du décret quelle que soit la période : par exemple Misurf_moy
+  (petits logements collectifs, ≈ +50 kg éq. CO₂/m² à 20 m² de surface moyenne) et la formule modifiée de
+  Misurf_tot (ancienne Misurf). Les seuils 2022-2024 affichés jusqu'ici pouvaient donc être faux.
+- En attendant l'intégration de la version antérieure : l'option reste dans la liste avec la mention
+  « indisponible (correction en cours) », un message rouge s'affiche sous le choix et à la place des seuils
+  (onglets Construction neuve et Extension et surélévation masqués). Les anciens liens en 2022-2024 ouvrent
+  cette page bloquée.
+- `variables.PERIODES_INDISPONIBLES` ; textes dans `interface/parametres.py`. Moteur de calcul inchangé.
+- Signalé par un utilisateur (logements collectifs, PC 2023, comparaison avec One Click LCA).
+
 ## 1.0.4 — 5 novembre 2026
 
 Favicon et menu latéral au même code couleur que les cartes de seuils.
