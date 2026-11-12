@@ -13,6 +13,7 @@ ETAPES = {"batiment": "apartment", "permis": "description", "contraintes": "nois
 CHAMPS = {"usage_id": "category", "departement": "location_on", "altitude": "landscape", "sref": "square_foot",
           "nb_logements": "door_front", "scombles": "roofing", "hsp": "height", "sagrement": "balcony",
           "igh": "domain", "periode_pc": "calendar_month", "pc_apres_juillet_2026": "event",
+          "pc_apres_mai_2026": "event", "emprise_sup_1000": "crop_free", "derogation_gaz": "local_fire_department",
           "categorie": "warning", "exposition_bruit": "volume_up", "climatise": "ac_unit",
           "iclot1": "road", "iclot2": "foundation", "iclot13": "solar_power", "icded": "dataset",
           "rcu": "heat_pump", "rcu_classe": "verified", "classe_inertie": "layers",

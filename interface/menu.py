@@ -6,14 +6,14 @@ import streamlit as st
 
 from interface import icones as I
 from interface import style
-from interface.parametres import (AIDE_IGH_GRISE, AIDES_REMPLACEES, ETAPES, LIBELLES, LIEN_ZONES,
-                                  MESSAGE_PERIODE_INDISPONIBLE, RENVOI_TRAVAUX, SREF_RENVOI_TRAVAUX,
-                                  SUFFIXE_PERIODE_INDISPONIBLE, TEXTE_AGREMENT, TEXTE_CARBONE, TEXTE_SMOYLGT,
-                                  TITRE_MENU, URL_ZONES)
-from seuils_re2020 import decret_applicable, donnees
-from seuils_re2020.presentation import libelle_departement, libelle_usage, nombre_fr, unite_surface
+from interface.parametres import (AIDE_ICDED_AVANT_RETEX, AIDE_IGH_GRISE, AIDES_REMPLACEES, ETAPES, LIBELLES,
+                                  LIEN_ZONES, MESSAGE_HORS_CHAMP, RENVOI_TRAVAUX, SREF_RENVOI_TRAVAUX, TEXTE_AGREMENT,
+                                  TEXTE_CARBONE, TEXTE_SMOYLGT, TITRE_MENU, URL_ZONES)
+from seuils_re2020 import decret_applicable, donnees, hors_champ_saisie
+from seuils_re2020.presentation import (champs_utiles, libelle_departement, libelle_usage, nombre_fr,
+                                        unite_surface)
 from seuils_re2020.variables import (ALTITUDES, CATEGORIES, CLASSES_INERTIE, EXPOSITIONS_BRUIT, LIBELLES_ALTITUDE,
-                                     PERIODE_DECOUPEE_2026, PERIODES_INDISPONIBLES, PERIODES_PC, SEUIL_AGREMENT, USAGE_LOGEMENT_COLLECTIF,
+                                     PERIODE_AVANT_RETEX, PERIODE_DECOUPEE_2026, PERIODES_PC, SEUIL_AGREMENT, USAGE_LOGEMENT_COLLECTIF,
                                      USAGE_MAISON, USAGES_EFFINERGIE, USAGES_LOGEMENT)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
@@ -82,16 +82,26 @@ def _batiment():
             st.checkbox(disabled=not igh_possible, **champ("igh", aide=None if igh_possible else AIDE_IGH_GRISE))
 
 
+def _utiles():
+    """Champs utiles pour l'usage et la date de dépôt saisis (voir presentation.champs_utiles)."""
+    return champs_utiles(etat["usage_id"], etat["periode_pc"], etat["pc_apres_juillet_2026"])
+
+
+def _oui_non(cle):
+    st.radio(options=[True, False], format_func=lambda b: "Oui" if b else "Non", horizontal=True, **champ(cle))
+
+
 def _permis():
     with _etape("permis"):
-        # période bloquée : laissée dans la liste (anciens liens), signalée et expliquée en rouge
-        st.selectbox(options=PERIODES_PC, format_func=lambda p: p + SUFFIXE_PERIODE_INDISPONIBLE
-                     if p in PERIODES_INDISPONIBLES else p, **champ("periode_pc"))
-        if etat["periode_pc"] in PERIODES_INDISPONIBLES:
-            st.error(MESSAGE_PERIODE_INDISPONIBLE)
+        st.selectbox(options=PERIODES_PC, **champ("periode_pc"))
         if etat["periode_pc"] == PERIODE_DECOUPEE_2026:
-            st.radio(options=[True, False], format_func=lambda b: "Oui" if b else "Non", horizontal=True,
-                     **champ("pc_apres_juillet_2026"))
+            _oui_non("pc_apres_juillet_2026")
+        if _utiles()["pc_apres_mai_2026"]:
+            _oui_non("pc_apres_mai_2026")
+        # usage soumis depuis le 1er mai 2026 seulement : pas de seuil RE2020 avant (voir app.py)
+        if hors_champ_saisie(etat["usage_id"], etat["periode_pc"], etat["pc_apres_juillet_2026"],
+                             etat["pc_apres_mai_2026"]):
+            st.error(MESSAGE_HORS_CHAMP)
 
 
 def _contraintes():
@@ -107,8 +117,13 @@ def _contraintes():
 def _carbone():
     with _etape("carbone"):
         st.caption(TEXTE_CARBONE)
+        avant_retex = etat["periode_pc"] == PERIODE_AVANT_RETEX
         for cle in ("iclot1", "iclot2", "iclot13", "icded"):
-            st.number_input(min_value=0.0, **champ(cle))
+            # PC 2022-2024 : définition d'Icded de l'annexe avant le décret 2024-1258 (lot 13 compté)
+            aide = AIDE_ICDED_AVANT_RETEX if cle == "icded" and avant_retex else None
+            st.number_input(min_value=0.0, **champ(cle, aide=aide))
+            if cle == "iclot13" and _utiles()["emprise_sup_1000"]:
+                st.checkbox(**champ("emprise_sup_1000"))
 
 
 def _reseau():
@@ -117,5 +132,7 @@ def _reseau():
         if not etat["rcu"]:
             etat["rcu_classe"] = False
         st.checkbox(disabled=not etat["rcu"], **champ("rcu_classe"))
+        if _utiles()["derogation_gaz"]:
+            st.checkbox(**champ("derogation_gaz"))
         if etat["usage_id"] in USAGES_EFFINERGIE:
             st.selectbox(options=CLASSES_INERTIE, **champ("classe_inertie"))

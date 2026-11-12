@@ -120,13 +120,33 @@ def test_favicon_et_style_du_menu():
     assert html.count(style.FAVICON_URL) == 2 and "bande-six" in html
 
 
-def test_periode_2022_2024_bloquee():
-    """1.0.5 : PC avant 2025 = annexe R.172-4 avant décret 2024-1258, non intégrée -> aucun seuil affiché."""
+def test_periode_2022_2024_avec_l_annexe_avant_2025():
+    """1.1.0 : PC 2022-2024 de nouveau calculés, avec l'annexe avant le décret 2024-1258."""
     app = lancer({"pc": "2022 à 2024"})
-    assert not app.exception
-    assert len(app.tabs) == 0 and 'class="carte-seuil"' not in textes(app)
-    assert any("temporairement indisponible" in e.value for e in app.error)
-    assert any("temporairement indisponible" in e.value for e in app.sidebar.error)
-    choix = next(s for s in app.sidebar.selectbox if "Période de dépôt" in s.label)
-    assert choix.options[0].endswith("indisponible (correction en cours)")
-    assert app.query_params["pc"] == "2022 à 2024"           # le lien garde la période choisie
+    assert not app.exception and not app.error
+    assert " ".join(m.value for m in app.tabs[0].markdown).count('class="carte-seuil"') == NB_SEUILS
+    assert "avant le décret n° 2024-1258" in textes(app)
+    assert any("Misurf)" in m.value for m in app.tabs[0].markdown)            # formule à Misurf unique
+    assert any("2022-2024" in w.value for w in app.tabs[1].warning)           # régime des travaux à vérifier
+
+
+def test_champs_propres_a_2022_2024():
+    bureaux = lancer({"usage": "3", "pc": "2022 à 2024", "emprise": "1"})
+    assert any("Emprise au sol" in c.label and c.value for c in bureaux.sidebar.checkbox)
+    assert bureaux.query_params["emprise"] == "1"
+    maison = lancer({"usage": "1", "pc": "2022 à 2024", "nl": "1", "sref": "120", "gaz": "1"})
+    assert any("Dérogation gaz" in c.label and c.value for c in maison.sidebar.checkbox)
+    assert "dérogation gaz (Icénergie_maxmoyen = 280) : oui" in textes(maison)
+    # hors 2022-2024 : champs masqués, sans effet, absents du lien
+    assert "emprise" not in lancer({"usage": "3", "emprise": "1"}).query_params
+
+
+def test_usage_soumis_depuis_le_1er_mai_2026():
+    hotel = {"usage": "8", "sref": "2000", "juillet": "0"}
+    avant_mai = lancer({**hotel, "mai": "0"})
+    assert not avant_mai.exception and len(avant_mai.tabs) == 0
+    assert any("pas soumis à la RE2020" in e.value for e in avant_mai.error)
+    assert any("pas soumis à la RE2020" in e.value for e in avant_mai.sidebar.error)
+    mai_juin = lancer(hotel)
+    assert len(mai_juin.tabs) == 2 and "entre le 1er mai et le 30 juin 2026" in textes(mai_juin)
+    assert len(lancer({"usage": "8", "pc": "2022 à 2024"}).tabs) == 0

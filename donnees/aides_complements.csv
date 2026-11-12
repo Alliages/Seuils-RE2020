@@ -10,3 +10,6 @@ iclot13;Impact du lot 13 « Équipement de production locale d'électricité » 
 icded;Impact de l'ensemble des composants évalués avec des données environnementales par défaut ou des valeurs forfaitaires, hors lots 1, 2 et 13.;Annexe R.172-4, chap. III §III
 typologie;Extension : partie nouvelle ajoutée à côté du bâtiment. Surélévation : niveaux créés au-dessus.;Arrêté du 4 août 2021 art. 50-3 · règles validées le 30/10/2026
 sexistant;Surface de référence des locaux existants, avant travaux.;Arrêté du 4 août 2021 art. 50-3, I
+pc_apres_mai_2026;Hôtels, commerces, restaurants, santé, enseignement supérieur, industrie… : la RE2020 s'applique aux PC déposés à partir du 1er mai 2026 (décret n° 2026-16).;Décret n° 2026-16, art. R. 172-1 du CCH
+emprise_sup_1000;PC 2022-2024 : Mipv ne s'applique aux bureaux que si l'emprise au sol (art. R. 420-1 du code de l'urbanisme) dépasse 1 000 m².;Annexe R.172-4 avant décret 2024-1258, chap. III bureaux
+derogation_gaz;Maisons : Icénergie_maxmoyen = 280 kg éq. CO₂/m² si le PC est déposé avant le 31/12/2023 et si la parcelle relève d'un permis d'aménager délivré, ou d'une ZAC dont le dossier de réalisation a été approuvé, avant le 1er janvier 2022, prévoyant le raccordement au gaz.;Annexe R.172-4 chap. III, maisons

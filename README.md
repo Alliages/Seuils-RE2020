@@ -8,7 +8,7 @@ s'applique.
 **Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
 
 > Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
-> Version 1.0.2.
+> Version 1.1.0.
 
 ![Capture d'écran de l'outil](docs/capture-accueil.png)
 
@@ -252,6 +252,11 @@ formules), `seuils_re2020/calculs.py` (assemblage des six seuils) et
   l'exposition au texte « BR2,BR3 ») : `tests/test_cas_reference.py` ajoute le bonus aux valeurs
   du classeur en attendant. Ne pas régénérer `donnees/regles.csv` avec `extraire_excel.py` avant
   d'avoir corrigé le classeur, sinon l'erreur revient.
+- **PC 2022-2024** : calculés depuis 1.1.0 avec l'annexe R.172-4 antérieure au décret n° 2024-1258
+  (FAQ RE2020 n° 212 : pas de rétroactivité). Le classeur v2.2 applique la version issue du décret
+  quelle que soit la période : `tests/test_cas_reference.py` corrige ses valeurs 2022-2024 en
+  attendant (même remarque sur `extraire_excel.py`). Les régimes d'extension et de surélévation
+  suivent l'article 50-3 dans sa version applicable à partir de 2025 : un avertissement le rappelle.
 - **Multi-usages** : pas de calcul au prorata des Sref.
 
 ## Versions
@@ -292,6 +297,9 @@ Le paramètre `v` indique la version de l'outil qui a produit le lien. Il n'est 
 | `agr` | Surface cumulée d'agrément extérieur (m²) | nombre ≥ 0 | 0 |
 | `pc` | Période de dépôt du PC | `2022 à 2024`, `2025 à 2027`, `2028 à 2030`, `à partir de 2031` | `2025 à 2027` |
 | `juillet` | PC déposé à partir du 1er juillet 2026 | 1 ou 0 | 1 |
+| `mai` | PC déposé à partir du 1er mai 2026 (usages soumis depuis cette date) | 1 ou 0 | 1 |
+| `emprise` | Bureaux, PC 2022-2024 : emprise au sol > 1 000 m² (Mipv) | 1 ou 0 | 0 |
+| `gaz` | Maisons, PC 2022-2024 : dérogation gaz (Icénergie_maxmoyen = 280) | 1 ou 0 | 0 |
 | `cat` | Catégorie | 1, 2 ou 3 | 1 |
 | `bruit` | Exposition au bruit | BR1, BR2 ou BR3 | BR1 |
 | `clim` | Bâtiment climatisé | 1 ou 0 | 0 |
@@ -312,4 +320,6 @@ Règles d'écriture :
 - Les espaces et accents des valeurs texte (`pc`, `inertie`) sont encodés par le navigateur.
 - Les cases à cocher s'écrivent `1` (oui) ou `0` (non).
 - Les décimales s'écrivent avec un point (`hsp=2.7`).
-- `juillet` n'a d'effet que si `pc` vaut `2025 à 2027`.
+- `juillet` n'a d'effet que si `pc` vaut `2025 à 2027` ; `mai` seulement en plus avec `juillet=0`
+  pour un usage soumis à la RE2020 depuis le 1er mai 2026 ; `emprise` et `gaz` seulement si `pc`
+  vaut `2022 à 2024`.

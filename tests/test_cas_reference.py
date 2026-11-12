@@ -22,6 +22,32 @@ TOLERANCE = 1e-6
 # classeur corrigé aura servi à régénérer cas_reference.csv.
 BONUS_BRUIT_EFFINERGIE = 130
 USAGES_BONUS_BRUIT = {1, 2}
+# Correction du moteur (1.1.0) que le classeur v2.2 n'a pas encore : PC 2022-2024 calculés avec l'annexe
+# R.172-4 avant le décret 2024-1258 (FAQ RE2020 n° 212). Écarts appliqués à la valeur du classeur, recalculés
+# ici à la main d'après les deux versions de l'annexe (le classeur applique la version post-décret partout).
+PERIODE_AVANT_RETEX = "2022 à 2024"
+IC_MOYEN_LC_2022 = 740                      # Icconstruction_maxmoyen logements collectifs 2022-2024
+RAPPORT_ICENERGIE_MI_RCU = 160 / 200        # maisons raccordées : 160 avant le décret, 200 après
+SEUIL_MIPV = 20                             # Mipv = Iclot13 − 20 au-delà de 20 kg éq. CO₂/m²
+
+
+def ecart_avant_retex(l, ind):
+    """Écart (valeur avant décret − valeur du classeur) pour un PC 2022-2024 ; None si aucun."""
+    usage, sref = int(l["usage_id"]), float(l["sref"])
+    smoy = sref / float(l["nb_logements"])
+    if ind == "bbio_max" and usage == 1:
+        # Mbsurf_moy × Bbio_maxmoyen : 49 − 0,5 S / 19 − 0,2 S / −11 au lieu de 49 − 0,49 S / 18 − 0,18 S / −9
+        return -0.01 * smoy if smoy <= 100 else (1 - 0.02 * smoy if smoy <= 150 else -2)
+    if ind == "icconstruction_max" and usage in {1, 2, 3, 4, 5}:
+        ecart = -max(0.0, float(l["iclot13"]) - SEUIL_MIPV)          # Mipv = 0 (bureaux : emprise ≤ 1 000 m²)
+        if usage == 2:
+            if smoy <= 40:                                          # Misurf_moy n'existait pas
+                ecart -= 100 - 2.5 * smoy
+            if sref <= 1300:                                        # Misurf : −0,169 + 1,30 Sref au lieu de −0,104 + 0,8 Sref
+                ecart += (-0.065 + 0.5 * sref / 10000) * IC_MOYEN_LC_2022
+        return ecart
+    return None
+
 
 
 def lire_cas():
@@ -43,10 +69,20 @@ def projet_depuis(l):
 
 
 def attendu(l, ind):
-    """Valeur du classeur, corrigée du bonus bruit de DH Effinergie (voir paramètres)."""
+    """Valeur du classeur, corrigée du bonus bruit de DH Effinergie et de l'annexe avant 2025 (voir paramètres)."""
     if (ind == "dh_effinergie" and int(l["usage_id"]) in USAGES_BONUS_BRUIT and l["zone"] not in ZONES_CHAUDES
             and l["exposition_bruit"] in ("BR2", "BR3")):
         return repr(float(l[ind]) + BONUS_BRUIT_EFFINERGIE)
+    if l["periode_pc"] == PERIODE_AVANT_RETEX:
+        try:
+            valeur = float(l[ind])
+        except ValueError:
+            return l[ind]                                           # « non applicable » : inchangé
+        if ind == "icenergie_max" and l["usage_id"] == "1" and l["rcu"] == "1":
+            return repr(valeur * RAPPORT_ICENERGIE_MI_RCU)
+        ecart = ecart_avant_retex(l, ind)
+        if ecart is not None:
+            return repr(valeur + ecart)
     return l[ind]
 
 

@@ -3,6 +3,39 @@
 Numérotation : 0.8.x et 0.9.x tant que l'outil n'était pas validé, puis 1.0.0 (version initiale).
 Chiffre pair = évolution importante, chiffre impair = correction.
 
+## 1.1.0 — 12 novembre 2026
+
+PC 2022-2024 calculés avec l'annexe R.172-4 antérieure au décret n° 2024-1258, usages soumis depuis
+le 1er mai 2026, détail des modulations selon le texte applicable.
+
+- **PC 2022-2024 de nouveau disponibles** (bloqués en 1.0.5). Écarts repris des PDF de l'annexe
+  (versions avant et après RETEX, site RT-RE), dans `donnees/regles.csv` (conditions sur `depotpc`) :
+  - Icconstruction, logements collectifs : pas de Misurf_moy ; Misurf = −0,169 + 1,30 × Sref / 10 000
+    jusqu'à 1 300 m² (au lieu de −0,104 + 0,8 × Sref / 10 000) ;
+  - Mipv = 0, sauf bureaux de plus de 1 000 m² d'emprise au sol (nouvelle case, PC 2022-2024 seulement) ;
+  - Bbio, maisons : Mbsurf_moy = 49 − 0,5 S / 19 − 0,2 S / −11 (au lieu de 49 − 0,49 S / 18 − 0,18 S / −9) ;
+  - Icénergie, maisons raccordées à un réseau de chaleur : Icénergie_maxmoyen = 160 (pas de valeur
+    « réseau de chaleur » avant le décret) ;
+  - Icénergie, maisons : dérogation gaz (280 kg éq. CO₂/m², PC avant le 31/12/2023, gaz prévu par un
+    permis d'aménager ou une ZAC antérieurs à 2022), nouvelle case, absente du classeur ;
+  - Icded : infobulle propre à 2022-2024 (le lot 13 est compté, sauf bureaux de plus de 1 000 m²).
+  - Déjà justes : Mcgéo des maisons en H2d et H3, Mided, dérogation RCU classé.
+- **Détail des modulations** : les formules ne contiennent que les coefficients du texte applicable.
+  PC 2022-2024 : Misurf unique au lieu de Misurf_moy + Misurf_tot. PC avant le 1er juillet 2026 :
+  plus de MbHSP, McHSP, MiHSP, Miagrément_ext ni Miclim_RCU (décret 2026-200, valeurs nulles
+  jusqu'ici). La version de l'annexe retenue est indiquée dans la carte, le récapitulatif et l'export.
+- **Usages soumis depuis le 1er mai 2026** (décret 2026-16 : hôtels, commerces, santé…) : question
+  « PC déposé à partir du 1er mai 2026 ? » pour un PC 2025-2027 avant le 1er juillet 2026 ; avant le
+  1er mai 2026 (ou en 2022-2024), message rouge et aucun seuil. Message corrigé (« à partir de 2026 »
+  → « à partir du 1er mai 2026 »).
+- Onglet Extension et surélévation : avertissement pour un PC 2022-2024 (régimes de l'article 50-3
+  dans sa version applicable à partir de 2025).
+- Lien : paramètres `mai`, `emprise`, `gaz`. Version affichée sans « initiale ».
+- Classeur v2.2 non corrigé : `tests/test_cas_reference.py` corrige ses valeurs 2022-2024 par les
+  écarts ci-dessus, recalculés à la main (320 valeurs sur 10 670 cas) ; nouveaux tests
+  `tests/test_avant_retex.py` (valeurs calculées à la main d'après l'annexe).
+- Tests : 768 (pytest).
+
 ## 1.0.5 — 12 novembre 2026
 
 Correctif : période de dépôt « 2022 à 2024 » bloquée.

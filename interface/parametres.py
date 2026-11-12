@@ -10,7 +10,7 @@ from seuils_re2020.variables import VERSION
 # ─── En-tête et pied de page ─────────────────────────────────────────────────
 TITRE = "Les 6 seuils de la RE2020"
 TITRE_MENU = "Les paramètres du projet"
-LIBELLE_VERSION = f"v{VERSION} · initiale"
+LIBELLE_VERSION = f"v{VERSION}"
 DATE_VERSION = "12 novembre 2026"                  # date de publication (celle de CHANGELOG.md)
 INFOBULLE_VERSION = f"Version {VERSION} publiée le {DATE_VERSION}"     # affichée au survol de la version
 PIED_DE_PAGE = ("Document non officiel, à utiliser avec toutes les vérifications nécessaires · licence GNU GPL v3 · "
@@ -39,6 +39,9 @@ LIBELLES = {
     "sagrement": "Surface cumulée d'agrément extérieur (m²)", "igh": "Immeuble de grande hauteur (IGH)",
     "periode_pc": "Période de dépôt du permis de construire (PC)",
     "pc_apres_juillet_2026": "Permis de construire (PC) déposé à partir du 1er juillet 2026 ?",
+    "pc_apres_mai_2026": "Permis de construire (PC) déposé à partir du 1er mai 2026 ?",
+    "emprise_sup_1000": "Emprise au sol supérieure à 1 000 m²",
+    "derogation_gaz": "Dérogation gaz : PC avant le 31/12/2023, gaz prévu par un permis d'aménager ou une ZAC",
     "categorie": "Catégorie de contraintes extérieures", "exposition_bruit": "Exposition au bruit",
     "climatise": "Partie de bâtiment climatisée",
     "iclot1": "Lot 1 – VRD", "iclot2": "Lot 2 – fondations et infrastructure",
@@ -52,13 +55,16 @@ LIBELLES = {
 AIDES_REMPLACEES = {"altitude": "Afficher les coordonnées : [cartes.gouv.fr](https://cartes.gouv.fr/explorer-les-cartes/)"}
 AIDE_IGH_GRISE = ("Les règles IGH (décret n° 2026-200) ne s'appliquent qu'aux permis de construire déposés "
                   "à partir du 1er juillet 2026 : choisir la date de dépôt à l'étape 2.")
-# Période de dépôt bloquée (variables.PERIODES_INDISPONIBLES) : suffixe dans la liste et message rouge
-SUFFIXE_PERIODE_INDISPONIBLE = " — indisponible (correction en cours)"
-MESSAGE_PERIODE_INDISPONIBLE = (
-    "**Période 2022 à 2024 temporairement indisponible.** Les permis de construire déposés avant le "
-    "1er janvier 2025 relèvent de la version de l'annexe R.172-4 antérieure au décret n° 2024-1258 "
-    "(FAQ RE2020 n° 212). Cette version n'est pas encore intégrée à l'outil : les seuils affichés seraient faux. "
-    "Correction en cours.")
+# Usage soumis à la RE2020 seulement depuis le 1er mai 2026 (décret 2026-16) : message rouge, aucun seuil
+MESSAGE_HORS_CHAMP = (
+    "**Cet usage n'est pas soumis à la RE2020 pour cette date de dépôt.** Le décret n° 2026-16 l'y soumet pour "
+    "les permis de construire déposés à partir du 1er mai 2026 : avant, c'est la réglementation antérieure "
+    "(RT2012 le plus souvent) qui s'applique. Aucun seuil RE2020 n'est donné.")
+# PC 2022-2024 : définition d'Icded de l'annexe avant le décret 2024-1258 (le lot 13 est compté)
+AIDE_ICDED_AVANT_RETEX = (
+    "PC 2022-2024 (annexe avant le décret n° 2024-1258) : impact des composants évalués avec des données par "
+    "défaut ou des valeurs forfaitaires, hors lots 1 et 2 — le lot 13 est compté, sauf pour les bureaux de plus "
+    "de 1 000 m² d'emprise au sol (hors lots 1, 2 et 13).")
 LIEN_ZONES = "Carte des zones climatiques"
 # Autres outils du même auteur, listés dans la carte « Pour aller plus loin » :
 # (clé d'icône, libellé, adresse, info-bulle au survol)
@@ -88,6 +94,7 @@ BOUTON_TELECHARGER = "Télécharger (.txt)"
 NOM_FICHIER_EXPORT = "seuils_re2020_{jour:%Y%m%d}.txt"
 COPIER_TEXTE = "Copier le texte"
 TEXTE_EFFINERGIE = "Hors réglementation."
+TEXTE_DETAIL_MODULATIONS = "Formules et coefficients de l'{texte}, selon la date de dépôt du PC."
 
 # ─── Onglet Extension et surélévation ────────────────────────────────────────
 COLONNES_TYPOLOGIE = [1, 2, 1]            # type de travaux centré
@@ -95,7 +102,11 @@ LARGEURS_ENCADRES = [0.4, 4, 0.8, 4, 0.4]  # marge, surface existante, écart, s
 TEXTE_VALIDER = "Valider avec Entrée ou en touchant ailleurs."   # sur téléphone, la saisie part à la validation
 TEXTE_SEUILS_TRAVAUX = ("Seuils calculés avec les paramètres du menu, sur la Sref des travaux. "
                         "Le détail des modulations est dans l'onglet Construction neuve.")
-MENTION_EXPORT_TRAVAUX = "Cet onglet n'est pas repris dans l'export texte, qui ne couvre que la construction neuve."
+AVERTISSEMENT_TRAVAUX_AVANT_RETEX = (
+    "PC déposé en 2022-2024 : les régimes ci-dessous suivent l'article 50-3 de l'arrêté du 4 août 2021 dans sa "
+    "version applicable aux PC déposés à partir de 2025. Vérifier le régime en vigueur à la date de dépôt. "
+    "Les seuils, eux, suivent l'annexe R.172-4 avant le décret n° 2024-1258.")
+MENTION_EXPORT_TRAVAUX ="Cet onglet n'est pas repris dans l'export texte, qui ne couvre que la construction neuve."
 TITRE_BORNES = "Lecture des bornes (50 m², 80 m², 150 m², 30 %)"
 # Lecture des bornes retenue, validée le 30/10/2026
 NOTE_BORNES = (

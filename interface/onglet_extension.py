@@ -9,11 +9,11 @@ import streamlit as st
 from interface import icones as I
 from interface.menu import champ
 from interface.onglet_neuf import titre_carte
-from interface.parametres import (COLONNES_TYPOLOGIE, LARGEURS_ENCADRES, MENTION_EXPORT_TRAVAUX, NOTE_BORNES,
-                                  TEXTE_SEUILS_TRAVAUX, TEXTE_VALIDER, TITRE_BORNES, TITRES_CARTES, URL_ARTICLE_50_3,
-                                  URL_FICHE_EXTENSION)
+from interface.parametres import (AVERTISSEMENT_TRAVAUX_AVANT_RETEX, COLONNES_TYPOLOGIE, LARGEURS_ENCADRES,
+                                  MENTION_EXPORT_TRAVAUX, NOTE_BORNES, TEXTE_SEUILS_TRAVAUX, TEXTE_VALIDER,
+                                  TITRE_BORNES, TITRES_CARTES, URL_ARTICLE_50_3, URL_FICHE_EXTENSION)
 from interface.style import carte_seuil
-from seuils_re2020 import regime_travaux
+from seuils_re2020 import avant_retex, regime_travaux
 from seuils_re2020.presentation import libelle_usage, nombre_fr, unite_surface
 from seuils_re2020.variables import INDICATEURS, TYPOLOGIES_TRAVAUX
 
@@ -22,6 +22,8 @@ etat = st.session_state
 
 def afficher(projet, resultats):
     unite = unite_surface(projet.usage_id)
+    if avant_retex(projet):         # régimes établis d'après les textes applicables aux PC à partir de 2025
+        st.warning(AVERTISSEMENT_TRAVAUX_AVANT_RETEX, icon=I.ico(I.DIVERS["alerte"]))
     regime = _saisies(projet, unite)
     _regime(regime)
     _seuils_exiges(regime, resultats)

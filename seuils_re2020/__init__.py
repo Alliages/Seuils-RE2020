@@ -9,10 +9,10 @@ Exemple :
 """
 from .calculs import Resultat, calculer
 from .controles import alertes
-from .regles import Projet, decret_2026_applicable, decret_applicable
+from .regles import Projet, avant_retex, decret_2026_applicable, decret_applicable, hors_champ, hors_champ_saisie
 from .travaux import Regime, regime_travaux
 from .variables import VERSION
 
 __version__ = VERSION
-__all__ = ["Projet", "Resultat", "calculer", "alertes", "decret_2026_applicable", "decret_applicable",
-           "Regime", "regime_travaux", "__version__"]
+__all__ = ["Projet", "Resultat", "calculer", "alertes", "avant_retex", "decret_2026_applicable", "decret_applicable",
+           "hors_champ", "hors_champ_saisie", "Regime", "regime_travaux", "__version__"]

@@ -1,4 +1,7 @@
 coefficient;usages;condition;formule;source
+Mbsurf_moy;1;(depotpc == '2022 à 2024') and (smoylgt <= 100);(49 - (0.5 * smoylgt)) / bbiomaxmoyen;Annexe R.172-4 avant décret 2024-1258 (chap. III maisons)
+Mbsurf_moy;1;(depotpc == '2022 à 2024') and (smoylgt > 100) and (smoylgt <= 150);(19 - (0.2 * smoylgt)) / bbiomaxmoyen;Annexe R.172-4 avant décret 2024-1258 (chap. III maisons)
+Mbsurf_moy;1;(depotpc == '2022 à 2024') and (smoylgt > 150);-11 / bbiomaxmoyen;Annexe R.172-4 avant décret 2024-1258 (chap. III maisons)
 Mbsurf_moy;1;smoylgt <= 100;(49 - (0.49 * smoylgt)) / bbiomaxmoyen;Calcul_bbio!G52
 Mbsurf_moy;1;(not (smoylgt <= 100)) and (not (smoylgt > 150));(18 - (0.18 * smoylgt)) / bbiomaxmoyen;Calcul_bbio!H52
 Mbsurf_moy;1;smoylgt > 150;-9 / bbiomaxmoyen;Calcul_bbio!I52
@@ -109,6 +112,7 @@ McHSP;2;hspmoy > 2.5;((min(hspmoy, 2.9) / 2.5) - 1) / 4;Calcul_energie!I117
 McHSP;*;defaut;0;Calcul_energie!J117
 Misurf_moy;1;smoylgt <= 120;0.36 - ((3.6 * smoylgt) / 1000);Calcul_matiere!G43
 Misurf_moy;1;smoylgt > 120;-0.072;Calcul_matiere!H43
+Misurf_moy;2;depotpc == '2022 à 2024';0;Annexe R.172-4 avant décret 2024-1258 (Misurf_moy créé par ce décret)
 Misurf_moy;2;smoylgt <= 40;(100 - (2.5 * smoylgt)) / icconstructionmaxmoyen;Calcul_matiere!I43
 Misurf_moy;2;smoylgt > 40;0;Calcul_matiere!J43
 Misurf_moy;3;True;0;Calcul_matiere!K43
@@ -128,6 +132,7 @@ Misurf_moy;25;True;0;Calcul_matiere!X43
 Misurf_moy;26,27;True;0;Calcul_matiere!Y43
 Misurf_moy;28;True;0;Calcul_matiere!Z43
 Misurf_tot;1;True;0;Calcul_matiere!G50
+Misurf_tot;2;(depotpc == '2022 à 2024') and (sref <= 1300);-0.169 + ((1.3 * sref) / 10000);Annexe R.172-4 avant décret 2024-1258 (Misurf des logements collectifs)
 Misurf_tot;2;sref <= 1300;0 if ((est_igh == 'oui') and decret2026) else (-0.104 + ((0.8 * sref) / 10000));Calcul_matiere!H50
 Misurf_tot;2;True if ((sref > 1300) and (sref < 4000)) else False;0 if ((est_igh == 'oui') and decret2026) else (0.0455 - ((0.35 * sref) / 10000));Calcul_matiere!I50
 Misurf_tot;2;sref >= 4000;0 if ((est_igh == 'oui') and decret2026) else -0.0945;Calcul_matiere!J50
@@ -204,7 +209,11 @@ MiHSP;*;defaut;0;Calcul_matiere!I86
 Mbcombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_ou_accolées') else 0;Calcul_bbio!E46
 Mccombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_ou_accolées') else 0;Calcul_energie!E79
 Micombles;*;True;((0.4 * scombles) / sref) if (usage == 'maisons_individuelles_ou_accolées') else 0;Calcul_matiere!E37
+Mipv;1,2,4,5;depotpc == '2022 à 2024';0;Annexe R.172-4 avant décret 2024-1258 (Mipv = 0)
+Mipv;3;(depotpc == '2022 à 2024') and (emprise_1000 == 'non');0;Annexe R.172-4 avant décret 2024-1258 (bureaux : Mipv seulement au-delà de 1 000 m² d'emprise au sol)
 Mipv;*;True;0 if (iclot13 <= 20) else (iclot13 - 20);Calcul_matiere!E62
+Icenergie_maxmoyen_gaz;1;(depotpc == '2022 à 2024') and (derogation_gaz == 'oui');280;Annexe R.172-4 chap. III (maisons : PC déposé avant le 31/12/2023, gaz prévu par un permis d'aménager ou une ZAC antérieurs au 01/01/2022)
+Icenergie_maxmoyen_gaz;*;defaut;0;Pas de dérogation gaz
 Miclim_RCU;*;True;(25 if ((rcu == 'oui') and (rcu_classe == 'oui') and (climatise == 'oui')) else 0) if decret2026 else 0;Calcul_matiere!E88
 Mcgeo_exception_MI;*;True;'oui' if ((usage == 'maisons_individuelles_ou_accolées') and (elevation == '<400m') and (depotpc == '2022 à 2024') and ((zoneclim == 'h2d') or (zoneclim == 'h3'))) else 'non';Calcul_energie!D75
 DH_effinergie_Q8;*;True;((600 + (110 if (classe_inertie == 'très légère, légère ou moyenne') else 0)) + (130 if ((expobruit == 'br2') or (expobruit == 'br3')) else 0)) + (140 if (smoylgt < 30) else 0);Calcul_dh!Q8

@@ -7,7 +7,7 @@ Ce fichier ne contient que des listes de choix, des libellés et des paramètres
 from pathlib import Path
 
 # ─── Version de l'outil ──────────────────────────────────────────────────────
-VERSION = "1.0.5"
+VERSION = "1.1.0"
 
 # ─── Indicateurs : (clé, libellé, unité, décimales affichées, famille) ───────
 INDICATEURS = [
@@ -26,10 +26,10 @@ NOMS_MOYENS = {"bbio_max": "Bbio_maxmoyen", "cepnr_max": "Cep,nr_maxmoyen", "cep
 TERMES_ADDITIFS = {"Migéo", "Miinfra", "Mivrd", "Mipv", "Mided", "Miagrément_ext", "MiHSP", "Miclim_RCU"}
 
 # ─── Usages particuliers (numéros de donnees/usages.csv) ─────────────────────
-USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF = 1, 2
+USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF, USAGE_BUREAUX = 1, 2, 3
 USAGES_LOGEMENT = {USAGE_MAISON, USAGE_LOGEMENT_COLLECTIF}
 USAGES_EFFINERGIE = {1, 2, 3, 4, 5}                  # label Effinergie : logements, bureaux, enseignement
-USAGES_RE2020_DES_2022 = {1, 2, 3, 4, 5}             # autres usages : PC à partir de 2026 (décret 2026-16)
+USAGES_RE2020_DES_2022 = {1, 2, 3, 4, 5}             # autres usages : PC à partir du 1er mai 2026 (décret 2026-16)
 SEUIL_AGREMENT = 0.10                                # Miagrément_ext s'applique au-delà de 10 % de la Sref
 
 # ─── Listes de choix (identiques au classeur de référence) ───────────────────
@@ -39,9 +39,17 @@ ALTITUDES = ["<400m", "400m-800m", ">800m"]
 LIBELLES_ALTITUDE = {"<400m": "altitude < 400 m", "400m-800m": "altitude 400 à 800 m", ">800m": "altitude > 800 m"}
 PERIODES_PC = ["2022 à 2024", "2025 à 2027", "2028 à 2030", "à partir de 2031"]
 PERIODE_2022, PERIODE_2025, PERIODE_2028, PERIODE_2031 = PERIODES_PC
-# Périodes bloquées dans l'interface (1.0.5) : les PC déposés avant le 1er janvier 2025 relèvent de l'annexe
-# R.172-4 antérieure au décret n° 2024-1258 (FAQ RE2020 n° 212), pas encore intégrée au calcul.
-PERIODES_INDISPONIBLES = {PERIODE_2022}
+
+# ─── Versions de l'annexe R.172-4 selon la date de dépôt du PC ───────────────
+# PC 2022-2024 : annexe antérieure au décret n° 2024-1258 (« avant RETEX », FAQ RE2020 n° 212). Écarts
+# repris dans donnees/regles.csv (conditions « depotpc == '2022 à 2024' ») et ci-dessous.
+PERIODE_AVANT_RETEX = PERIODE_2022
+# Avant le décret 2024-1258, une seule modulation de surface pour Icconstruction : Misurf (= Misurf_moy + Misurf_tot)
+NOM_MISURF_AVANT_RETEX = "Misurf"
+# Avant le décret 2024-1258, Icénergie_maxmoyen des maisons ne distingue pas le réseau de chaleur
+USAGES_SANS_RCU_AVANT_RETEX = {USAGE_MAISON}
+# Coefficients créés par le décret n° 2026-200 : absents des formules pour les PC déposés avant le 1er juillet 2026
+COEFS_DECRET_2026 = {"MbHSP", "McHSP", "MiHSP", "Miagrément_ext", "Miclim_RCU"}
 # année représentative de chaque période (feuille Enumération, colonne P)
 ANNEE_PERIODE = {PERIODE_2022: 2023, PERIODE_2025: 2026, PERIODE_2028: 2029, PERIODE_2031: 2032}
 EXPOSITIONS_BRUIT = ["BR1", "BR2", "BR3"]

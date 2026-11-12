@@ -9,11 +9,20 @@ from datetime import date
 
 from . import donnees
 from .calculs import calculer
-from .variables import (DH_REFERENCE, INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYENS, PERIODE_DECOUPEE_2026,
-                        PERIODES_PC, SMOYLGT_DH, TERMES_ADDITIFS, USAGE_LOGEMENT_COLLECTIF, USAGE_MAISON,
-                        USAGES_EFFINERGIE, USAGES_LOGEMENT, VERSION, ZONES_CHAUDES)
+from .regles import avant_retex, decret_2026_applicable
+from .variables import (DH_REFERENCE, INDICATEURS, JALONS_FUTURS, LIBELLES_ALTITUDE, NOMS_MOYENS, PERIODE_AVANT_RETEX,
+                        PERIODE_DECOUPEE_2026, PERIODES_PC, SMOYLGT_DH, TERMES_ADDITIFS, USAGE_BUREAUX,
+                        USAGE_LOGEMENT_COLLECTIF, USAGE_MAISON, USAGES_EFFINERGIE, USAGES_LOGEMENT,
+                        USAGES_RE2020_DES_2022, VERSION, ZONES_CHAUDES)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
+# Version de l'annexe R.172-4 utilisée, affichée avec le projet et dans l'export
+TEXTES_APPLICABLES = {
+    "avant_retex": "annexe R.172-4 avant le décret n° 2024-1258 (FAQ RE2020 n° 212)",
+    "retex": "annexe R.172-4 issue du décret n° 2024-1258",
+    "decret_2026_16": "annexe R.172-4 issue du décret n° 2026-16",
+    "decret_2026": "annexe R.172-4 issue du décret n° 2026-200",
+}
 ESPACE_MILLIERS = " "          # espace fine insécable, typographie française
 AVERTISSEMENT = "Document non officiel, à utiliser avec toutes les vérifications nécessaires."
 MENTION_TRAVAUX = ("Extension et surélévation : non exportées. Le régime applicable et les seuils exigés "
@@ -55,16 +64,38 @@ def libelle_depot(projet, majuscule=False):
     """Date de dépôt du permis de construire, en clair."""
     texte = f"{'P' if majuscule else 'p'}ermis de construire (PC) déposé : {projet.periode_pc}"
     if projet.periode_pc == PERIODE_DECOUPEE_2026:
-        texte += ", à partir du 1er juillet 2026" if projet.pc_apres_juillet_2026 else ", avant le 1er juillet 2026"
+        if projet.pc_apres_juillet_2026:
+            texte += ", à partir du 1er juillet 2026"
+        elif champs_utiles(projet.usage_id, projet.periode_pc, False)["pc_apres_mai_2026"]:
+            texte += (", entre le 1er mai et le 30 juin 2026" if projet.pc_apres_mai_2026
+                      else ", avant le 1er mai 2026")
+        else:
+            texte += ", avant le 1er juillet 2026"
     return texte
 
 
-def champs_utiles(usage_id, periode_pc):
-    """Champs de saisie utiles pour cet usage (les autres sont sans effet sur les seuils)."""
+def texte_applicable(projet):
+    """Version de l'annexe R.172-4 retenue pour le calcul, selon la date de dépôt du PC."""
+    if avant_retex(projet):
+        return TEXTES_APPLICABLES["avant_retex"]
+    if decret_2026_applicable(projet):
+        return TEXTES_APPLICABLES["decret_2026"]
+    # usages soumis depuis le 1er mai 2026 : valeurs créées par le décret 2026-16
+    return TEXTES_APPLICABLES["retex" if projet.usage_id in USAGES_RE2020_DES_2022 else "decret_2026_16"]
+
+
+def champs_utiles(usage_id, periode_pc, pc_apres_juillet_2026=True):
+    """Champs de saisie utiles pour cet usage et cette date de dépôt (les autres sont sans effet sur les seuils)."""
     return {"nb_logements": usage_id in USAGES_LOGEMENT, "scombles": usage_id == USAGE_MAISON,
             "hsp": usage_id in USAGES_LOGEMENT, "sagrement": usage_id == USAGE_LOGEMENT_COLLECTIF,
             "igh": usage_id != USAGE_MAISON, "classe_inertie": usage_id in USAGES_EFFINERGIE,
-            "pc_apres_juillet_2026": periode_pc == PERIODE_DECOUPEE_2026}
+            "pc_apres_juillet_2026": periode_pc == PERIODE_DECOUPEE_2026,
+            # usages soumis depuis le 1er mai 2026 (décret 2026-16), PC 2025-2027 déposé avant le 1er juillet 2026
+            "pc_apres_mai_2026": (usage_id not in USAGES_RE2020_DES_2022 and periode_pc == PERIODE_DECOUPEE_2026
+                                  and not pc_apres_juillet_2026),
+            # PC 2022-2024 (annexe avant le décret 2024-1258) : Mipv des bureaux, dérogation gaz des maisons
+            "emprise_sup_1000": usage_id == USAGE_BUREAUX and periode_pc == PERIODE_AVANT_RETEX,
+            "derogation_gaz": usage_id == USAGE_MAISON and periode_pc == PERIODE_AVANT_RETEX}
 
 
 def taux_agrement(projet):
@@ -86,9 +117,9 @@ def recapitulatif(projet, departement=None):
 
 def details(projet):
     """Toutes les autres saisies utiles, sur une ligne (affichée en petit sous le récapitulatif)."""
-    visible = champs_utiles(projet.usage_id, projet.periode_pc)
+    visible = champs_utiles(projet.usage_id, projet.periode_pc, projet.pc_apres_juillet_2026)
     oui_non = lambda b: "oui" if b else "non"
-    morceaux = [libelle_depot(projet, majuscule=True),
+    morceaux = [libelle_depot(projet, majuscule=True), texte_applicable(projet),
                 f"bruit {projet.exposition_bruit}", f"climatisé : {oui_non(projet.climatise)}"]
     if visible["igh"]:
         morceaux.append(f"IGH : {oui_non(projet.igh)}")
@@ -102,6 +133,10 @@ def details(projet):
     morceaux.append(f"réseau de chaleur : {reseau}")
     morceaux.append(f"carbone (kg éq. CO₂/m²) : lot 1 = {nombre_fr(projet.iclot1, 0)}, lot 2 = {nombre_fr(projet.iclot2, 0)}, "
                     f"lot 13 = {nombre_fr(projet.iclot13, 0)}, données par défaut = {nombre_fr(projet.icded, 0)}")
+    if visible["emprise_sup_1000"]:
+        morceaux.append(f"emprise au sol > 1 000 m² : {oui_non(projet.emprise_sup_1000)}")
+    if visible["derogation_gaz"]:
+        morceaux.append(f"dérogation gaz (Icénergie_maxmoyen = 280) : {oui_non(projet.derogation_gaz)}")
     if visible["classe_inertie"]:
         morceaux.append(f"inertie {projet.classe_inertie.lower()}")
     return " · ".join(morceaux)

@@ -1,11 +1,12 @@
 """
-Description du projet et choix des règles applicables (période, décret 2026-200, RCU…).
+Description du projet et choix des règles applicables (période, décrets 2024-1258, 2026-16 et 2026-200, RCU…).
 """
 from dataclasses import dataclass
 
 from . import donnees
 from .expressions import NonApplicable, evaluer
-from .variables import ANNEE_PERIODE, PERIODE_DECOUPEE_2026, PERIODES_APRES_DECRET
+from .variables import (ANNEE_PERIODE, PERIODE_2022, PERIODE_AVANT_RETEX, PERIODE_DECOUPEE_2026,
+                        PERIODES_APRES_DECRET, USAGES_RE2020_DES_2022)
 
 
 @dataclass
@@ -17,6 +18,9 @@ class Projet:
     sref: float                           # surface de référence (m²)
     periode_pc: str                       # '2022 à 2024' … 'à partir de 2031'
     pc_apres_juillet_2026: bool = True    # utile seulement pour la période 2025-2027
+    pc_apres_mai_2026: bool = True        # usages soumis depuis le 01/05/2026, PC 2025-2027 avant le 01/07/2026
+    emprise_sup_1000: bool = False        # bureaux, PC 2022-2024 : emprise au sol > 1 000 m² (Mipv)
+    derogation_gaz: bool = False          # maisons, PC avant le 31/12/2023 : gaz prévu par un PA ou une ZAC
     nb_logements: float = 1               # Smoylgt = Sref / NL
     scombles: float = 0                   # combles aménagés < 1,8 m (maisons)
     exposition_bruit: str = "BR1"         # BR1, BR2, BR3
@@ -45,6 +49,25 @@ def decret_2026_applicable(projet):
     return decret_applicable(projet.periode_pc, projet.pc_apres_juillet_2026)
 
 
+def avant_retex(projet):
+    """PC déposé avant le 01/01/2025 : annexe R.172-4 antérieure au décret n° 2024-1258 (FAQ RE2020 n° 212)."""
+    return projet.periode_pc == PERIODE_AVANT_RETEX
+
+
+def hors_champ_saisie(usage_id, periode_pc, pc_apres_juillet_2026, pc_apres_mai_2026):
+    """Usage soumis à la RE2020 seulement pour les PC déposés à partir du 1er mai 2026 (décret n° 2026-16)."""
+    if usage_id in USAGES_RE2020_DES_2022:
+        return False
+    if periode_pc == PERIODE_2022:
+        return True
+    return periode_pc == PERIODE_DECOUPEE_2026 and not pc_apres_juillet_2026 and not pc_apres_mai_2026
+
+
+def hors_champ(projet):
+    return hors_champ_saisie(projet.usage_id, projet.periode_pc, projet.pc_apres_juillet_2026,
+                             projet.pc_apres_mai_2026)
+
+
 def variables(projet):
     """Variables utilisées par les expressions de donnees/regles.csv (textes en minuscules)."""
     usage = donnees.usages()[projet.usage_id]
@@ -62,6 +85,7 @@ def variables(projet):
         "depotpc_annee": ANNEE_PERIODE[projet.periode_pc],
         "rcu": oui(projet.rcu), "rcu_classe": oui(projet.rcu_classe),
         "climatise": oui(projet.climatise), "est_igh": oui(projet.igh),
+        "emprise_1000": oui(projet.emprise_sup_1000), "derogation_gaz": oui(projet.derogation_gaz),
         "decret2026": decret_2026_applicable(projet),
         "categorie": f"catégorie {projet.categorie}",
         "zoneclim": projet.zone.lower(),

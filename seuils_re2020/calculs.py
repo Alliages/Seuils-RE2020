@@ -10,14 +10,19 @@ Formules générales (annexe à l'article R. 172-4, chapitre II) :
                          + Migéo + Miinfra + Mivrd + Mipv + Mided + Miagrément_ext + MiHSP + Miclim_RCU
     DH_max            = DH_maxcat
 Les valeurs viennent de donnees/ ; ce module ne fait qu'assembler.
+
+Selon la date de dépôt du PC, les formules ne contiennent que les coefficients du texte applicable :
+    - PC 2022-2024 (avant le décret 2024-1258) : Misurf unique au lieu de Misurf_moy + Misurf_tot ;
+    - PC avant le 1er juillet 2026 : sans MbHSP, McHSP, MiHSP, Miagrément_ext, Miclim_RCU (décret 2026-200).
 """
 from dataclasses import dataclass, field
 
 from . import donnees
 from .expressions import NonApplicable
-from .regles import appliquer, decret_2026_applicable, variables
-from .variables import (COEF_IGH, NE_S_APPLIQUE_PAS, NON_APPLICABLE, PERIODE_2022, PERIODE_2025, PERIODE_2028,
-                        PERIODE_2031, PERIODE_ICENERGIE_APRES_DECRET, PERIODES_APRES_DECRET, PERIODES_DEROGATION_RCU)
+from .regles import appliquer, avant_retex, decret_2026_applicable, variables
+from .variables import (COEF_IGH, COEFS_DECRET_2026, NE_S_APPLIQUE_PAS, NOM_MISURF_AVANT_RETEX, NON_APPLICABLE,
+                        PERIODE_2022, PERIODE_2025, PERIODE_2028, PERIODE_2031, PERIODE_ICENERGIE_APRES_DECRET,
+                        PERIODES_APRES_DECRET, PERIODES_DEROGATION_RCU, USAGES_SANS_RCU_AVANT_RETEX)
 
 # ─── Paramètres ──────────────────────────────────────────────────────────────
 MOYEN_ENERGIE = {"cepnr_max": "cepnr", "cep_max": "cep"}   # clé de donnees.moyennes() par indicateur
@@ -60,16 +65,31 @@ def _mcgeo(projet, vars_):
     return _table("mcgeo", ("usage_id", projet.usage_id), ("altitude", projet.altitude), ("zone", projet.zone))
 
 
-def _icenergie_moyen(projet):
+def _icenergie_moyen(projet, vars_):
+    avant = avant_retex(projet)
+    if avant:
+        # maisons, PC déposé avant le 31/12/2023 avec gaz prévu par un PA ou une ZAC : valeur dérogatoire
+        gaz = appliquer("Icenergie_maxmoyen_gaz", projet, vars_)
+        if gaz:
+            return gaz
+    # avant le décret 2024-1258, pas de valeur « réseau de chaleur » pour les maisons (160 dans tous les cas)
+    rcu = projet.rcu and not (avant and projet.usage_id in USAGES_SANS_RCU_AVANT_RETEX)
     # dérogation RCU classé : valeurs RCU 2022-2024 pour les PC déposés avant fin 2027
-    if projet.rcu and projet.rcu_classe and projet.periode_pc in PERIODES_DEROGATION_RCU:
+    if rcu and projet.rcu_classe and projet.periode_pc in PERIODES_DEROGATION_RCU:
         periode = PERIODE_2022
     elif projet.periode_pc in PERIODES_APRES_DECRET:
         periode = PERIODE_ICENERGIE_APRES_DECRET
     else:
         periode = projet.periode_pc
-    return _table("icenergie_moyen", ("usage_id", projet.usage_id), ("rcu", "oui" if projet.rcu else "non"),
+    return _table("icenergie_moyen", ("usage_id", projet.usage_id), ("rcu", "oui" if rcu else "non"),
                   ("periode", periode))
+
+
+def _selon_textes(coefs, projet):
+    """Retire les coefficients du décret 2026-200 quand il ne s'applique pas (ils valent 0 dans ce cas)."""
+    if decret_2026_applicable(projet):
+        return coefs
+    return {k: v for k, v in coefs.items() if k not in COEFS_DECRET_2026}
 
 
 def _icconstruction_moyen(projet):
@@ -98,20 +118,21 @@ def bbio_max(projet, vars_):
         "Mbbruit": _mbbruit(projet),
         "MbHSP": appliquer("MbHSP", projet, vars_) if decret else 0.0,
     }
+    c = _selon_textes(c, projet)
     return Resultat(_assembler(moyen, c), moyen, c)
 
 
 def coefficients_mc(projet, vars_, cepnr_moyen):
     decret = decret_2026_applicable(projet)
     vars_ = {**vars_, "cepnrmaxmoyen": cepnr_moyen}
-    return {
+    return _selon_textes({
         "Mcgéo": _mcgeo(projet, vars_),
         "Mccombles": appliquer("Mccombles", projet, vars_),
         "Mcsurf_moy": appliquer("Mcsurf_moy", projet, vars_),
         "Mcsurf_tot": appliquer("Mcsurf_tot", projet, vars_),
         "Mccat": _table("mccat", ("usage_id", projet.usage_id), ("categorie", projet.categorie), ("zone", projet.zone)),
         "McHSP": appliquer("McHSP", projet, vars_) if decret else 0.0,
-    }
+    }, projet)
 
 
 def icconstruction_max(projet, vars_):
@@ -119,11 +140,14 @@ def icconstruction_max(projet, vars_):
     moyen = _icconstruction_moyen(projet)
     vars_ = {**vars_, "icconstructionmaxmoyen": moyen}
     seuil_infra, seuil_vrd = donnees.seuils_lots()[projet.usage_id]
-    multiplicatifs = {
-        "Micombles": appliquer("Micombles", projet, vars_),
-        "Misurf_moy": appliquer("Misurf_moy", projet, vars_),
-        "Misurf_tot": appliquer("Misurf_tot", projet, vars_),
-    }
+    surf_moy, surf_tot = appliquer("Misurf_moy", projet, vars_), appliquer("Misurf_tot", projet, vars_)
+    if avant_retex(projet):
+        # avant le décret 2024-1258 : coefficient unique Misurf (surface moyenne pour les maisons,
+        # Sref pour les autres usages) ; les règles 2022-2024 donnent Misurf_moy = 0 hors maisons
+        surfaces = {NOM_MISURF_AVANT_RETEX: surf_moy + surf_tot}
+    else:
+        surfaces = {"Misurf_moy": surf_moy, "Misurf_tot": surf_tot}
+    multiplicatifs = {"Micombles": appliquer("Micombles", projet, vars_), **surfaces}
     additifs = {
         "Migéo": _table("migeo", ("usage_id", projet.usage_id), ("altitude", projet.altitude), ("zone", projet.zone)),
         "Miinfra": 0.0 if projet.iclot2 <= seuil_infra else projet.iclot2 - seuil_infra,
@@ -134,6 +158,7 @@ def icconstruction_max(projet, vars_):
         "MiHSP": appliquer("MiHSP", projet, vars_) if decret else 0.0,
         "Miclim_RCU": appliquer("Miclim_RCU", projet, vars_),
     }
+    additifs = _selon_textes(additifs, projet)
     valeur = _assembler(moyen, multiplicatifs) + sum(additifs.values())
     return Resultat(valeur, moyen, {**multiplicatifs, **additifs})
 
@@ -174,7 +199,7 @@ def calculer(projet):
     def energie(cle):
         if mc is None:
             raise NonApplicable("coefficients Mc sans objet")
-        moyen = _icenergie_moyen(projet) if cle == "icenergie_max" else moyens[MOYEN_ENERGIE[cle]]
+        moyen = _icenergie_moyen(projet, vars_) if cle == "icenergie_max" else moyens[MOYEN_ENERGIE[cle]]
         return Resultat(_assembler(moyen, mc), moyen, mc)
 
     for cle in ("cepnr_max", "cep_max", "icenergie_max"):

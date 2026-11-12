@@ -9,11 +9,12 @@ import streamlit as st
 
 from interface import icones as I
 from interface.parametres import (AUTRES_OUTILS, BOUTON_TELECHARGER, COLONNES_NEUF, COPIER_TEXTE, NOM_FICHIER_EXPORT,
-                                  TEXTE_EFFINERGIE, TEXTE_LIEN, TITRE_AUTRES_OUTILS, TITRES_CARTES, URL_DEPOT,
-                                  URL_OFFICIEL, URL_WIKIPEDIA, URL_ZONES)
+                                  TEXTE_DETAIL_MODULATIONS, TEXTE_EFFINERGIE, TEXTE_LIEN, TITRE_AUTRES_OUTILS,
+                                  TITRES_CARTES, URL_DEPOT, URL_OFFICIEL, URL_WIKIPEDIA, URL_ZONES)
 from interface.style import BRONZE_SPICE, carte_seuil
 from seuils_re2020 import alertes
-from seuils_re2020.presentation import details, explication_dh, formules, libelle_depot, nombre_fr, recapitulatif
+from seuils_re2020.presentation import (details, explication_dh, formules, libelle_depot, nombre_fr, recapitulatif,
+                                        texte_applicable)
 from seuils_re2020.variables import INDICATEURS, NOMS_MOYENS, USAGES_EFFINERGIE
 
 
@@ -61,6 +62,8 @@ def _seuils(projet, resultats, evol):
 def _detail(projet, resultats):
     with st.container(key="carte_detail"):
         titre_carte("detail")
+        # les formules ne contiennent que les coefficients du texte applicable à la date de dépôt
+        st.caption(TEXTE_DETAIL_MODULATIONS.format(texte=texte_applicable(projet)))
         for cle, nom, unite, dec, _famille in INDICATEURS:
             r = resultats[cle]
             symbolique, chiffres = formules(cle, nom, r)
