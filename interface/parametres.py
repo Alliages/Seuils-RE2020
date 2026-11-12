@@ -11,6 +11,8 @@ from seuils_re2020.variables import VERSION
 TITRE = "Les 6 seuils de la RE2020"
 TITRE_MENU = "Les paramètres du projet"
 LIBELLE_VERSION = f"v{VERSION} · initiale"
+DATE_VERSION = "12 novembre 2026"                  # date de publication (celle de CHANGELOG.md)
+INFOBULLE_VERSION = f"Version {VERSION} publiée le {DATE_VERSION}"     # affichée au survol de la version
 PIED_DE_PAGE = ("Document non officiel, à utiliser avec toutes les vérifications nécessaires · licence GNU GPL v3 · "
                 "Guillaume Meunier.")
 

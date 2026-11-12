@@ -12,7 +12,7 @@ import streamlit as st
 
 from interface import icones as I
 from interface import lien, menu, onglet_extension, onglet_neuf
-from interface.parametres import (COLONNES_ENTETE, LIBELLE_VERSION, MESSAGE_PERIODE_INDISPONIBLE, ONGLETS,
+from interface.parametres import (COLONNES_ENTETE, INFOBULLE_VERSION, LIBELLE_VERSION, MESSAGE_PERIODE_INDISPONIBLE, ONGLETS,
                                   PIED_DE_PAGE, TITRE, VALEURS_NEUTRES)
 from interface.style import CSS, logo
 from seuils_re2020 import Projet, calculer, donnees
@@ -58,7 +58,7 @@ export = texte_export(projet, resultats, evol, departement=etat["departement"], 
 # ─── Page ────────────────────────────────────────────────────────────────────
 entete, version = st.columns(COLONNES_ENTETE)
 entete.markdown(f'<div class="titre-page">{logo()}{TITRE}</div>', unsafe_allow_html=True)
-version.markdown(f'<div style="text-align:right"><span class="version">{LIBELLE_VERSION}</span></div>',
+version.markdown(f'<div style="text-align:right"><span class="version" title="{INFOBULLE_VERSION}">{LIBELLE_VERSION}</span></div>',
                  unsafe_allow_html=True)
 if projet.periode_pc in PERIODES_INDISPONIBLES:     # période bloquée (1.0.5) : aucun seuil affiché
     st.error(MESSAGE_PERIODE_INDISPONIBLE)

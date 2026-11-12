@@ -18,6 +18,8 @@ Correctif : période de dépôt « 2022 à 2024 » bloquée.
   cette page bloquée.
 - `variables.PERIODES_INDISPONIBLES` ; textes dans `interface/parametres.py`. Moteur de calcul inchangé.
 - Signalé par un utilisateur (logements collectifs, PC 2023, comparaison avec One Click LCA).
+- Infobulle sur la version en haut à droite : « Version 1.0.5 publiée le 12 novembre 2026 »
+  (`DATE_VERSION` dans `interface/parametres.py`, à aligner sur le journal à chaque version).
 
 ## 1.0.4 — 5 novembre 2026
 

@@ -113,7 +113,7 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
     line-height: 1.05; letter-spacing: .02em; }}
 .titre-page img {{ height: .95em; width: .95em; margin-right: .35em; vertical-align: -0.08em; }}
 .version {{ display: inline-block; background: {BLANC}; border: 1px solid {ASH_GREY}; border-radius: 999px;
-    padding: .4rem 1rem; font-size: .9rem; color: {GUNMETAL}; white-space: nowrap; }}
+    padding: .4rem 1rem; font-size: .9rem; color: {GUNMETAL}; white-space: nowrap; cursor: help; }}
 .barre-recap {{ background: {BLANC}; border-radius: 28px; padding: .8rem 1.6rem; box-shadow: {OMBRE};
     color: {GUNMETAL}; margin: .8rem 0 1.3rem 0; font-size: 1.05rem; }}
 .barre-recap .details-saisies {{ font-size: .8rem; opacity: .8; margin-top: .3rem; line-height: 1.45; }}
