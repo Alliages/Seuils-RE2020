@@ -21,6 +21,7 @@ URL_DEPOT = "https://github.com/alliages/seuils-re2020"
 URL_ZONES = "https://alliages.github.io/zones-climatiques-re2020/"
 URL_METEO = "https://vulgarisateurdh.streamlit.app/"
 URL_RSEE = "https://alliages.github.io/lecteur_RSEE/"
+URL_HUB = "https://www.ifpeb.fr/travaux/le-hub-des-prescripteurs-bas-carbone/"
 URL_OFFICIEL = "https://rt-re-batiment.developpement-durable.gouv.fr/re2020-r320.html"
 URL_WIKIPEDIA = "https://fr.wikipedia.org/wiki/R%C3%A9glementation_environnementale_2020"
 URL_ARTICLE_50_3 = "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000050146201/2026-07-02"
@@ -83,7 +84,8 @@ VALEURS_NEUTRES = {"nb_logements": 1}
 
 # ─── Onglet Construction neuve ───────────────────────────────────────────────
 ONGLETS = {"neuf": "Construction neuve", "extension": "Extension et surélévation"}
-COLONNES_ENTETE = [4, 1]                  # titre, version
+COLONNES_ENTETE = [4, 1]                  # titre + logo du HUB, version
+INFOBULLE_HUB = "Le HUB des Prescripteurs Bas Carbone (IFPEB)"
 COLONNES_NEUF = [2.6, 1]                  # résultats, cartes latérales
 TITRES_CARTES = {"detail": "Détail des modulations", "partage": "Sauvegarder par lien",
                  "export": "Exporter les valeurs", "effinergie": "Label Effinergie", "liens": "Pour aller plus loin",

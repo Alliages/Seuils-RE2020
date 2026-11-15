@@ -34,6 +34,7 @@ OMBRE_SURVOL = "0 8px 24px rgba(31, 34, 56, 0.22)"
 
 # ─── Favicon et menu (1.0.4) : hexagone à six secteurs, un par indicateur ────
 FAVICON_URL = "app/static/favicon.svg"     # servie par Streamlit (enableStaticServing)
+LOGO_HUB_URL = "app/static/logo-hub.svg"   # logo du HUB (texte vectorisé), à droite du titre
 # famille de chaque secteur, dans l'ordre de la favicon : Bbio, Cep,nr, Cep, Icénergie, Icconstruction, DH
 SECTEURS = ["bioclimatique", "energie", "energie", "carbone", "carbone", "confort"]
 # famille de chaque étape du menu, dans l'ordre d'affichage
@@ -112,6 +113,9 @@ a:hover {{ color: {BLEU_NUIT} !important; }}
 .titre-page {{ font-family: 'Archivo Black', 'Work Sans', sans-serif; font-size: 2.75rem; color: {BLEU_NUIT};
     line-height: 1.05; letter-spacing: .02em; }}
 .titre-page img {{ height: .95em; width: .95em; margin-right: .35em; vertical-align: -0.08em; }}
+.entete-titre {{ display: flex; align-items: center; gap: 1.4rem; }}
+.logo-hub img {{ display: block; height: 3.6rem; width: auto; transition: transform .15s; }}
+.logo-hub:hover img {{ transform: scale(1.04); }}
 .version {{ display: inline-block; background: {BLANC}; border: 1px solid {ASH_GREY}; border-radius: 999px;
     padding: .4rem 1rem; font-size: .9rem; color: {GUNMETAL}; white-space: nowrap; cursor: help; }}
 .barre-recap {{ background: {BLANC}; border-radius: 28px; padding: .8rem 1.6rem; box-shadow: {OMBRE};
@@ -191,6 +195,12 @@ def carte_seuil(nom, valeur, unite, famille, evolution="", icone=None, icone_evo
 def logo():
     """Favicon (hexagone à six secteurs) en image, pour le titre de la page et celui du menu."""
     return f'<img src="{FAVICON_URL}" alt="">'
+
+
+def logo_hub(url, infobulle):
+    """Logo du HUB, cliquable : ouvre le site du HUB dans un nouvel onglet."""
+    return (f'<a class="logo-hub" href="{escape(url)}" target="_blank" rel="noopener" title="{escape(infobulle)}">'
+            f'<img src="{LOGO_HUB_URL}" alt="{escape(infobulle)}"></a>')
 
 
 def bande_six():
