@@ -8,7 +8,9 @@ s'applique.
 **Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
 
 > Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
+> 
 > Version 1.1.0.
+> 
 > Avec l'aide du [Hub des Prescripteurs Bas Carbone](https://www.ifpeb.fr/travaux/le-hub-des-prescripteurs-bas-carbone/)
 
 ![Capture d'écran de l'outil](docs/capture-accueil.png)
