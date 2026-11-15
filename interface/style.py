@@ -60,6 +60,7 @@ SURVOL_CHAMPS = ", ".join(f"{c}:hover, {c}:focus-within" for c in CHAMPS_SAISIE)
 CSS = f"""
 <style>
 .block-container {{ padding-top: 2.2rem; max-width: 1400px; }}
+[data-testid="stMainMenu"] {{ visibility: hidden; }}   /* menu à trois points de Streamlit */
 
 /* ── Menu latéral : style de la favicon — bleu nuit à hexagones, étapes aux couleurs de leur famille ── */
 section[data-testid="stSidebar"], section[data-testid="stSidebar"] > div {{ background: {BLEU_NUIT} {TRAME_MENU}; }}
