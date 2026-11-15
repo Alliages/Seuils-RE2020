@@ -32,6 +32,11 @@ RAYON_CARTE = "20px"
 OMBRE = "0 2px 14px rgba(31, 34, 56, 0.10)"
 OMBRE_SURVOL = "0 8px 24px rgba(31, 34, 56, 0.22)"
 
+# ─── Bouton du menu latéral : hors du menu, abaissé ; barre du haut masquée ──
+TOP_BOUTON = "90px"        # distance depuis le haut (bouton abaissé)
+GAUCHE_FERME = "8px"       # position du bouton quand le menu est replié
+GAUCHE_OUVERT = "308px"    # largeur du menu (300 px) + 8 px : bouton hors du menu
+
 # ─── Favicon et menu (1.0.4) : hexagone à six secteurs, un par indicateur ────
 FAVICON_URL = "app/static/favicon.svg"     # servie par Streamlit (enableStaticServing)
 LOGO_HUB_URL = "app/static/logo-hub.svg"   # logo du HUB (texte vectorisé), à droite du titre
@@ -60,7 +65,6 @@ SURVOL_CHAMPS = ", ".join(f"{c}:hover, {c}:focus-within" for c in CHAMPS_SAISIE)
 CSS = f"""
 <style>
 .block-container {{ padding-top: 2.2rem; max-width: 1400px; }}
-[data-testid="stMainMenu"] {{ visibility: hidden; }}   /* menu à trois points de Streamlit */
 
 /* ── Menu latéral : style de la favicon — bleu nuit à hexagones, étapes aux couleurs de leur famille ── */
 section[data-testid="stSidebar"], section[data-testid="stSidebar"] > div {{ background: {BLEU_NUIT} {TRAME_MENU}; }}
@@ -86,6 +90,18 @@ section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summ
 section[data-testid="stSidebar"] label p {{ color: {GUNMETAL}; font-weight: 500; }}
 [data-testid="stSidebarCollapseButton"] button, [data-testid="stExpandSidebarButton"] {{
     background: {ASH_GREY}; border-radius: 50%; color: {BLEU_NUIT}; }}
+
+/* ── Barre du haut : invisible et non cliquable, mais gardée dans le DOM (le bouton du menu en dépend) ── */
+[data-testid="stHeader"] {{ background: transparent !important; height: 0 !important; min-height: 0 !important;
+    pointer-events: none !important; }}
+[data-testid="stToolbarActions"], [data-testid="stMainMenu"], [data-testid="stAppDeployButton"],
+[data-testid="stStatusWidget"], [data-testid="stDecoration"] {{ display: none !important; }}
+/* Bouton d'ouverture (menu replié) : fixe, abaissé ; bouton de fermeture (menu ouvert) : à l'extérieur du menu */
+[data-testid="stExpandSidebarButton"] {{ position: fixed !important; top: {TOP_BOUTON} !important;
+    left: {GAUCHE_FERME} !important; pointer-events: auto !important; z-index: 1000000 !important; }}
+[data-testid="stSidebarCollapseButton"] {{ position: fixed !important; top: {TOP_BOUTON} !important;
+    left: {GAUCHE_OUVERT} !important; z-index: 1000000 !important; visibility: visible !important; }}
+[data-testid="stSidebarCollapseButton"] button {{ visibility: visible !important; opacity: 1 !important; }}
 
 /* ── Survol : champs, étapes, boutons, cartes ── */
 {SURVOL_CHAMPS} {{ border: 2px solid {BRONZE_SPICE} !important; background: {BLANC} !important; }}
