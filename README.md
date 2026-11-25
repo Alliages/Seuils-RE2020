@@ -1,4 +1,10 @@
+<div align="center">
+
+<img src="static/favicon.svg" alt="Logo" width="120">
+
 # Les 6 seuils de la RE2020
+
+</div>
 
 Un outil en ligne qui calcule les six seuils réglementaires de la RE2020 pour un projet
 de construction neuve : Bbio_max, Cep,nr_max, Cep_max, Icénergie_max, Icconstruction_max
