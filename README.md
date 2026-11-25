@@ -2,7 +2,20 @@
 
 <img src="static/favicon.svg" alt="Logo" width="120">
 
+[![Tests](https://github.com/Alliages/seuils-re2020/actions/workflows/tests.yml/badge.svg)](https://github.com/Alliages/seuils-re2020/actions/workflows/tests.yml)
+[![Python](https://img.shields.io/badge/python-3.10%2B-3776ab.svg)](requirements.txt)
+[![Version](https://img.shields.io/badge/version-1.1.0-af1d29.svg)](CHANGELOG.md)
+[![Licence](https://img.shields.io/github/license/Alliages/seuils-re2020.svg)](LICENSE)
+
 # Les 6 seuils de la RE2020
+
+**Calculer les six seuils réglementaires de la RE2020, pour une construction neuve.**
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://seuils-re2020.streamlit.app/)
+
+[Utiliser l'outil](https://seuils-re2020.streamlit.app/) · [Utilisateurs](#partie-1--pour-les-utilisateurs) · [Développeurs](#partie-2--pour-les-développeurs-et-les-relecteurs) · [Installation](#installer-et-lancer-en-local) · [Vérifier le calcul](#vérifier-le-calcul) · [Versions](#versions)
+
+> Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
 
 </div>
 
@@ -11,11 +24,6 @@ de construction neuve : Bbio_max, Cep,nr_max, Cep_max, Icénergie_max, Icconstru
 et DH_max. Pour une extension ou une surélévation, il indique aussi la réglementation qui
 s'applique.
 
-**Utiliser l'outil : [seuils-re2020.streamlit.app](https://seuils-re2020.streamlit.app/)**
-
-> Document non officiel. Les résultats doivent être vérifiés avant tout usage réglementaire.
-> 
-> Version 1.1.0.
 > 
 > Avec l'aide du [Hub des Prescripteurs Bas Carbone](https://www.ifpeb.fr/travaux/le-hub-des-prescripteurs-bas-carbone/)
 
